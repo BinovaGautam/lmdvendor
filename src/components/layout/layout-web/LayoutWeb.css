@@ -1,0 +1,7 @@
+.p-divider.p-divider-horizontal:before {
+  @apply border-t-divider-color !important;
+}
+
+.p-divider.p-divider-horizontal {
+  @apply mt-0 !important;
+}

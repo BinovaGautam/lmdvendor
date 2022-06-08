@@ -1,0 +1,17 @@
+/* .p-fileupload .p-button {
+  @apply w-full h-24 rounded-xl text-dark-primary-2 border-divider-color bg-light;
+}
+
+.p-fileupload .p-button:enabled:hover,
+.p-button:not(button):not(a):not(.p-disabled):hover {
+  @apply text-dark-primary-2 border-dark-primary bg-white !important;
+} */
+
+.create-repair-request-button.p-button:enabled:hover,
+.create-repair-request-button.p-button:not(button):not(a):not(.p-disabled):hover {
+  @apply text-dark-primary-2 border-dark-primary bg-white !important;
+}
+
+.file-upload {
+  @apply flex flex-row items-center justify-center h-24 text-base font-semibold bg-white border border-solid rounded-md cursor-pointer hover:border-dark-primary-2 text-dark-primary-2 border-divider-color;
+}

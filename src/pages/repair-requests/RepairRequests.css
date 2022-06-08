@@ -1,0 +1,11 @@
+.p-divider.p-divider-horizontal:before {
+  @apply border-t-red-600 !important;
+}
+
+.p-divider.p-divider-horizontal {
+  @apply mt-0 !important;
+}
+
+.view-quote-btn .p-button-label {
+  @apply whitespace-pre !important;
+}

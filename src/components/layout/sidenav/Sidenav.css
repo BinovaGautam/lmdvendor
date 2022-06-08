@@ -1,0 +1,6 @@
+.navlink {
+  @apply font-bold text-white opacity-70 !important;
+}
+.navlink.active {
+  @apply font-bold text-white opacity-100 !important;
+}

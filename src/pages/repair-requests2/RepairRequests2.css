@@ -1,0 +1,8 @@
+.send-quote-btn .p-button-label {
+  @apply whitespace-pre !important;
+}
+
+
+.file-upload {
+  @apply flex flex-row items-center justify-center text-base font-semibold bg-white border border-solid rounded-md cursor-pointer h-36 hover:border-dark-primary-2 text-dark-primary-2 border-divider-color;
+}
