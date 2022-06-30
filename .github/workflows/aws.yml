@@ -1,0 +1,82 @@
+name: Deploy to Amazon EKS
+
+on:
+  push:
+    branches:
+      - development
+      - staging
+      - production
+
+env:
+  AWS_REGION: us-east-1
+  REPO_NAME: ${{ github.event.repository.name }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: sonarsource/sonarqube-scan-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+      - name: Extract branch name
+        id: extract_branch
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      - name: Log into Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+      - name: Create ECR repo if missing
+        uses: byu-oit/github-action-create-ecr-repo-if-missing@v1
+        with:
+          DOCKER_REPO_NAME: ${{ env.REPO_NAME }}-${{ steps.extract_branch.outputs.branch }}
+          NUM_DAYS_BEFORE_EXPIRING_UNTAGGED_IMAGES: 10
+          TAG_PREFIX: ${{ steps.extract_branch.outputs.branch }}
+          NUM_TAGGED_IMAGES_TO_RETAIN: 5
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: ${{ env.REPO_NAME }}-${{ steps.extract_branch.outputs.branch }}
+          IMAGE_TAG: ${{ github.sha }}
+          BRANCH: ${{ steps.extract_branch.outputs.branch }}
+          FCM_ADMIN_KEY_JSON: ${{ secrets.FCM_ADMIN_KEY_JSON }}
+        run: |
+          echo $FCM_ADMIN_KEY_JSON > fcm-admin-key.json
+          docker build --build-arg BRANCH=$BRANCH -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+      - name: Fill the deployment variables
+        shell: bash
+        env:
+          BRANCH: ${{ steps.extract_branch.outputs.branch }}
+          SERVICE_NAME: ${{ secrets.SERVICE_NAME }}
+          NAMESPACE: ${{ secrets.NAMESPACE }}
+          IMAGE: ${{ steps.login-ecr.outputs.registry }}/${{ env.REPO_NAME }}-${{ steps.extract_branch.outputs.branch }}:${{ github.sha }}
+        run: |
+          sed -i "s/\$SERVICE_NAME/$SERVICE_NAME/g" deployment.yaml
+          sed -i "s/\$BRANCH_NAME/$BRANCH/g" deployment.yaml
+          sed -i "s/\$NAMESPACE/$NAMESPACE/g" deployment.yaml
+          sed -i "s|\$IMAGE|$IMAGE|g" deployment.yaml
+      - uses: actions-hub/kubectl@master
+        env:
+          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+        with:
+          args: apply -f deployment.yaml
+      - uses: actions/checkout@master
+      - name: Microsoft Teams Notification
+        uses: skitionek/notify-microsoft-teams@master
+        if: always()
+        with:
+          webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
+          needs: ${{ toJson(needs) }}
+          job: ${{ toJson(job) }}
+          steps: ${{ toJson(steps) }}
+          overwrite: "{title: `Performance backend  ${{ steps.extract_branch.outputs.branch }}`}"
