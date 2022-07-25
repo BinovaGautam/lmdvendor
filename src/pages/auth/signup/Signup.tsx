@@ -4,8 +4,10 @@ import { Password } from 'primereact/password';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { useSignupMutation } from '../../../services/AuthApi';
 import { Link } from 'react-router-dom';
+import { useMutation } from 'react-query';
+import AuthAPI from '../../../api/authApi';
+import { SignWithEmail } from '../../../api/types';
 
 interface ISignupFormInputs {
   name: string;
@@ -30,8 +32,6 @@ const schema = yup
   .required();
 
 export default function Signup() {
-  const [createSignupMutation] = useSignupMutation();
-
   const {
     handleSubmit,
     control,
@@ -40,8 +40,21 @@ export default function Signup() {
     resolver: yupResolver(schema),
   });
 
+  const SignUpApi = useMutation(
+    'signupwithemail',
+    async (data: SignWithEmail) => await AuthAPI.signUpViaMail(data),
+    {
+      onSuccess: (response: any) => {
+        console.log({ response });
+      },
+      onError: (error: any) => {
+        console.log({ error });
+      },
+    }
+  );
+
   const onSubmitHandler = (data: any) => {
-    createSignupMutation(data);
+    // SignUpApi.mutate(data);
   };
 
   return (
