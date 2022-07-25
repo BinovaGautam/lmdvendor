@@ -11,14 +11,14 @@ import RepairAPI from '../../api/repairApi';
 import { useQuery } from 'react-query';
 
 export default function Dashboard() {
-  const [active, setActive] = useState<TabMenuModal | undefined>(TabMenus[0]);
+  const [active, setActive] = useState<TabMenuModal>(TabMenus[0]);
   const [showQueryForm, setQueryForm] = useState<boolean>(false);
   const [showCommentForm, setCommentForm] = useState<boolean>(false);
   const [data, setData] = useState<any[]>([]);
 
   const repairRequestListApi = useQuery(
-    'repairRequestList',
-    async () => await RepairAPI.getRepairRequests(),
+    ['repairRequestList', active.id + 1],
+    async () => await RepairAPI.getRepairRequests(active.id + 1),
     {
       onSuccess: (response: any) => {
         console.log({ response });
@@ -51,6 +51,8 @@ export default function Dashboard() {
       },
     },
   ];
+
+  console.log({ active });
 
   return (
     <div className='h-full flex flex-col gap-y-5 pb-5'>
