@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
-import { useSigninMutation } from '../../../services/AuthApi';
 
 interface ISigninFormInputs {
   email: string;
@@ -21,7 +20,6 @@ const schema = yup
 
 export default function Signin(props: any) {
   const navigate = useNavigate();
-  const [signinMutation] = useSigninMutation();
   const [signinResponse, setSigninResponse] = useState(null);
 
   const {
@@ -38,13 +36,7 @@ export default function Signin(props: any) {
     }
   }, [signinResponse]);
 
-  const onSubmitHandler = (data: any) => {
-    signinMutation(data)
-      .then((response: any) => setSigninResponse(response?.data?.data))
-      .catch((error: any) => {
-        Promise.reject(error);
-      });
-  };
+  const onSubmitHandler = (data: any) => {};
 
   return (
     <>
