@@ -7,14 +7,30 @@ import TabBar from '../../components/TabBar';
 import { TabMenuModal } from '../../models/TabBarModel';
 import { DemoData, TabMenus } from './data';
 import { useSelector } from 'react-redux';
+import RepairAPI from '../../api/repairApi';
+import { useQuery } from 'react-query';
 
 export default function Dashboard() {
   const [active, setActive] = useState<TabMenuModal | undefined>(TabMenus[0]);
   const [showQueryForm, setQueryForm] = useState<boolean>(false);
   const [showCommentForm, setCommentForm] = useState<boolean>(false);
-  const stateData = useSelector((state) => state);
+  const [data, setData] = useState<any[]>([]);
 
-  console.log({ stateData });
+  const repairRequestListApi = useQuery(
+    'repairRequestList',
+    async () => await RepairAPI.getRepairRequests(),
+    {
+      onSuccess: (response: any) => {
+        console.log({ response });
+        if (response.data) {
+          setData(response.data.data);
+        }
+      },
+      onError: (error: any) => {
+        console.log({ error });
+      },
+    }
+  );
 
   const onTabChange = async (item: TabMenuModal) => {
     setActive(item);
@@ -66,7 +82,7 @@ export default function Dashboard() {
       <div>
         <PrimaryTable
           header={active?.header || []}
-          data={DemoData || []}
+          data={data || []}
           type={''}
           classNames={''}
           level={0}
