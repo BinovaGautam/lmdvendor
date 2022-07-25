@@ -1,5 +1,5 @@
 export const fleetRepairConfig = {
-  fleetUsersApiBaseUrl: 'http://localhost:3001',
+  fleetUsersApiBaseUrl: 'https://fleetmax-api.fleet.lmdmax.com',
   // fleetReapirApiBaseUrl: 'http://localhost:3002',
   fleetReapirApiBaseUrl: '',
 };

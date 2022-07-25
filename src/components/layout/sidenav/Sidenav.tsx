@@ -76,7 +76,7 @@ export default function Sidenav() {
   return (
     <div
       className={`${
-        sidenavExpanded ? 'w-56' : 'w-24'
+        sidenavExpanded ? 'w-64' : 'w-24'
       } bg-primary-contrast text-light min-h-screen flex flex-col transition-all duration-500 sticky top-0 left-0`}>
       {/* ---------------------------- App Logo : Start ---------------------------- */}
       <div className='flex flex-row items-center justify-center mt-8'>

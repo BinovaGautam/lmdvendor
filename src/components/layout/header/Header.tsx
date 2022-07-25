@@ -5,16 +5,16 @@ import { Avatar } from 'primereact/avatar';
 
 export default function Header() {
   return (
-    <div className='flex flex-row items-center justify-between w-full h-20'>
+    <div className='flex flex-row items-center justify-between w-full h-20 border-b-[1px] border-b-gray-primary-1'>
       <div>
         <span className='p-input-icon-left'>
           <i className='pl-2 font-bold text-black pi pi-search' />
-          <InputText placeholder='Search' className='pl-12 rounded-3xl w-80' />
+          <InputText placeholder='Search' className='pl-12 rounded-full h-12 w-80' />
         </span>
       </div>
 
       <div className='flex flex-row items-center gap-10 pr-12'>
-        <div className='text-base font-bold leading-7 tracking-wider uppercase text-dark-primary'>
+        <div className='text-base font-bold leading-7 uppercase text-primary-2'>
           <span>SUPPORT:</span>{' '}
           <span>
             <a href='tel:+919560576642' className=''>

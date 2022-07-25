@@ -8,12 +8,12 @@ import './LayoutWeb.css';
 
 export default function LayoutWeb() {
   return (
-    <div className='flex flex-row w-full'>
-      <div className='hidden lg:block'>
-        <Sidenav></Sidenav>
+    <div className='flex w-full h-screen overflow-hidden'>
+      <div className='hidden lg:block h-screen overflow-y-scroll no-scrollbar'>
+        <Sidenav />
       </div>
 
-      <div className='w-full px-0 lg:px-10 bg-light-secondary'>
+      <div className='w-full pb-5 px-0 lg:px-10 bg-light-secondary min-h-screen overflow-y-scroll'>
         <div className='hidden lg:block'>
           <Header></Header>
         </div>
