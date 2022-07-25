@@ -4,10 +4,15 @@ import { Password } from 'primereact/password';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
-import AuthAPI from '../../../api/authApi';
+import AuthAPI from '../../../api/usersApi';
 import { SignWithEmail } from '../../../api/types';
+import PrimaryButton from '../../../components/PrimaryButton';
+import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { actionCreators } from '../../../state';
 
 interface ISignupFormInputs {
   name: string;
@@ -32,6 +37,8 @@ const schema = yup
   .required();
 
 export default function Signup() {
+  const dispatch = useDispatch();
+  const { setUser } = bindActionCreators(actionCreators, dispatch);
   const {
     handleSubmit,
     control,
@@ -45,16 +52,31 @@ export default function Signup() {
     async (data: SignWithEmail) => await AuthAPI.signUpViaMail(data),
     {
       onSuccess: (response: any) => {
-        console.log({ response });
+        if (response.response) {
+          const message = response.response.data.message;
+          toast.error(message);
+          return;
+        }
+
+        toast.success(`${response.data.data.name} is created!`);
+        setUser(response.data.data);
       },
       onError: (error: any) => {
         console.log({ error });
+        toast.error('Something wen wrong!');
       },
     }
   );
 
   const onSubmitHandler = (data: any) => {
-    // SignUpApi.mutate(data);
+    const requestData: SignWithEmail = {
+      name: data.name,
+      phone: '9999999990',
+      email: data.email,
+      password: data.password,
+    };
+
+    SignUpApi.mutate(requestData);
   };
 
   return (
@@ -167,10 +189,17 @@ export default function Signup() {
             </div>
             <p>{errors.cPassword?.message}</p>
           </div>
-          <div className='text-right'>
-            <button type='submit' className='btn-primary'>
+          <div className='flex justify-end'>
+            {/* <button type='submit' className='btn-primary'>
               Sign Up
-            </button>
+            </button> */}
+            <PrimaryButton
+              title={'Sign Up'}
+              type='submit'
+              classNames={'btn-primary'}
+              onClick={handleSubmit(onSubmitHandler)}
+              loading={SignUpApi.isLoading}
+            />
           </div>
         </form>
       </div>

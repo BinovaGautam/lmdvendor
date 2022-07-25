@@ -1,22 +1,31 @@
 export const PendingTableHeader = [
   {
     title: 'DSP Name',
-    key: 'dsp_name',
+    key: 'name',
+    level2: {
+      key: 'dsp',
+    },
     type: 'image-string',
   },
   {
     title: 'Van Name',
-    key: 'van_name',
+    key: 'name',
+    level2: {
+      key: 'vehicle',
+    },
     type: 'string',
   },
   {
     title: 'License Plate',
-    key: 'license_plate',
+    key: 'plate',
+    level2: {
+      key: 'vehicle',
+    },
     type: 'string',
   },
   {
-    title: 'Repair Details',
-    key: 'repair_details',
+    title: 'Damage Id',
+    key: 'damage_id',
     type: 'string',
   },
   {
@@ -47,22 +56,31 @@ export const PendingTableHeader = [
 export const WaitingApprovalTableHeader = [
   {
     title: 'DSP Name',
-    key: 'dsp_name',
+    key: 'name',
+    level2: {
+      key: 'dsp',
+    },
     type: 'image-string',
   },
   {
     title: 'Van Name',
-    key: 'van_name',
+    key: 'name',
+    level2: {
+      key: 'vehicle',
+    },
     type: 'string',
   },
   {
     title: 'License Plate',
-    key: 'license_plate',
+    key: 'plate',
+    level2: {
+      key: 'vehicle',
+    },
     type: 'string',
   },
   {
     title: 'Repair Details',
-    key: 'repair_details',
+    key: 'damage_id',
     type: 'string',
   },
   {
@@ -82,22 +100,31 @@ export const WaitingApprovalTableHeader = [
 export const ApprovedTableHeader = [
   {
     title: 'DSP Name',
-    key: 'dsp_name',
+    key: 'name',
+    level2: {
+      key: 'dsp',
+    },
     type: 'image-string',
   },
   {
     title: 'Van Name',
-    key: 'van_name',
+    key: 'name',
+    level2: {
+      key: 'vehicle',
+    },
     type: 'string',
   },
   {
     title: 'License Plate',
-    key: 'license_plate',
+    key: 'plate',
+    level2: {
+      key: 'vehicle',
+    },
     type: 'string',
   },
   {
-    title: 'Repair Details',
-    key: 'repair_details',
+    title: 'Damage Id',
+    key: 'damage_id',
     type: 'string',
   },
   {
@@ -121,22 +148,31 @@ export const ApprovedTableHeader = [
 export const ScheduledTableHeader = [
   {
     title: 'DSP Name',
-    key: 'dsp_name',
+    key: 'name',
+    level2: {
+      key: 'dsp',
+    },
     type: 'image-string',
   },
   {
     title: 'Van Name',
-    key: 'van_name',
+    key: 'name',
+    level2: {
+      key: 'vehicle',
+    },
     type: 'string',
   },
   {
     title: 'License Plate',
-    key: 'license_plate',
+    key: 'plate',
+    level2: {
+      key: 'vehicle',
+    },
     type: 'string',
   },
   {
-    title: 'Repair Details',
-    key: 'repair_details',
+    title: 'Damage Id',
+    key: 'damage_id',
     type: 'string',
   },
   {
@@ -173,22 +209,26 @@ export const ScheduledTableHeader = [
 export const InProgressTableHeader = [
   {
     title: 'DSP Name',
-    key: 'dsp_name',
+    key: 'name',
+    level2: {
+      key: 'dsp',
+    },
     type: 'image-string',
   },
   {
     title: 'Van Name',
-    key: 'van_name',
+    key: 'name',
+    level2: {
+      key: 'vehicle',
+    },
     type: 'string',
   },
   {
     title: 'License Plate',
-    key: 'license_plate',
-    type: 'string',
-  },
-  {
-    title: 'Repair Details',
-    key: 'repair_details',
+    key: 'plate',
+    level2: {
+      key: 'vehicle',
+    },
     type: 'string',
   },
   {
@@ -207,22 +247,26 @@ export const InProgressTableHeader = [
 export const CompletedTableHeader = [
   {
     title: 'DSP Name',
-    key: 'dsp_name',
+    key: 'name',
+    level2: {
+      key: 'dsp',
+    },
     type: 'image-string',
   },
   {
     title: 'Van Name',
-    key: 'van_name',
+    key: 'name',
+    level2: {
+      key: 'vehicle',
+    },
     type: 'string',
   },
   {
     title: 'License Plate',
-    key: 'license_plate',
-    type: 'string',
-  },
-  {
-    title: 'Repair Details',
-    key: 'repair_details',
+    key: 'plate',
+    level2: {
+      key: 'vehicle',
+    },
     type: 'string',
   },
   {
@@ -241,22 +285,26 @@ export const CompletedTableHeader = [
 export const PaidTableHeader = [
   {
     title: 'DSP Name',
-    key: 'dsp_name',
+    key: 'name',
+    level2: {
+      key: 'dsp',
+    },
     type: 'image-string',
   },
   {
     title: 'Van Name',
-    key: 'van_name',
+    key: 'name',
+    level2: {
+      key: 'vehicle',
+    },
     type: 'string',
   },
   {
     title: 'License Plate',
-    key: 'license_plate',
-    type: 'string',
-  },
-  {
-    title: 'Repair Details',
-    key: 'repair_details',
+    key: 'plate',
+    level2: {
+      key: 'vehicle',
+    },
     type: 'string',
   },
   {

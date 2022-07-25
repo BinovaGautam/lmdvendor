@@ -5,6 +5,7 @@ export interface PrimaryTableHeadModal {
   key: string;
   type: string;
   func?: string;
+  level2?: { key: string };
 }
 
 export interface PrimaryTableModel {

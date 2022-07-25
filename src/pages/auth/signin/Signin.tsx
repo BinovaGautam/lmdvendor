@@ -3,8 +3,16 @@ import { InputText } from 'primereact/inputtext';
 import { Password } from 'primereact/password';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useMutation } from 'react-query';
 import { Link, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
+import AuthAPI from '../../../api/usersApi';
+import { LoginWithEmail } from '../../../api/types';
+import { useDispatch } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { actionCreators } from '../../../state';
+import { toast } from 'react-toastify';
+import PrimaryButton from '../../../components/PrimaryButton';
 
 interface ISigninFormInputs {
   email: string;
@@ -19,8 +27,29 @@ const schema = yup
   .required();
 
 export default function Signin(props: any) {
-  const navigate = useNavigate();
-  const [signinResponse, setSigninResponse] = useState(null);
+  const dispatch = useDispatch();
+  const { setUser } = bindActionCreators(actionCreators, dispatch);
+
+  const LoginAPI = useMutation(
+    'loginpwithemail',
+    async (data: LoginWithEmail) => await AuthAPI.loginWithEmail(data),
+    {
+      onSuccess: (response: any) => {
+        if (response.response) {
+          const message = response.response.data.message;
+          toast.error(message);
+          return;
+        }
+
+        toast.success(`${response.data.data.name} is Logged`);
+        setUser(response.data.data);
+      },
+      onError: (error: any) => {
+        console.log({ error });
+        toast.error('Something wen wrong!');
+      },
+    }
+  );
 
   const {
     handleSubmit,
@@ -30,13 +59,9 @@ export default function Signin(props: any) {
     resolver: yupResolver(schema),
   });
 
-  useEffect(() => {
-    if (signinResponse) {
-      navigate('/app/dashboard');
-    }
-  }, [signinResponse]);
-
-  const onSubmitHandler = (data: any) => {};
+  const onSubmitHandler = (data: any) => {
+    LoginAPI.mutate(data);
+  };
 
   return (
     <>
@@ -111,9 +136,17 @@ export default function Signin(props: any) {
             </a>
           </div>
           <div className='text-right'>
-            <button type='submit' className='btn-primary'>
+            {/* <button type='submit' className='btn-primary'>
               Sign In
-            </button>
+            </button> */}
+
+            <PrimaryButton
+              title={'Sign In'}
+              type='submit'
+              classNames={'btn-primary'}
+              onClick={handleSubmit(onSubmitHandler)}
+              loading={LoginAPI.isLoading}
+            />
           </div>
         </form>
       </div>

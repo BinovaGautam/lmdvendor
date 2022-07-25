@@ -65,6 +65,10 @@ export const TableRow = ({
   return (
     <tr className='h-16 border-[1px] border-gray-300'>
       {header.map((head: PrimaryTableHeadModal, index: number) => {
+        let tableRow = row;
+        if (head.level2) {
+          tableRow = tableRow[head.level2.key];
+        }
         if (head.type === 'image-string') {
           return (
             <td key={index} className='text-sm h-full px-4 text-primary-2 font-bold'>
@@ -77,7 +81,7 @@ export const TableRow = ({
                     onError={handleImageOnError}
                   />
                 </div>
-                <span>Marvin McKinney</span>
+                <span>{tableRow[head.key]}</span>
               </div>
             </td>
           );
@@ -89,11 +93,11 @@ export const TableRow = ({
             <td
               key={index}
               className={`text-sm h-full px-4 font-medium ${
-                statusColor.red.includes(row[head.key]) && 'text-[#F90C0C]'
-              } ${statusColor.green.includes(row[head.key]) && 'text-[#039E00]'} ${
-                statusColor.yellow.includes(row[head.key]) && 'text-[#DC8400]'
+                statusColor.red.includes(tableRow[head.key]) && 'text-[#F90C0C]'
+              } ${statusColor.green.includes(tableRow[head.key]) && 'text-[#039E00]'} ${
+                statusColor.yellow.includes(tableRow[head.key]) && 'text-[#DC8400]'
               } `}>
-              {row[head.key]}
+              {tableRow[head.key]}
             </td>
           );
         }
@@ -127,14 +131,14 @@ export const TableRow = ({
         if (head.type === 'amount') {
           return (
             <td key={index} className='text-sm h-full px-4 text-primary-2 font-medium'>
-              $ {row[head.key]}
+              $ {tableRow[head.key]}
             </td>
           );
         }
 
         return (
           <td key={index} className='text-sm h-full px-4 text-primary-2 font-medium'>
-            {row[head.key]}
+            {tableRow[head.key]}
           </td>
         );
       })}
