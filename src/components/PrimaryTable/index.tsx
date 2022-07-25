@@ -41,10 +41,14 @@ const PrimaryTable = ({
           </tr>
         </thead>
         <tbody className='border-[1px] border-white shadow-md'>
-          {data &&
+          {loading ? (
+            <h1>Loading...</h1>
+          ) : (
+            data &&
             data.map((row: any, index: number) => (
               <TableRow key={index} row={row} header={header} actions={actions} />
-            ))}
+            ))
+          )}
         </tbody>
       </table>
     </div>

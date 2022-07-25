@@ -33,6 +33,7 @@ export default function Dashboard() {
   );
 
   const onTabChange = async (item: TabMenuModal) => {
+    setData([]);
     setActive(item);
   };
 
@@ -88,8 +89,8 @@ export default function Dashboard() {
           type={''}
           classNames={''}
           level={0}
-          loading={false}
           actions={actions[active?.id || 0]}
+          loading={repairRequestListApi.isLoading}
         />
         <QueryForm show={showQueryForm} setShow={setQueryForm} />
         <AddCommentForm show={showCommentForm} setShow={setCommentForm} />
