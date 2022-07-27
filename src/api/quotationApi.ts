@@ -1,5 +1,5 @@
 import { request } from './base';
-import { CreateQuotation } from './types';
+import { CreateQuotation, SendQuery } from './types';
 
 export default class QuotationAPI {
   static createQuotation(data: CreateQuotation) {
@@ -16,6 +16,14 @@ export default class QuotationAPI {
       url: `quotations/v1/quotations/${data.request_id}`,
       method: 'post',
       data: formData,
+    });
+  }
+
+  static sendQuery(data: SendQuery) {
+    return request({
+      url: `quotations/v1/quotations/queries`,
+      method: 'put',
+      data: data,
     });
   }
 }

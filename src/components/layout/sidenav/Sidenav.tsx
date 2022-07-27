@@ -19,8 +19,13 @@ export default function Sidenav() {
   const [menuItems] = useState([
     {
       label: 'Dashboard',
-      link: '/dashboard',
+      link: '/app/dashboard',
       icon: <ViewGridIcon className='w-6 h-6' />,
+    },
+    {
+      label: 'Technicians',
+      link: '/app/',
+      icon: <TruckIcon className='w-6 h-6' />,
     },
     {
       label: 'Vehicle',

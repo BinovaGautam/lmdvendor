@@ -1,5 +1,3 @@
-import { boolean } from 'yup';
-
 export interface SignWithEmail {
   name: string;
   phone: string;
@@ -66,6 +64,17 @@ export interface CreateRepairRequest {
   vendors: IVendor[];
 }
 
+export interface dateTimeSlot {
+  date: string;
+  time: string;
+}
+
+export interface ScheduleAppoinment {
+  vendor_account_id: string;
+  date_time_slots: dateTimeSlot[];
+  request_id: string;
+}
+
 // Quotation API
 
 export interface CreateQuotation {
@@ -74,4 +83,11 @@ export interface CreateQuotation {
   work_hour: string;
   quotation?: File;
   vendor_account_id?: string;
+}
+
+export interface SendQuery {
+  repair_request_id: string;
+  quotation_id: string;
+  query: string;
+  sender_type: string;
 }

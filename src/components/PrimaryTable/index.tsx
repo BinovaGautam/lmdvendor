@@ -28,7 +28,7 @@ const PrimaryTable = ({
 }: PrimaryTableModel) => {
   return (
     <div
-      className={`h-[550px] pb-5 overflow-y-scroll no-scrollbar rounded-xl bg-white border-[1px] border-gray-300 px-4`}>
+      className={`min-h-[300px] max-h-[550px] pb-5 overflow-y-scroll no-scrollbar rounded-xl bg-white border-[1px] border-gray-300 px-4`}>
       <table className='min-w-full'>
         {/* ----------------- Header --------------------- */}
         <thead className='bg-white'>

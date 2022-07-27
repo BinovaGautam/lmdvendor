@@ -1,5 +1,5 @@
 import { request } from './base';
-import { CreateRepairRequest } from './types';
+import { CreateRepairRequest, ScheduleAppoinment } from './types';
 
 export default class RepairAPI {
   static getRepairRequests(status_id: number) {
@@ -22,6 +22,18 @@ export default class RepairAPI {
       url: `repair_requests/v1/repair_requests`,
       method: 'post',
       data: data,
+    });
+  }
+
+  static scheduleAppoinment(data: ScheduleAppoinment) {
+    const updatedData = {
+      vendor_account_id: data.vendor_account_id,
+      date_time_slots: data.date_time_slots,
+    };
+    return request({
+      url: `repair_requests/v1/repair_requests/${data.request_id}/schedule_appointment`,
+      method: 'post',
+      data: updatedData,
     });
   }
 }

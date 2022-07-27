@@ -12,6 +12,7 @@ import { useQuery } from 'react-query';
 import SendQuotationForm from '../../components/SendQuotationForm';
 import ScheduleAppointmentForm from '../../components/ScheduleAppointmentForm';
 import { RootState } from '../../state/reducers';
+import { toast } from 'react-toastify';
 
 export default function Dashboard() {
   const { user } = useSelector((state: RootState) => state.userState);
@@ -29,13 +30,12 @@ export default function Dashboard() {
     async () => await RepairAPI.getRepairRequests(active.id + 1),
     {
       onSuccess: (response: any) => {
-        console.log({ response });
         if (response.data) {
           setData(response.data.data);
         }
       },
       onError: (error: any) => {
-        console.log({ error });
+        toast.error('Something went wrong!');
       },
     }
   );
@@ -58,7 +58,8 @@ export default function Dashboard() {
     },
     {
       onClickButton: (row: any) => {
-        console.log({ row, type: 'Waiting' });
+        setCurrRow(row);
+        setScheduleAppointmentForm(true);
       },
     },
   ];
@@ -97,7 +98,7 @@ export default function Dashboard() {
           type={`${active?.id}`}
           classNames={''}
           level={0}
-          actions={actions[active?.id || 0]}
+          actions={actions[active.id]}
           loading={repairRequestListApi.isLoading || false}
         />
         <QueryForm row={currRow} show={showQueryForm} setShow={setShowQueryForm} />
@@ -111,7 +112,7 @@ export default function Dashboard() {
         <ScheduleAppointmentForm
           show={showScheduleAppointmentForm}
           setShow={setScheduleAppointmentForm}
-          row={{}}
+          row={currRow}
         />
       </div>
     </div>
