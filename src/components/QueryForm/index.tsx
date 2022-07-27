@@ -4,7 +4,7 @@ import ModalForm from '../ModalForm';
 import OverlayContainer from '../OverlayContainer';
 import PrimaryButton from '../PrimaryButton';
 
-const QueryForm = ({ show, setShow }: QueryFormModel) => {
+const QueryForm = ({ show, setShow, row }: QueryFormModel) => {
   return (
     <OverlayContainer show={show}>
       <ModalForm title={'Queries'} onClose={() => setShow(false)}>

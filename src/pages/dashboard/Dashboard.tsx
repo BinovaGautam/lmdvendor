@@ -53,14 +53,7 @@ export default function Dashboard() {
       },
       onQuery: (row: any) => {
         setCurrRow(row);
-        if (!row.quotations) {
-          setCurrentQuotation(
-            row.quotations.find(
-              (quotation: any) => quotation.vendor_account_id !== user?.account_id
-            )
-          );
-          setShowQueryForm(true);
-        }
+        setShowQueryForm(true);
       },
     },
     {
@@ -101,13 +94,13 @@ export default function Dashboard() {
         <PrimaryTable
           header={active?.header || []}
           data={data || []}
-          type={''}
+          type={`${active?.id}`}
           classNames={''}
           level={0}
           actions={actions[active?.id || 0]}
           loading={repairRequestListApi.isLoading || false}
         />
-        <QueryForm show={showQueryForm} setShow={setShowQueryForm} />
+        <QueryForm row={currRow} show={showQueryForm} setShow={setShowQueryForm} />
         <AddCommentForm show={showCommentForm} setShow={setShowCommentForm} />
         <SendQuotationForm
           row={currRow}
