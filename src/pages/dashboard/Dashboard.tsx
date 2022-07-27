@@ -9,12 +9,20 @@ import { DemoData, TabMenus } from './data';
 import { useSelector } from 'react-redux';
 import RepairAPI from '../../api/repairApi';
 import { useQuery } from 'react-query';
+import SendQuotationForm from '../../components/SendQuotationForm';
+import ScheduleAppointmentForm from '../../components/ScheduleAppointmentForm';
+import { RootState } from '../../state/reducers';
 
 export default function Dashboard() {
+  const { user } = useSelector((state: RootState) => state.userState);
   const [active, setActive] = useState<TabMenuModal>(TabMenus[0]);
-  const [showQueryForm, setQueryForm] = useState<boolean>(false);
-  const [showCommentForm, setCommentForm] = useState<boolean>(false);
+  const [showQueryForm, setShowQueryForm] = useState<boolean>(false);
+  const [showCommentForm, setShowCommentForm] = useState<boolean>(false);
+  const [showSendQuotationForm, setShowSendQuotationForm] = useState<boolean>(false);
+  const [showScheduleAppointmentForm, setScheduleAppointmentForm] = useState<boolean>(false);
   const [data, setData] = useState<any[]>([]);
+  const [currRow, setCurrRow] = useState<any>(undefined);
+  const [currentQuotation, setCurrentQuotation] = useState<any>(undefined);
 
   const repairRequestListApi = useQuery(
     ['repairRequestList', active.id + 1],
@@ -40,10 +48,19 @@ export default function Dashboard() {
   const actions = [
     {
       onClickButton: (row: any) => {
-        setCommentForm(true);
+        setCurrRow(row);
+        setShowSendQuotationForm(true);
       },
       onQuery: (row: any) => {
-        setQueryForm(true);
+        setCurrRow(row);
+        if (!row.quotations) {
+          setCurrentQuotation(
+            row.quotations.find(
+              (quotation: any) => quotation.vendor_account_id !== user?.account_id
+            )
+          );
+          setShowQueryForm(true);
+        }
       },
     },
     {
@@ -52,8 +69,6 @@ export default function Dashboard() {
       },
     },
   ];
-
-  console.log({ active });
 
   return (
     <div className='h-full flex flex-col gap-y-5 pb-5'>
@@ -90,10 +105,21 @@ export default function Dashboard() {
           classNames={''}
           level={0}
           actions={actions[active?.id || 0]}
-          loading={repairRequestListApi.isLoading}
+          loading={repairRequestListApi.isLoading || false}
         />
-        <QueryForm show={showQueryForm} setShow={setQueryForm} />
-        <AddCommentForm show={showCommentForm} setShow={setCommentForm} />
+        <QueryForm show={showQueryForm} setShow={setShowQueryForm} />
+        <AddCommentForm show={showCommentForm} setShow={setShowCommentForm} />
+        <SendQuotationForm
+          row={currRow}
+          show={!showCommentForm && showSendQuotationForm}
+          setShow={setShowSendQuotationForm}
+          setShowCommentForm={setShowCommentForm}
+        />
+        <ScheduleAppointmentForm
+          show={showScheduleAppointmentForm}
+          setShow={setScheduleAppointmentForm}
+          row={{}}
+        />
       </div>
     </div>
   );

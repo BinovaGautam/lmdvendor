@@ -6,11 +6,12 @@ export interface PrimaryTableHeadModal {
   type: string;
   func?: string;
   level2?: { key: string };
+  disableState?: { key: string; isDisable: (data: any) => boolean };
 }
 
 export interface PrimaryTableModel {
   header: PrimaryTableHeadModal[];
-  data: any[] | undefined;
+  data: any[];
   type: string;
   classNames: string;
   level: number;

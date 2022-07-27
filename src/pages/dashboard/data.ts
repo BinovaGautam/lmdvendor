@@ -24,11 +24,6 @@ export const PendingTableHeader = [
     type: 'string',
   },
   {
-    title: 'Damage Id',
-    key: 'damage_id',
-    type: 'string',
-  },
-  {
     title: 'Notes',
     key: 'notes',
     type: 'string',
@@ -39,6 +34,13 @@ export const PendingTableHeader = [
     type: 'button',
     text: 'Send Quote',
     func: 'onClickButton',
+    disableState: {
+      key: 'quotations',
+      isDisable: (data: any) =>
+        data.quotations.find(
+          (quotation: any, index: number) => quotation.vendor_account_id !== data.vender_id
+        ),
+    },
   },
   {
     title: '',

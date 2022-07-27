@@ -1,3 +1,5 @@
+import { boolean } from 'yup';
+
 export interface SignWithEmail {
   name: string;
   phone: string;
@@ -48,4 +50,28 @@ export interface AddVehicle {
   trim: string;
   gas_card: string;
   year: string;
+}
+
+// Repair Api
+
+export interface IVendor {
+  account_id: string;
+}
+
+export interface CreateRepairRequest {
+  vehicle_id: number;
+  damage_id: string;
+  notes: string;
+  any_vendor: boolean;
+  vendors: IVendor[];
+}
+
+// Quotation API
+
+export interface CreateQuotation {
+  request_id: string;
+  estimate_amount: string;
+  work_hour: string;
+  quotation?: File;
+  vendor_account_id?: string;
 }

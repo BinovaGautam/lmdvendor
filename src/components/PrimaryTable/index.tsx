@@ -1,6 +1,9 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { PrimaryTableHeadModal, PrimaryTableModel } from '../../models/PrimaryTableModal';
+import { RootState } from '../../state/reducers';
 import DotsOption from '../DotsOption';
+import Loader from '../Loader';
 import PrimaryButton from '../PrimaryButton';
 
 const handleImageOnError = (e: any) => {
@@ -40,13 +43,25 @@ const PrimaryTable = ({
             ))}
           </tr>
         </thead>
-        <tbody className='border-[1px] border-white shadow-md'>
+        <tbody className={`border-[1px] border-white ${!loading && data.length && 'shadow-md'}`}>
           {loading ? (
-            <h1>Loading...</h1>
+            <tr className='h-full'>
+              <td colSpan={10} className='text-center text-6xl font-semibold text-gray-400'>
+                <Loader />
+              </td>
+            </tr>
           ) : (
             data &&
-            data.map((row: any, index: number) => (
-              <TableRow key={index} row={row} header={header} actions={actions} />
+            (data.length ? (
+              data.map((row: any, index: number) => (
+                <TableRow key={index} row={row} header={header} actions={actions} />
+              ))
+            ) : (
+              <tr className='h-48'>
+                <td colSpan={10} className='text-center text-6xl font-semibold text-gray-400'>
+                  No Data
+                </td>
+              </tr>
             ))
           )}
         </tbody>
@@ -66,6 +81,7 @@ export const TableRow = ({
   header: PrimaryTableHeadModal[];
   actions: any;
 }) => {
+  const { user } = useSelector((state: RootState) => state.userState);
   return (
     <tr className='h-16 border-[1px] border-gray-300'>
       {header.map((head: PrimaryTableHeadModal, index: number) => {
@@ -92,7 +108,6 @@ export const TableRow = ({
         }
 
         if (head.type === 'status') {
-          console.log();
           return (
             <td
               key={index}
@@ -107,16 +122,30 @@ export const TableRow = ({
         }
 
         if (head.type === 'button') {
+          let isQuoted: any = false;
+          if (head.disableState) {
+            const quotations = row[head.disableState.key];
+            isQuoted = head.disableState.isDisable({
+              quotations: row[head.disableState.key],
+              vendor_id: user?.account_id,
+            });
+          }
+
+          const btnTitle = (!isQuoted ? head.text : 'Quoted') || '';
           return (
             <td key={index} className='text-sm h-full px-4 text-primary-2 font-medium'>
               <div>
                 <PrimaryButton
-                  onClick={() => {
-                    if (head.func) {
-                      actions[head.func](row);
-                    }
-                  }}
-                  title={head.text || ''}
+                  onClick={
+                    !isQuoted
+                      ? () => {
+                          if (head.func) {
+                            actions[head.func](row);
+                          }
+                        }
+                      : () => {}
+                  }
+                  title={btnTitle}
                   classNames='w-32 py-[6px] bg-none border-[1px] border-primary-2 text-primary-2'
                 />
               </div>
