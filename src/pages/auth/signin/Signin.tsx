@@ -135,7 +135,7 @@ export default function Signin(props: any) {
               Forget Password ?
             </a>
           </div>
-          <div className='text-right'>
+          <div className='flex justify-end'>
             {/* <button type='submit' className='btn-primary'>
               Sign In
             </button> */}

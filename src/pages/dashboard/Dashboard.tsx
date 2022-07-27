@@ -9,45 +9,57 @@ import { DemoData, TabMenus } from './data';
 import { useSelector } from 'react-redux';
 import RepairAPI from '../../api/repairApi';
 import { useQuery } from 'react-query';
+import SendQuotationForm from '../../components/SendQuotationForm';
+import ScheduleAppointmentForm from '../../components/ScheduleAppointmentForm';
+import { RootState } from '../../state/reducers';
+import { toast } from 'react-toastify';
 
 export default function Dashboard() {
-  const [active, setActive] = useState<TabMenuModal | undefined>(TabMenus[0]);
-  const [showQueryForm, setQueryForm] = useState<boolean>(false);
-  const [showCommentForm, setCommentForm] = useState<boolean>(false);
+  const { user } = useSelector((state: RootState) => state.userState);
+  const [active, setActive] = useState<TabMenuModal>(TabMenus[0]);
+  const [showQueryForm, setShowQueryForm] = useState<boolean>(false);
+  const [showCommentForm, setShowCommentForm] = useState<boolean>(false);
+  const [showSendQuotationForm, setShowSendQuotationForm] = useState<boolean>(false);
+  const [showScheduleAppointmentForm, setScheduleAppointmentForm] = useState<boolean>(false);
   const [data, setData] = useState<any[]>([]);
+  const [currRow, setCurrRow] = useState<any>(undefined);
+  const [currentQuotation, setCurrentQuotation] = useState<any>(undefined);
 
   const repairRequestListApi = useQuery(
-    'repairRequestList',
-    async () => await RepairAPI.getRepairRequests(),
+    ['repairRequestList', active.id + 1],
+    async () => await RepairAPI.getRepairRequests(active.id + 1),
     {
       onSuccess: (response: any) => {
-        console.log({ response });
         if (response.data) {
           setData(response.data.data);
         }
       },
       onError: (error: any) => {
-        console.log({ error });
+        toast.error('Something went wrong!');
       },
     }
   );
 
   const onTabChange = async (item: TabMenuModal) => {
+    setData([]);
     setActive(item);
   };
 
   const actions = [
     {
       onClickButton: (row: any) => {
-        setCommentForm(true);
+        setCurrRow(row);
+        setShowSendQuotationForm(true);
       },
       onQuery: (row: any) => {
-        setQueryForm(true);
+        setCurrRow(row);
+        setShowQueryForm(true);
       },
     },
     {
       onClickButton: (row: any) => {
-        console.log({ row, type: 'Waiting' });
+        setCurrRow(row);
+        setScheduleAppointmentForm(true);
       },
     },
   ];
@@ -83,14 +95,25 @@ export default function Dashboard() {
         <PrimaryTable
           header={active?.header || []}
           data={data || []}
-          type={''}
+          type={`${active?.id}`}
           classNames={''}
           level={0}
-          loading={false}
-          actions={actions[active?.id || 0]}
+          actions={actions[active.id]}
+          loading={repairRequestListApi.isLoading || false}
         />
-        <QueryForm show={showQueryForm} setShow={setQueryForm} />
-        <AddCommentForm show={showCommentForm} setShow={setCommentForm} />
+        <QueryForm row={currRow} show={showQueryForm} setShow={setShowQueryForm} />
+        <AddCommentForm show={showCommentForm} setShow={setShowCommentForm} />
+        <SendQuotationForm
+          row={currRow}
+          show={!showCommentForm && showSendQuotationForm}
+          setShow={setShowSendQuotationForm}
+          setShowCommentForm={setShowCommentForm}
+        />
+        <ScheduleAppointmentForm
+          show={showScheduleAppointmentForm}
+          setShow={setScheduleAppointmentForm}
+          row={currRow}
+        />
       </div>
     </div>
   );

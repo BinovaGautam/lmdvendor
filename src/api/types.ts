@@ -49,3 +49,45 @@ export interface AddVehicle {
   gas_card: string;
   year: string;
 }
+
+// Repair Api
+
+export interface IVendor {
+  account_id: string;
+}
+
+export interface CreateRepairRequest {
+  vehicle_id: number;
+  damage_id: string;
+  notes: string;
+  any_vendor: boolean;
+  vendors: IVendor[];
+}
+
+export interface dateTimeSlot {
+  date: string;
+  time: string;
+}
+
+export interface ScheduleAppoinment {
+  vendor_account_id: string;
+  date_time_slots: dateTimeSlot[];
+  request_id: string;
+}
+
+// Quotation API
+
+export interface CreateQuotation {
+  request_id: string;
+  estimate_amount: string;
+  work_hour: string;
+  quotation?: File;
+  vendor_account_id?: string;
+}
+
+export interface SendQuery {
+  repair_request_id: string;
+  quotation_id: string;
+  query: string;
+  sender_type: string;
+}
