@@ -33,7 +33,7 @@ const PrimaryTable = ({
         {/* ----------------- Header --------------------- */}
         <thead className='bg-white'>
           <tr className=''>
-            {header.map((head: any) => (
+            {header.map((head: any ) => (
               <th
                 key={head.key}
                 scope='col'
@@ -55,6 +55,7 @@ const PrimaryTable = ({
             (data.length ? (
               data.map((row: any, index: number) => (
                 <TableRow key={index} row={row} header={header} actions={actions} type={type} />
+              //  <p>hello</p>
               ))
             ) : (
               <tr className='h-48'>
@@ -89,11 +90,8 @@ export const TableRow = ({
       {header.map((head: PrimaryTableHeadModal, index: number) => {
         let tableRow = row;
         if (head.level2) {
-          tableRow = tableRow[head.level2.key];
+          tableRow = tableRow[head?.level2?.key];
         }
-
-        if (!tableRow) return <td></td>;
-
         if (head.type === 'image-string') {
           return (
             <td key={index} className='text-sm h-full px-4 text-primary-2 font-bold'>
@@ -106,7 +104,7 @@ export const TableRow = ({
                     onError={handleImageOnError}
                   />
                 </div>
-                <span>{tableRow[head.key]}</span>
+                <span>{tableRow?.[head?.key]}</span>
               </div>
             </td>
           );
@@ -138,7 +136,7 @@ export const TableRow = ({
           if (head.disableState) {
             const quotations = tableRow[head.disableState.key];
             isQuoted = head.disableState.isDisable({
-              quotations: tableRow[head.disableState.key],
+              quotations: tableRow[head.disableState.key] || [],
               vendor_id: user?.account_id,
             });
           }
@@ -165,7 +163,9 @@ export const TableRow = ({
 
         if (head.type === 'dot-option') {
           let showDrop = true;
+          // alert(`type ${type} ${tableRow.quotations.length}`);
           if (type === '0' && !tableRow.quotations?.length) {
+            // alert('chal kahe nahi rahe ho be');
             showDrop = false;
           }
 

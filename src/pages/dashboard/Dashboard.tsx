@@ -13,6 +13,8 @@ import SendQuotationForm from '../../components/SendQuotationForm';
 import ScheduleAppointmentForm from '../../components/ScheduleAppointmentForm';
 import { RootState } from '../../state/reducers';
 import { toast } from 'react-toastify';
+import {ChooseTechnicians} from '../../components';
+import RepairDetails from './RepairDetails';
 
 export default function Dashboard() {
   const { user } = useSelector((state: RootState) => state.userState);
@@ -24,6 +26,7 @@ export default function Dashboard() {
   const [data, setData] = useState<any[]>([]);
   const [currRow, setCurrRow] = useState<any>(undefined);
   const [currentQuotation, setCurrentQuotation] = useState<any>(undefined);
+  const [showDetails , setShowDetails] = useState<boolean>(false);
 
   const repairRequestListApi = useQuery(
     ['repairRequestList', active.id + 1],
@@ -62,6 +65,12 @@ export default function Dashboard() {
         setScheduleAppointmentForm(true);
       },
     },
+    {
+      onAssignTechnician: (row: any) => {
+        setCurrRow(row);
+        setShowCommentForm(true);
+      }
+    }
   ];
 
   return (
@@ -86,35 +95,40 @@ export default function Dashboard() {
           />
         </div>
       </div>
-      {/* ----------------: TabBar :------------------- */}
-      <div>
-        <TabBar menus={TabMenus} active={active} setActive={onTabChange} />
-      </div>
-      {/* ----------------: TabBarBody :--------------- */}
-      <div>
-        <PrimaryTable
-          header={active?.header || []}
-          data={data || []}
-          type={`${active?.id}`}
-          classNames={''}
-          level={0}
-          actions={actions[active.id]}
-          loading={repairRequestListApi.isLoading || false}
-        />
-        <QueryForm row={currRow} show={showQueryForm} setShow={setShowQueryForm} />
-        <AddCommentForm show={showCommentForm} setShow={setShowCommentForm} />
-        <SendQuotationForm
-          row={currRow}
-          show={!showCommentForm && showSendQuotationForm}
-          setShow={setShowSendQuotationForm}
-          setShowCommentForm={setShowCommentForm}
-        />
-        <ScheduleAppointmentForm
-          show={showScheduleAppointmentForm}
-          setShow={setScheduleAppointmentForm}
-          row={currRow}
-        />
-      </div>
+      {currRow && showDetails ? <RepairDetails row={currRow} /> : 
+        <>
+          {/* ----------------: TabBar :------------------- */}
+          <div>
+            <TabBar menus={TabMenus} active={active} setActive={onTabChange} />
+          </div>
+          {/* ----------------: TabBarBody :--------------- */}
+          <div>
+            <PrimaryTable
+              header={active?.header || []}
+              data={data || []}
+              type={`${active?.id}`}
+              classNames={''}
+              level={0}
+              actions={actions[active.id]}
+              loading={repairRequestListApi.isLoading || false}
+            />
+            <QueryForm row={currRow} show={showQueryForm} setShow={setShowQueryForm} />
+            {/* <AddCommentForm show={showCommentForm} setShow={setShowCommentForm} /> */}
+            <ChooseTechnicians show={showCommentForm} setShow={setShowCommentForm} />
+            <SendQuotationForm
+              row={currRow}
+              show={!showCommentForm && showSendQuotationForm}
+              setShow={setShowSendQuotationForm}
+              setShowCommentForm={setShowCommentForm}
+            />
+            <ScheduleAppointmentForm
+              show={showScheduleAppointmentForm}
+              setShow={setScheduleAppointmentForm}
+              row={currRow}
+            />
+          </div>
+        </>
+      }
     </div>
   );
 }

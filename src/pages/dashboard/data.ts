@@ -36,14 +36,10 @@ export const PendingTableHeader = [
     func: 'onClickButton',
     disableState: {
       key: 'quotations',
-      isDisable: (data: any) => {
-        if (data) {
-          return data?.quotations?.find(
-            (quotation: any, index: number) => quotation.vendor_account_id !== data.vender_id
-          );
-        }
-        return false;
-      },
+      isDisable: (data: any) =>
+        data?.quotations?.find(
+          (quotation: any, index: number) => quotation.vendor_account_id !== data.vender_id
+        ),
     },
   },
   {
@@ -205,7 +201,7 @@ export const ScheduledTableHeader = [
       },
       {
         title: 'Assign Technician',
-        func: 'onAssignTransaction',
+        func: 'onAssignTechnician',
       },
       {
         title: 'Add technician',
