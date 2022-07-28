@@ -7,7 +7,7 @@ type Props = {
 
 export default function PanelWrapper({children,className}: Props) {
   return (
-   <div className={"w-full m-4 border rounded-xl bg-white py-4 "+className}>
+   <div className={"w-full m-2 border rounded-xl bg-white py-4 "+className}>
     {children}
    </div>
   )

@@ -69,8 +69,14 @@ export default function Dashboard() {
       onAssignTechnician: (row: any) => {
         setCurrRow(row);
         setShowCommentForm(true);
-      }
-    }
+      },
+    },
+    {
+      onClickButton: (row: any) => {
+        setCurrRow(row);
+        setShowDetails(true);
+      },
+    },
   ];
 
   return (
@@ -81,10 +87,10 @@ export default function Dashboard() {
         <div className='flex items-center gap-x-4'>
           <PrimaryButton
             title={'Repair Request'}
-            classNames={'py-2 px-5 font-medium bg-primary-2 text-white'}
-            onClick={function (): void {
-              throw new Error('Function not implemented.');
-            }}
+            classNames={`py-2 px-5 font-medium bg-primary-2 border-[1px] border-primary-2 text-white ${
+              showDetails && 'text-primary-2 bg-white'
+            } `}
+            onClick={() => setShowDetails(false)}
           />
           <PrimaryButton
             title={'Preventive Maintenance'}
@@ -95,7 +101,9 @@ export default function Dashboard() {
           />
         </div>
       </div>
-      {currRow && showDetails ? <RepairDetails row={currRow} /> : 
+      {currRow && showDetails ? (
+        <RepairDetails row={currRow} />
+      ) : (
         <>
           {/* ----------------: TabBar :------------------- */}
           <div>
@@ -112,6 +120,7 @@ export default function Dashboard() {
               actions={actions[active.id]}
               loading={repairRequestListApi.isLoading || false}
             />
+            {/* <p>hello here we go :{JSON.stringify(active?.header)} </p> */}
             <QueryForm row={currRow} show={showQueryForm} setShow={setShowQueryForm} />
             {/* <AddCommentForm show={showCommentForm} setShow={setShowCommentForm} /> */}
             <ChooseTechnicians show={showCommentForm} setShow={setShowCommentForm} />
@@ -128,7 +137,7 @@ export default function Dashboard() {
             />
           </div>
         </>
-      }
+      )}
     </div>
   );
 }

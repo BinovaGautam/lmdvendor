@@ -246,6 +246,7 @@ export const InProgressTableHeader = [
     key: 'action',
     type: 'button',
     text: 'view',
+    func : 'onClickButton',
   },
 ];
 
