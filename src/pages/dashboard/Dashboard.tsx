@@ -13,7 +13,7 @@ import SendQuotationForm from '../../components/SendQuotationForm';
 import ScheduleAppointmentForm from '../../components/ScheduleAppointmentForm';
 import { RootState } from '../../state/reducers';
 import { toast } from 'react-toastify';
-import {ChooseTechnicians} from '../../components';
+import { ChooseTechnicians } from '../../components';
 import RepairDetails from './RepairDetails';
 
 export default function Dashboard() {
@@ -26,7 +26,7 @@ export default function Dashboard() {
   const [data, setData] = useState<any[]>([]);
   const [currRow, setCurrRow] = useState<any>(undefined);
   const [currentQuotation, setCurrentQuotation] = useState<any>(undefined);
-  const [showDetails , setShowDetails] = useState<boolean>(false);
+  const [showDetails, setShowDetails] = useState<boolean>(false);
 
   const repairRequestListApi = useQuery(
     ['repairRequestList', active.id + 1],
@@ -69,8 +69,8 @@ export default function Dashboard() {
       onAssignTechnician: (row: any) => {
         setCurrRow(row);
         setShowCommentForm(true);
-      }
-    }
+      },
+    },
   ];
 
   return (
@@ -95,7 +95,9 @@ export default function Dashboard() {
           />
         </div>
       </div>
-      {currRow && showDetails ? <RepairDetails row={currRow} /> : 
+      {currRow && showDetails ? (
+        <RepairDetails row={currRow} />
+      ) : (
         <>
           {/* ----------------: TabBar :------------------- */}
           <div>
@@ -114,7 +116,7 @@ export default function Dashboard() {
             />
             <QueryForm row={currRow} show={showQueryForm} setShow={setShowQueryForm} />
             {/* <AddCommentForm show={showCommentForm} setShow={setShowCommentForm} /> */}
-            <ChooseTechnicians show={showCommentForm} setShow={setShowCommentForm} />
+            <ChooseTechnicians row={currRow} show={showCommentForm} setShow={setShowCommentForm} />
             <SendQuotationForm
               row={currRow}
               show={!showCommentForm && showSendQuotationForm}
@@ -128,7 +130,7 @@ export default function Dashboard() {
             />
           </div>
         </>
-      }
+      )}
     </div>
   );
 }
