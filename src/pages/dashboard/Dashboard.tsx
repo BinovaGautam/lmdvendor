@@ -101,6 +101,7 @@ export default function Dashboard() {
           actions={actions[active.id]}
           loading={repairRequestListApi.isLoading || false}
         />
+        {/* <p>hello : {JSON.stringify(active?.header)} </p> */}
         <QueryForm row={currRow} show={showQueryForm} setShow={setShowQueryForm} />
         <AddCommentForm show={showCommentForm} setShow={setShowCommentForm} />
         <SendQuotationForm
