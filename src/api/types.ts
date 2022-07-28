@@ -91,3 +91,32 @@ export interface SendQuery {
   query: string;
   sender_type: string;
 }
+
+// TechniciansAPI
+export interface SignUpTechnician extends SignWithEmail {
+  vendor_account_id: string;
+}
+
+export interface GetAllTechnicians {
+  vendor_account_id: string;
+}
+
+export interface ITechnicianId {
+  technician_account_id: string;
+}
+
+export interface AssignTechnicians {
+  repair_request_id: number;
+  vendor_account_id: string;
+  technicians: ITechnicianId[];
+}
+
+export interface AcceptRepairRequest {
+  repair_request_id: number;
+  vendor_account_id: string;
+  technician_account_id: string;
+}
+
+export interface DenyRepairRequest extends AcceptRepairRequest {
+  deny_remarks: string;
+}
