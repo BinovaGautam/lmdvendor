@@ -36,10 +36,14 @@ export const PendingTableHeader = [
     func: 'onClickButton',
     disableState: {
       key: 'quotations',
-      isDisable: (data: any) =>
-        data.quotations.find(
-          (quotation: any, index: number) => quotation.vendor_account_id !== data.vender_id
-        ),
+      isDisable: (data: any) => {
+        if (data) {
+          return data?.quotations?.find(
+            (quotation: any, index: number) => quotation.vendor_account_id !== data.vender_id
+          );
+        }
+        return false;
+      },
     },
   },
   {

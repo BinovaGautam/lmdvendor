@@ -91,6 +91,9 @@ export const TableRow = ({
         if (head.level2) {
           tableRow = tableRow[head.level2.key];
         }
+
+        if (!tableRow) return <td></td>;
+
         if (head.type === 'image-string') {
           return (
             <td key={index} className='text-sm h-full px-4 text-primary-2 font-bold'>
@@ -162,9 +165,7 @@ export const TableRow = ({
 
         if (head.type === 'dot-option') {
           let showDrop = true;
-          alert(`type ${type} ${tableRow.quotations.length}`);
-          if (type === '0' && !tableRow.quotations.length) {
-            alert('chal kahe nahi rahe ho be');
+          if (type === '0' && !tableRow.quotations?.length) {
             showDrop = false;
           }
 
