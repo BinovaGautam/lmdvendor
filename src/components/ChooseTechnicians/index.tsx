@@ -35,7 +35,7 @@ const ChooseTechnicians = ({ show, setShow }: CommentFormModel) => {
                     <div className='flex items-center justify-center  overflow-hidden px-2  '>
                       <img src='' alt='' className='w-12 h-12 rounded-full' onError={handleImageOnError} />
                     </div>
-                    <div className='p-1 flex-grow'>
+                    <div className={`p-1 flex-grow ${selected &&  'text-white'} `}>
                       <span className={'font-[500] text-lg'}>{name}</span> <br />
                       <span className='text-sm'>ID : {accountId}</span>
                       <br />
