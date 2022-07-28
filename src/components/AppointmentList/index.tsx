@@ -9,7 +9,7 @@ type Props = {
 export default function index({appointments}: Props) {
   return (
     <div>
-      <p className=' font-semibold text-primary-2'>Appointment Date</p>
+      <p className=' font-semibold text-primary-2 m-2'>Appointment Date</p>
       <div className='flex flex-wrap w-full bg-red'>
           {appointments?.length > 0 ? (
             appointments.map((appointment: AppointMentModel, index: number) => {
