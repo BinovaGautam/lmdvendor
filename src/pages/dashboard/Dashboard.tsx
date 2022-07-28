@@ -71,6 +71,12 @@ export default function Dashboard() {
         setShowCommentForm(true);
       },
     },
+    {
+      onClickButton: (row: any) => {
+        setCurrRow(row);
+        setShowDetails(true);
+      },
+    },
   ];
 
   return (
