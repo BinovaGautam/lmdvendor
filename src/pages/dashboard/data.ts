@@ -432,6 +432,7 @@ export const TabMenus = [
   {
     id: 0,
     title: 'Pending',
+    key: 'pending',
     header: PendingTableHeader,
   },
   // {
@@ -442,26 +443,31 @@ export const TabMenus = [
   {
     id: 1,
     title: 'Approved',
+    key: 'approved',
     header: ApprovedTableHeader,
   },
   {
     id: 2,
     title: 'Scheduled',
+    key: 'scheduled',
     header: ScheduledTableHeader,
   },
   {
     id: 3,
     title: 'In Progress',
+    key: 'inProgress',
     header: InProgressTableHeader,
   },
   {
     id: 4,
     title: 'Completed',
+    key: 'completed',
     header: CompletedTableHeader,
   },
   {
     id: 5,
     title: 'Paid',
+    key: 'paid',
     header: PaidTableHeader,
   },
 ];

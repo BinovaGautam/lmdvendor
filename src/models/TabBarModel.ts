@@ -3,6 +3,7 @@ import { PrimaryTableHeadModal } from './PrimaryTableModal';
 export interface TabMenuModal {
   id: number;
   title: string;
+  key: string;
   header: PrimaryTableHeadModal[];
 }
 

@@ -2,7 +2,7 @@ import { PencilAltIcon, TrashIcon } from '@heroicons/react/outline';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import React, { Fragment, useState } from 'react';
-import { useMutation, useQueries, useQuery } from 'react-query';
+import { useMutation, useQueries, useQuery, useQueryClient } from 'react-query';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import TechnicianAPI from '../../api/technicianApi';
@@ -20,6 +20,8 @@ const ChooseTechnicians = ({ show, setShow, row }: ChooseTechniciansModel) => {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const { user } = useSelector((state: RootState) => state.userState);
   const [technicians, setTechnicians] = useState<TechnicianModel[]>([]);
+
+  const queryClient = useQueryClient();
 
   const repairId = row?.id;
 
@@ -55,6 +57,7 @@ const ChooseTechnicians = ({ show, setShow, row }: ChooseTechniciansModel) => {
       toast.success('Assigned successfully!');
       setSelectedIndex(0);
       setShow(false);
+      queryClient.invalidateQueries('allRpairRequest');
     },
     onError: (error: Error) => {
       console.log(error);

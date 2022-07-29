@@ -37,7 +37,7 @@ const ScheduleAppointmentForm = ({ show, setShow, row }: ScheduleAppointmentForm
       toast.success('Appoinment scheduled Successfully!');
       setDateTimeSlot([{ date: undefined, time: undefined }]);
       setShow(false);
-      queryClient.invalidateQueries('repairRequestList');
+      queryClient.invalidateQueries('allRpairRequest');
     },
     onError: (error: any) => {
       console.log({ error });

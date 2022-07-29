@@ -26,7 +26,7 @@ const QueryForm = ({ show, setShow, row }: QueryFormModel) => {
       toast.success('Query send successfully!');
       setQuery('');
       setShow(false);
-      queryClient.invalidateQueries('repairRequestList');
+      queryClient.invalidateQueries('allRpairRequest');
     },
     onError: (error: any) => {
       console.log(error);

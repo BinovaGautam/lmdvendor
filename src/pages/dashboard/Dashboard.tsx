@@ -18,39 +18,75 @@ import RepairDetails from './RepairDetails';
 
 export default function Dashboard() {
   const { user } = useSelector((state: RootState) => state.userState);
-  const [active, setActive] = useState<TabMenuModal>(TabMenus[0]);
+  const [tabMenus, setTabMenus] = useState<TabMenuModal[]>(TabMenus);
+  const [active, setActive] = useState<TabMenuModal>(tabMenus[0]);
   const [showQueryForm, setShowQueryForm] = useState<boolean>(false);
   const [showCommentForm, setShowCommentForm] = useState<boolean>(false);
   const [showSendQuotationForm, setShowSendQuotationForm] = useState<boolean>(false);
   const [showScheduleAppointmentForm, setScheduleAppointmentForm] = useState<boolean>(false);
   const [data, setData] = useState<any[]>([]);
-  // const [allData, setAllData] = useState<{}>({})
+  const [allData, setAllData] = useState<{ [key: string]: any[] }>({
+    pending: [],
+    approved: [],
+    scheduled: [],
+    inProgress: [],
+    completed: [],
+    paid: [],
+  });
   const [currRow, setCurrRow] = useState<any>(undefined);
   const [currentQuotation, setCurrentQuotation] = useState<any>(undefined);
   const [showDetails, setShowDetails] = useState<boolean>(false);
 
-  // const allRepairRequestApi = useQuery("allRpairRequest", RepairAPI.getAllRepairRequests, {
-  //   onSuccess: (response: any) => {
-  //     if (response.data) {
+  const allRepairRequestApi = useQuery('allRpairRequest', RepairAPI.getAllRepairRequests, {
+    onSuccess: (response: any) => {
+      if (response.data) {
+        let menus = tabMenus;
+        let pending = response.data.data.filter((row: any) => row.status_id === '1');
+        let approved = response.data.data.filter((row: any) => row.status_id === '2');
+        let scheduled = response.data.data.filter((row: any) => row.status_id === '3');
+        let inProgress = response.data.data.filter(
+          (row: any) =>
+            row.status_id === '4' ||
+            row.status_id === '5' ||
+            row.status_id === '6' ||
+            row.status_id === '7'
+        );
+        let completed = response.data.data.filter((row: any) => row.status_id === '7');
+        let paid = response.data.data.filter((row: any) => row.status_id === '8');
 
-  //     }
+        menus[0].title = `Pending (${pending.length})`;
+        menus[1].title = `Approved (${approved.length})`;
+        menus[2].title = `Scheduled (${scheduled.length})`;
+        menus[3].title = `In Progress (${inProgress.length})`;
+        menus[4].title = `Completed (${completed.length})`;
+        menus[5].title = `Paid (${paid.length})`;
+
+        setAllData({
+          pending,
+          approved,
+          scheduled,
+          inProgress,
+          completed,
+          paid,
+        });
+      }
+    },
+  });
+
+  // const repairRequestListApi = useQuery(
+  //   ['repairRequestList', active.id + 1],
+  //   async () => await RepairAPI.getRepairRequests(active.id + 1),
+  //   {
+  //     onSuccess: (response: any) => {
+  //       if (response.data) {
+  //         setData(response.data.data);
+  //       }
+  //     },
+  //     onError: (error: any) => {
+  //       toast.error('Something went wrong!');
+  //     },
   //   }
-  // })
-
-  const repairRequestListApi = useQuery(
-    ['repairRequestList', active.id + 1],
-    async () => await RepairAPI.getRepairRequests(active.id + 1),
-    {
-      onSuccess: (response: any) => {
-        if (response.data) {
-          setData(response.data.data);
-        }
-      },
-      onError: (error: any) => {
-        toast.error('Something went wrong!');
-      },
-    }
-  );
+  // );
 
   const onTabChange = async (item: TabMenuModal) => {
     setData([]);
@@ -110,6 +146,8 @@ export default function Dashboard() {
           />
         </div>
       </div>
+      {/* <pre className='w-[700px] overflow-scroll text-wrap'>{JSON.stringify(allData)}</pre> */}
+
       {currRow && showDetails ? (
         <RepairDetails row={currRow} />
       ) : (
@@ -119,17 +157,16 @@ export default function Dashboard() {
             <TabBar menus={TabMenus} active={active} setActive={onTabChange} />
           </div>
           {/* ----------------: TabBarBody :--------------- */}
-          <div>
+          <div className='pb-5'>
             <PrimaryTable
               header={active?.header || []}
-              data={data || []}
+              data={allData[active.key] || []}
               type={`${active?.id}`}
               classNames={''}
               level={0}
               actions={actions[active.id]}
-              loading={repairRequestListApi.isLoading || false}
+              loading={allRepairRequestApi.isLoading || false}
             />
-            {/* <p>hello here we go :{JSON.stringify(active?.header)} </p> */}
             <QueryForm row={currRow} show={showQueryForm} setShow={setShowQueryForm} />
             {/* <AddCommentForm show={showCommentForm} setShow={setShowCommentForm} /> */}
             <ChooseTechnicians row={currRow} show={showCommentForm} setShow={setShowCommentForm} />

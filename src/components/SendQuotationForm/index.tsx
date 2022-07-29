@@ -35,7 +35,7 @@ const SendQuotationForm = ({ show, setShow, row, setShowCommentForm }: SendQuota
         setFile(undefined);
         setEstimateAmount('');
         setWorkHours('');
-        queryClient.invalidateQueries('repairRequestList');
+        queryClient.invalidateQueries('allRpairRequest');
       },
       onError: (error: any) => {
         console.log({ error });
