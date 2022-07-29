@@ -24,9 +24,18 @@ export default function Dashboard() {
   const [showSendQuotationForm, setShowSendQuotationForm] = useState<boolean>(false);
   const [showScheduleAppointmentForm, setScheduleAppointmentForm] = useState<boolean>(false);
   const [data, setData] = useState<any[]>([]);
+  // const [allData, setAllData] = useState<{}>({})
   const [currRow, setCurrRow] = useState<any>(undefined);
   const [currentQuotation, setCurrentQuotation] = useState<any>(undefined);
   const [showDetails, setShowDetails] = useState<boolean>(false);
+
+  // const allRepairRequestApi = useQuery("allRpairRequest", RepairAPI.getAllRepairRequests, {
+  //   onSuccess: (response: any) => {
+  //     if (response.data) {
+
+  //     }
+  //   }
+  // })
 
   const repairRequestListApi = useQuery(
     ['repairRequestList', active.id + 1],

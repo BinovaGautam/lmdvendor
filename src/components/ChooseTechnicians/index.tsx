@@ -87,7 +87,7 @@ const ChooseTechnicians = ({ show, setShow, row }: ChooseTechniciansModel) => {
               className='w-32 bg-transparent text-primary  border-primary rounded-lg cursor-pointer '
             />
           </div>
-
+          {getTechniciansApi.isLoading && <h2>Loading...</h2>}
           {technicians &&
             technicians.map((technician: TechnicianModel, index: number) => {
               let selected = selectedIndex === index;
@@ -121,19 +121,9 @@ const ChooseTechnicians = ({ show, setShow, row }: ChooseTechniciansModel) => {
               );
             })}
 
-          {/* <div className='flex flex-col gap-y-2'>
-            <label htmlFor='query' className='text-primary-2 text-semibold'>
-              Comment
-            </label>
-            <textarea
-              name=''
-              id='query'
-              rows={5}
-              className='rounded-xl outline-none border-2 border-gray-primary-1 p-2'></textarea>
-          </div> */}
           <PrimaryButton
             title={'ASSIGN'}
-            classNames={'w-full bg-primary-2 text-white py-3'}
+            classNames={'w-full bg-primary-2 text-white py-3 font-semibold hover:bg-[#1f1d66c7]'}
             onClick={() => onAssignTechnician(technicians[selectedIndex])}
             loading={AssignTechnicianApi.isLoading}
           />

@@ -2,6 +2,13 @@ import { request } from './base';
 import { CreateRepairRequest, ScheduleAppoinment } from './types';
 
 export default class RepairAPI {
+  static getAllRepairRequests() {
+    return request({
+      url: `repair_requests/v1/repair_requests`,
+      method: 'get',
+    });
+  }
+
   static getRepairRequests(status_id: number) {
     return request({
       url: `repair_requests/v1/repair_requests?status_id=${status_id}`,
