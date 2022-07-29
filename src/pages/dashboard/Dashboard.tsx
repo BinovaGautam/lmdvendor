@@ -7,7 +7,7 @@ import TabBar from '../../components/TabBar';
 import { TabMenuModal } from '../../models/TabBarModel';
 import { DemoData, TabMenus } from './data';
 import { useSelector } from 'react-redux';
-import RepairAPI from '../../api/repairApi';
+import RepairAPI from '../../api/repairShopApi';
 import { useQuery } from 'react-query';
 import SendQuotationForm from '../../components/SendQuotationForm';
 import ScheduleAppointmentForm from '../../components/ScheduleAppointmentForm';

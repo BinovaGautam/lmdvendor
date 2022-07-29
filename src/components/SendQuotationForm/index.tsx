@@ -63,6 +63,7 @@ const SendQuotationForm = ({ show, setShow, row, setShowCommentForm }: SendQuota
       };
 
       createQuotationApi.mutate(data);
+      return;
     }
     setSubmitErrors(errors);
     setTimeout(() => setSubmitErrors([]), 3000);

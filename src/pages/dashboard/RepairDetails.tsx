@@ -15,7 +15,7 @@ export default function RepairDetails({ row }: Props) {
   let { appointments, technicians } = row || {};
   let technician = technicians ? technicians[0] : {};
   const [activeTab, setActiveTab] = useState<number>(0);
-  const [show, setShow] = useState<boolean>(true);
+  const [show, setShow] = useState<boolean>(false);
 
   return (
     <div className='flex flex-col gap-y-5 pb-8'>
@@ -165,7 +165,6 @@ export default function RepairDetails({ row }: Props) {
           </WhiteBoxWithShadow>
         </div>
       </div>
-      {/* <pre className='w-full overflow-scroll'>{JSON.stringify(Object.keys(row))}</pre> */}
       <WhiteBoxWithShadow classNames=''>
         <div className='text-primary-2'>
           <div className='p-5 flex flex-col gap-y-3'>

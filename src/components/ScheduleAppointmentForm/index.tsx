@@ -10,7 +10,7 @@ import { RootState } from '../../state/reducers';
 import DatePicker from '../DatePicker';
 import TimePicker from '../TimePicker';
 import { formateDates, formateTIme } from '../../utils/date';
-import RepairAPI from '../../api/repairApi';
+import RepairAPI from '../../api/repairShopApi';
 import { dateTimeSlot } from '../../api/types';
 import { XIcon } from '@heroicons/react/solid';
 

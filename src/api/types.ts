@@ -50,7 +50,7 @@ export interface AddVehicle {
   year: string;
 }
 
-// Repair Api
+// Repair Shop Api
 
 export interface IVendor {
   account_id: string;
@@ -119,4 +119,12 @@ export interface AcceptRepairRequest {
 
 export interface DenyRepairRequest extends AcceptRepairRequest {
   deny_remarks: string;
+}
+
+// Repair API
+
+export interface SendInvoice {
+  repair_request_id: string;
+  final_payment: string;
+  final_invoice: File;
 }

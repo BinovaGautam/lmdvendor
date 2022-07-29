@@ -1,6 +1,9 @@
 import { TrashIcon } from '@heroicons/react/solid';
-import React, { Fragment, useState } from 'react';
+import { useState } from 'react';
+import { useMutation, useQueryClient } from 'react-query';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import RepairAPI from '../../api/repairApi';
 import { FinalAmountFormModel } from '../../models/FinalAmountFormModel';
 import { RootState } from '../../state/reducers';
 import ModalForm from '../ModalForm';
@@ -8,9 +11,53 @@ import OverlayContainer from '../OverlayContainer';
 import PrimaryButton from '../PrimaryButton';
 import SingleFileUploader from '../SingleFIleUploader';
 
-const FinalAmountForm = ({ show, setShow }: FinalAmountFormModel) => {
+const FinalAmountForm = ({ show, setShow, row }: FinalAmountFormModel) => {
   const { user } = useSelector((state: RootState) => state.userState);
   const [file, setFile] = useState<File | undefined>(undefined);
+  const [finalAmount, setFinalAmount] = useState<string>('');
+  const [submitErrors, setSubmitErrors] = useState<string[]>([]);
+  const queryClient = useQueryClient();
+
+  const sendInvoice = useMutation('sendInvoice', RepairAPI.sendInvoice, {
+    onSuccess: (response: any) => {
+      if (response.response) {
+        toast.error(response.response.data.message);
+        return;
+      }
+
+      toast.success('Invoice Send Successfully!');
+      setFinalAmount('');
+      setFile(undefined);
+      setShow(false);
+      queryClient.invalidateQueries('allRpairRequest');
+    },
+    onError: (error: Error) => {
+      console.log(error);
+      toast.error('Something went wrong');
+    },
+  });
+
+  const onSend = () => {
+    let errors: string[] = [];
+    // =========================== validate data =======================
+    if (!file) errors.push('file');
+
+    if (!finalAmount) errors.push('finalAmount');
+
+    if (!errors.length) {
+      const data = {
+        repair_request_id: row.id as string,
+        final_payment: finalAmount,
+        final_invoice: file as File,
+      };
+
+      sendInvoice.mutate(data);
+      return;
+    }
+
+    setSubmitErrors(errors);
+    setTimeout(() => setSubmitErrors([]), 3000);
+  };
 
   return (
     <OverlayContainer show={show}>
@@ -21,12 +68,15 @@ const FinalAmountForm = ({ show, setShow }: FinalAmountFormModel) => {
               Amount
             </label>
             <input
-              id='est-amount'
+              id='amount'
               type='text'
-              // placeholder='e.g 200'
-              onChange={(e) => {}}
+              value={finalAmount}
+              onChange={(e) => setFinalAmount(e.target.value)}
               className='p-3 w-full border-[2px] border-[#DADDEB] rounded-xl outline-none focus:border-primary-2 text-base text-primary-2 transition-all duration-300'
             />
+            {submitErrors.includes('finalAmount') && (
+              <span className='text-sm text-primary-2'>is required</span>
+            )}
           </div>
           <div className='flex flex-col gap-y-[3px] mb-2'>
             <label className='font-semibold text-primary-2' htmlFor='file'>
@@ -40,13 +90,16 @@ const FinalAmountForm = ({ show, setShow }: FinalAmountFormModel) => {
             ) : (
               <SingleFileUploader file={file} setFile={setFile} />
             )}
+            {submitErrors.includes('file') && (
+              <span className='text-sm text-primary-2'>is required</span>
+            )}
           </div>
           <PrimaryButton
             title={'Send'}
             classNames={'font-semibold w-full bg-primary-2 text-white py-3'}
-            onClick={function (): void {
-              throw new Error('Function not implemented.');
-            }}
+            onClick={onSend}
+            loading={sendInvoice.isLoading}
+            // onClick={() => {}}
           />
         </div>
       </ModalForm>
