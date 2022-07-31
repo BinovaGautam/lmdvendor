@@ -128,3 +128,9 @@ export interface SendInvoice {
   final_payment: string;
   final_invoice: File;
 }
+
+export interface SendPayment {
+  repair_request_id: string;
+  payment_type: string;
+  payment_notes: string;
+}

@@ -122,6 +122,12 @@ export default function Dashboard() {
         setShowDetails(true);
       },
     },
+    {
+      onClickButton: (row: any) => {
+        setCurrRow(row);
+        setShowDetails(true);
+      },
+    },
   ];
 
   return (
@@ -149,7 +155,7 @@ export default function Dashboard() {
       {/* <pre className='w-[700px] overflow-scroll text-wrap'>{JSON.stringify(allData)}</pre> */}
 
       {currRow && showDetails ? (
-        <RepairDetails row={currRow} />
+        <RepairDetails active={active} setRepairDetail={setShowDetails} row={currRow} />
       ) : (
         <>
           {/* ----------------: TabBar :------------------- */}

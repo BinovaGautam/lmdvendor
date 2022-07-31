@@ -3,19 +3,30 @@ import WhiteBoxWithShadow from '../../components/Wrappers/WhiteBoxWithShadow';
 import { handleImageOnError } from '../../utils/helpers';
 import { PlayIcon } from '@heroicons/react/solid';
 import PrimaryButton from '../../components/PrimaryButton';
-import FinalAmountForm from '../../components/FinalyAmmountForm';
+import FinalAmountInvoiceForm from '../../components/FinalyAmountInvoiceForm';
+import { TabMenuModal } from '../../models/TabBarModel';
+import FinalAmountForm from '../../components/FinalAmountForm';
 
 type Props = {
   row?: any;
+  setRepairDetail: (value: boolean) => void;
+  active: TabMenuModal;
 };
 
 const tabs = ['Before', 'After'];
 
-export default function RepairDetails({ row }: Props) {
+export default function RepairDetails({ row, setRepairDetail, active }: Props) {
   let { appointments, technicians } = row || {};
   let technician = technicians ? technicians[0] : {};
   const [activeTab, setActiveTab] = useState<number>(0);
-  const [show, setShow] = useState<boolean>(false);
+  const [showFinalAmountInvoiceForm, setShowFinalAmountInvoiceForm] = useState<boolean>(false);
+  const [showFinalAmountForm, setShowFinalAmountForm] = useState<boolean>(false);
+
+  const finish = () => {
+    setShowFinalAmountInvoiceForm(false);
+    setShowFinalAmountForm(false);
+    setRepairDetail(false);
+  };
 
   return (
     <div className='flex flex-col gap-y-5 pb-8'>
@@ -52,6 +63,8 @@ export default function RepairDetails({ row }: Props) {
           </div>
         </div>
       </WhiteBoxWithShadow>
+
+      <pre className='w-[700px] overflow-scroll text-wrap'>{JSON.stringify(active)}</pre>
 
       <div className='flex flex-col gap-y-2'>
         <h3 className=' font-semibold text-primary-2'>Quotes</h3>
@@ -238,20 +251,45 @@ export default function RepairDetails({ row }: Props) {
           </div>
           <div className='p-5 flex flex-col gap-y-3'>
             <h3 className='font-semibold text-sm'>Status</h3>
-            <span className='text-yellow-600 text-base font-medium'>In Progress</span>
+            {active.key === 'inProgress' && (
+              <span className='text-yellow-600 text-base font-medium'>In Progress</span>
+            )}
+            {active.key === 'completed' && (
+              <span className='text-green-600 text-base font-medium'>Completed</span>
+            )}
           </div>
         </div>
       </WhiteBoxWithShadow>
 
       <div className='flex justify-end items-center'>
-        <PrimaryButton
-          title={'Submit'}
-          classNames={'py-2 px-10 bg-primary-2 text-white font-semibold'}
-          onClick={() => setShow(true)}
-        />
+        {active.key === 'inProgress' && (
+          <PrimaryButton
+            title={'Submit'}
+            classNames={'py-2 px-10 bg-primary-2 text-white font-semibold'}
+            onClick={() => setShowFinalAmountInvoiceForm(true)}
+          />
+        )}
+        {active.key === 'completed' && (
+          <PrimaryButton
+            title={'Send final amount'}
+            classNames={'py-2 px-10 bg-primary-2 text-white font-semibold'}
+            onClick={() => setShowFinalAmountForm(true)}
+          />
+        )}
       </div>
 
-      <FinalAmountForm row={row} show={show} setShow={setShow} />
+      <FinalAmountInvoiceForm
+        row={row}
+        show={showFinalAmountInvoiceForm}
+        setShow={setShowFinalAmountInvoiceForm}
+        finish={() => finish()}
+      />
+      <FinalAmountForm
+        row={row}
+        show={showFinalAmountForm}
+        setShow={setShowFinalAmountForm}
+        finish={() => finish()}
+      />
     </div>
   );
 }

@@ -4,14 +4,14 @@ import { useMutation, useQueryClient } from 'react-query';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import RepairAPI from '../../api/repairApi';
-import { FinalAmountFormModel } from '../../models/FinalAmountFormModel';
+import { FinalAmountInvoiceFormModel } from '../../models/FinalAmountInvoiceFormModel';
 import { RootState } from '../../state/reducers';
 import ModalForm from '../ModalForm';
 import OverlayContainer from '../OverlayContainer';
 import PrimaryButton from '../PrimaryButton';
 import SingleFileUploader from '../SingleFIleUploader';
 
-const FinalAmountForm = ({ show, setShow, row }: FinalAmountFormModel) => {
+const FinalAmountInvoiceForm = ({ show, setShow, row }: FinalAmountInvoiceFormModel) => {
   const { user } = useSelector((state: RootState) => state.userState);
   const [file, setFile] = useState<File | undefined>(undefined);
   const [finalAmount, setFinalAmount] = useState<string>('');
@@ -29,7 +29,7 @@ const FinalAmountForm = ({ show, setShow, row }: FinalAmountFormModel) => {
       setFinalAmount('');
       setFile(undefined);
       setShow(false);
-      queryClient.invalidateQueries('allRpairRequest');
+      queryClient.invalidateQueries(['allRpairRequest']);
     },
     onError: (error: Error) => {
       console.log(error);
@@ -61,7 +61,7 @@ const FinalAmountForm = ({ show, setShow, row }: FinalAmountFormModel) => {
 
   return (
     <OverlayContainer show={show}>
-      <ModalForm title={'Final Amount'} onClose={() => setShow(false)}>
+      <ModalForm title={'Send Invoice'} onClose={() => setShow(false)}>
         <div className='flex flex-col gap-y-4'>
           <div className='flex flex-col gap-y-2'>
             <label className='font-semibold text-primary-2' htmlFor='amount'>
@@ -94,6 +94,9 @@ const FinalAmountForm = ({ show, setShow, row }: FinalAmountFormModel) => {
               <span className='text-sm text-primary-2'>is required</span>
             )}
           </div>
+          <div className='flex items-center justify-center py-3'>
+            <h3 className='text-base font-semibold text-primary-2'>Upload invoice</h3>
+          </div>
           <PrimaryButton
             title={'Send'}
             classNames={'font-semibold w-full bg-primary-2 text-white py-3'}
@@ -107,4 +110,4 @@ const FinalAmountForm = ({ show, setShow, row }: FinalAmountFormModel) => {
   );
 };
 
-export default FinalAmountForm;
+export default FinalAmountInvoiceForm;

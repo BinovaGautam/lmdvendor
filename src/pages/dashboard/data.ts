@@ -285,6 +285,7 @@ export const CompletedTableHeader = [
     key: 'action',
     type: 'button',
     text: 'view',
+    func: 'onClickButton',
   },
 ];
 

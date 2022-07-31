@@ -6,7 +6,6 @@ import { toast } from 'react-toastify';
 import RepairAPI from '../../api/repairApi';
 import TechnicianAPI from '../../api/technicianApi';
 import { AddEditTechnicianFormModel } from '../../models/AddEditTechnicianFormModel';
-import { FinalAmountFormModel } from '../../models/FinalAmountFormModel';
 import { RootState } from '../../state/reducers';
 import ModalForm from '../ModalForm';
 import OverlayContainer from '../OverlayContainer';
