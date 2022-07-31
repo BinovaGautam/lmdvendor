@@ -4,7 +4,7 @@ import { AddCompany, AddVehicle, LoginWithEmail, SignWithEmail } from './types';
 export default class AuthAPI {
   static signUpViaMail(data: SignWithEmail) {
     return request({
-      url: 'users/v2/user',
+      url: 'users/v1/repair_shop_owners',
       method: 'post',
       data: data,
     });

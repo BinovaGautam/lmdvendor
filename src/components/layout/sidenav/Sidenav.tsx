@@ -24,12 +24,7 @@ export default function Sidenav() {
     },
     {
       label: 'Technicians',
-      link: '/app/',
-      icon: <TruckIcon className='w-6 h-6' />,
-    },
-    {
-      label: 'Vehicle',
-      link: '/app/vehicle',
+      link: '/app/technician',
       icon: <TruckIcon className='w-6 h-6' />,
     },
     {
@@ -38,34 +33,9 @@ export default function Sidenav() {
       icon: <ClockIcon className='w-6 h-6' />,
     },
     {
-      label: 'Requests',
-      link: '/app/repair-requests',
-      icon: <ViewGridIcon className='w-6 h-6' />,
-    },
-    {
-      label: 'Requests2',
-      link: '/app/repair-requests2',
-      icon: <ViewGridIcon className='w-6 h-6' />,
-    },
-    {
-      label: 'Scheduled',
-      link: '/app/scheduled',
-      icon: <CalendarIcon className='w-6 h-6' />,
-    },
-    {
       label: 'Profile',
       link: '/app/profile',
       icon: <UserIcon className='w-6 h-6' />,
-    },
-    {
-      label: 'Calender',
-      link: '/app/calender',
-      icon: <CalendarIcon className='w-6 h-6' />,
-    },
-    {
-      label: 'Reports',
-      link: '/app/reports',
-      icon: <DocumentReportIcon className='w-6 h-6' />,
     },
     {
       label: 'Setting',

@@ -51,8 +51,8 @@ export default function Dashboard() {
             row.status_id === '6' ||
             row.status_id === '7'
         );
-        let completed = response.data.data.filter((row: any) => row.status_id === '7');
-        let paid = response.data.data.filter((row: any) => row.status_id === '8');
+        let completed = response.data.data.filter((row: any) => row.status_id === '8');
+        let paid = response.data.data.filter((row: any) => row.status_id === '9');
 
         menus[0].title = `Pending (${pending.length})`;
         menus[1].title = `Approved (${approved.length})`;

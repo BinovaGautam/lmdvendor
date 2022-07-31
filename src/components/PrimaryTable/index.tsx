@@ -33,7 +33,7 @@ const PrimaryTable = ({
         {/* ----------------- Header --------------------- */}
         <thead className='bg-white'>
           <tr className=''>
-            {header.map((head: any ) => (
+            {header.map((head: any) => (
               <th
                 key={head.key}
                 scope='col'
@@ -55,7 +55,7 @@ const PrimaryTable = ({
             (data.length ? (
               data.map((row: any, index: number) => (
                 <TableRow key={index} row={row} header={header} actions={actions} type={type} />
-              //  <p>hello</p>
+                //  <p>hello</p>
               ))
             ) : (
               <tr className='h-48'>
@@ -86,7 +86,7 @@ export const TableRow = ({
 }) => {
   const { user } = useSelector((state: RootState) => state.userState);
   return (
-    <tr className='h-16 border-[1px] border-gray-300'>
+    <tr className='h-16 border-[1px] border-gray-300 hover:bg-gray-100'>
       {header.map((head: PrimaryTableHeadModal, index: number) => {
         let tableRow = row;
         if (head.level2) {

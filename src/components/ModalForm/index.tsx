@@ -2,10 +2,13 @@ import React from 'react';
 import { ModalFormModel } from '../../models/ModalFormModel';
 import { XIcon } from '@heroicons/react/solid';
 
-const ModalForm = ({ children, title, onClose }: ModalFormModel) => {
+const ModalForm = ({ children, title, onClose, width }: ModalFormModel) => {
   return (
     <div className='h-full w-full flex items-center justify-center'>
-      <div className='bg-white rounded-xl w-[470px] border-[1px] border-gray-primary-1'>
+      <div
+        className={`bg-white rounded-xl border-[1px] border-gray-primary-1 ${
+          width ? width : 'w-[470px]'
+        }`}>
         <div className='text-primary-2 text-md font-bold flex items-center justify-between px-6 py-5 border-b-[1px] border-b-gray-primary-1'>
           <h2 className=''>{title}</h2>
           <div

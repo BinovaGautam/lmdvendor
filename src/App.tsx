@@ -16,6 +16,7 @@ import Dashboard from './pages/dashboard/Dashboard';
 import RepairRequests from './pages/repair-requests/RepairRequests';
 import RepairRequests2 from './pages/repair-requests2/RepairRequests2';
 import RepairShopDetails from './pages/repair-shop-details/RepairShopDetails';
+import Technician from './pages/technician/Technician';
 import { RootState } from './state/reducers';
 import './theme.css';
 
@@ -58,6 +59,7 @@ function App() {
               <Route path='repair-requests2' element={<RepairRequests2 />} />
               <Route path='create-repair-request' element={<CreateRepairRequest />} />
               <Route path='repair-shop-details' element={<RepairShopDetails />} />
+              <Route path='technician' element={<Technician />} />
             </Route>
           )}
 
