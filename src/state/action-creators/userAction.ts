@@ -4,9 +4,9 @@ import { ActionType } from '../action-types';
 import { Action } from '../actions';
 
 export const setUser = (user: UserModel) => {
-  localStorage.setItem('x-access-token', user.token);
-  localStorage.setItem('x-access-user', user.account_id);
-
+  // localStorage.setItem('x-access-token', user.token);
+  // localStorage.setItem('x-access-user', user.account_id);
+  localStorage.setItem('user', JSON.stringify(user));
   return (dispatch: Dispatch<Action>) => {
     dispatch({
       type: ActionType.SET_USER,
@@ -16,8 +16,10 @@ export const setUser = (user: UserModel) => {
 };
 
 export const deleteUsers = () => {
-  localStorage.removeItem('x-access-token');
-  localStorage.removeItem('x-access-user');
+  // localStorage.removeItem('x-access-token');
+  // localStorage.removeItem('x-access-user');
+
+  localStorage.removeItem('user');
   return (dispatch: Dispatch<Action>) => {
     dispatch({
       type: ActionType.DELETE_USER,

@@ -1,3 +1,4 @@
+import { PencilAltIcon, TrashIcon } from '@heroicons/react/outline';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { PrimaryTableHeadModal, PrimaryTableModel } from '../../models/PrimaryTableModal';
@@ -155,6 +156,23 @@ export const TableRow = ({
                   onClick={btnClick}
                   title={btnTitle}
                   classNames='w-32 py-[6px] bg-none border-[1px] border-primary-2 text-primary-2'
+                />
+              </div>
+            </td>
+          );
+        }
+
+        if (head.type === 'universal-buttons') {
+          return (
+            <td key={index} className='text-sm h-full px-4 text-primary-2 font-medium'>
+              <div className='w-full flex items-center justify-start gap-x-3'>
+                <PencilAltIcon
+                  onClick={() => actions.universal.edit(tableRow)}
+                  className='w-6 cursor-pointer text-[#3A70D9]'
+                />
+                <TrashIcon
+                  onClick={() => actions.universal.delete(tableRow)}
+                  className='w-6 cursor-pointer text-[#FF5353]'
                 />
               </div>
             </td>

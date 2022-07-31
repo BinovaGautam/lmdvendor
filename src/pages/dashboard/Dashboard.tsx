@@ -131,7 +131,7 @@ export default function Dashboard() {
         <h2 className='text-2xl text-primary-2'>Repair Request</h2>
         <div className='flex items-center gap-x-4'>
           <PrimaryButton
-            title={'Repair Request'}
+            title={!showDetails ? 'Repair Request' : 'Back'}
             classNames={`py-2 px-5 font-medium bg-primary-2 border-[1px] border-primary-2 text-white ${
               showDetails && 'text-primary-2 bg-white'
             } `}

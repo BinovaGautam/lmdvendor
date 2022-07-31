@@ -2,10 +2,16 @@ import { UserModel, UserStateModel } from '../../models/UserModel';
 import { ActionType } from '../action-types';
 import { Action } from '../actions';
 
-const token: string | null = localStorage.getItem('x-access-token');
-const account_id: string | null = localStorage.getItem('x-access-user');
+let user: UserModel | null = null;
 
-const user: UserModel | null = token && account_id ? { token, account_id } : null;
+const getItem: string | null = localStorage.getItem('user');
+
+if (getItem) user = JSON.parse(getItem);
+
+// const token: string | null = localStorage.getItem('x-access-token');
+// const account_id: string | null = localStorage.getItem('x-access-user');
+
+// const user: UserModel | null = token && account_id ? { token, account_id } : null;
 
 const initialState: UserStateModel = {
   user: user,

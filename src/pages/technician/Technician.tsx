@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import TechnicianAPI from '../../api/technicianApi';
 import AddEditTechnicianForm from '../../components/AddEditTechnicianForm';
+import DeleteTechnician from '../../components/DeleteTechnician';
 import PrimaryButton from '../../components/PrimaryButton';
 import PrimaryTable from '../../components/PrimaryTable';
 import { RootState } from '../../state/reducers';
@@ -13,6 +14,8 @@ const Technician = () => {
   const { user } = useSelector((state: RootState) => state.userState);
   const [technicians, setTechnicians] = useState<any[]>();
   const [showAddEditTech, seyShowAddEditTech] = useState<boolean>(false);
+  const [showDeleteModel, setShowDeleteModel] = useState<boolean>(false);
+  const [currRow, setCurrRow] = useState<any>({});
 
   const getTechniciansApi = useQuery(
     'getAlltechnician',
@@ -29,6 +32,19 @@ const Technician = () => {
       },
     }
   );
+
+  const actions = {
+    universal: {
+      edit: (row: any) => {
+        setCurrRow(row);
+        seyShowAddEditTech(true);
+      },
+      delete: (row: any) => {
+        setCurrRow(row);
+        setShowDeleteModel(true);
+      },
+    },
+  };
 
   return (
     <div className='h-full flex flex-col gap-y-5 pb-5'>
@@ -50,11 +66,12 @@ const Technician = () => {
           type={`technicians`}
           classNames={''}
           level={0}
-          actions={[]}
+          actions={actions}
           loading={getTechniciansApi.isLoading || false}
         />
 
-        <AddEditTechnicianForm show={showAddEditTech} setShow={seyShowAddEditTech} />
+        <AddEditTechnicianForm data={currRow} show={showAddEditTech} setShow={seyShowAddEditTech} />
+        <DeleteTechnician data={currRow} show={showDeleteModel} setShow={setShowDeleteModel} />
       </div>
     </div>
   );

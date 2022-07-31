@@ -24,6 +24,6 @@ export const TechniciansTableHeader = [
   {
     title: 'Action',
     key: 'action',
-    type: 'mini-actions',
+    type: 'universal-buttons',
   },
 ];
