@@ -18,9 +18,17 @@ const statusColor = {
   yellow: ['Pending'],
 };
 
-// cosnt statusMap = {
-//   1: ''
-// }
+const statusValue = {
+  1: { key: 'created', title: 'Created' },
+  2: { key: 'accepted', title: 'Accepted' },
+  3: { key: 'scheduled', title: 'Scheduled' },
+  4: { key: 'technician_assigned', title: 'Technician Assigned' },
+  5: { key: 'accept_technician', title: 'Accept by technician' },
+  6: { key: 'reject_technician', title: 'Rejected by technician' },
+  7: { key: 'completed_technician', title: 'Completed by technician' },
+  8: { key: 'reject_technician', title: 'Rejected by technician' },
+  9: { key: 'reject_technician', title: 'Rejected by technician' },
+};
 
 const PrimaryTable = ({
   header,
@@ -97,6 +105,9 @@ export const TableRow = ({
         if (head.level2) {
           tableRow = tableRow[head?.level2?.key];
         }
+
+        if (!tableRow) return <td key={index}></td>;
+
         if (head.type === 'image-string') {
           return (
             <td key={index} className='text-sm h-full px-4 text-primary-2 font-bold'>
@@ -199,6 +210,18 @@ export const TableRow = ({
                 actions={actions}
                 showDrop={showDrop}
               />
+            </td>
+          );
+        }
+
+        if (head.type === 'amount-level2') {
+          tableRow = tableRow[0];
+
+          if (!tableRow) return <td key={index}></td>;
+
+          return (
+            <td key={index} className='text-sm h-full px-4 text-primary-2 font-medium'>
+              $ {tableRow[head.key]}
             </td>
           );
         }

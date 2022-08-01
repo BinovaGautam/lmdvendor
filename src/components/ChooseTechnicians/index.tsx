@@ -90,39 +90,43 @@ const ChooseTechnicians = ({ show, setShow, row }: ChooseTechniciansModel) => {
               className='w-32 bg-transparent text-primary  border-primary rounded-lg cursor-pointer '
             />
           </div>
-          {getTechniciansApi.isLoading && <h2>Loading...</h2>}
-          {technicians &&
-            technicians.map((technician: TechnicianModel, index: number) => {
-              let selected = selectedIndex === index;
-              let { name, account_id, phone } = technician;
-              return (
-                <div
-                  onClick={() => setSelectedIndex(index)}
-                  className={`flex  mh-auto min-h-fit p-2 rounded-lg border text-primary-2 cursor-pointer  ${
-                    selected && 'bg-primary text-white'
-                  } `}>
-                  <div className='flex items-center justify-center  overflow-hidden px-2  '>
-                    <img
-                      src=''
-                      alt=''
-                      className='w-12 h-12 rounded-full'
-                      onError={handleImageOnError}
-                    />
-                  </div>
-                  <div className={`p-1 flex-grow ${selected && 'text-white'} `}>
-                    <span className={'font-[500] text-lg'}>{name}</span> <br />
-                    <span className='text-sm'>ID : {account_id}</span>
-                    <br />
-                    <span className='text-sm'>{phone} </span>
-                  </div>
+          <div className='max-h-80 overflow-y-scroll no-scrollbar'>
+            {getTechniciansApi.isLoading && <h2>Loading...</h2>}
+            {technicians &&
+              technicians.map((technician: TechnicianModel, index: number) => {
+                let selected = selectedIndex === index;
+                let { name, account_id, phone } = technician;
+                return (
                   <div
-                    className={`flex flex-row  justify-center  mr-2  ${selected && 'text-white'} `}>
-                    <PencilAltIcon className='w-6 h-6 mr-2' />
-                    <TrashIcon className='w-6 h-6' />
+                    onClick={() => setSelectedIndex(index)}
+                    className={`flex  mh-auto min-h-fit p-2 rounded-lg border text-primary-2 cursor-pointer  ${
+                      selected && 'bg-primary text-white'
+                    } `}>
+                    <div className='flex items-center justify-center  overflow-hidden px-2  '>
+                      <img
+                        src=''
+                        alt=''
+                        className='w-12 h-12 rounded-full'
+                        onError={handleImageOnError}
+                      />
+                    </div>
+                    <div className={`p-1 flex-grow ${selected && 'text-white'} `}>
+                      <span className={'font-[500] text-lg'}>{name}</span> <br />
+                      <span className='text-sm'>ID : {account_id}</span>
+                      <br />
+                      <span className='text-sm'>{phone} </span>
+                    </div>
+                    <div
+                      className={`flex flex-row  justify-center  mr-2  ${
+                        selected && 'text-white'
+                      } `}>
+                      <PencilAltIcon className='w-6 h-6 mr-2' />
+                      <TrashIcon className='w-6 h-6' />
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+          </div>
 
           <PrimaryButton
             title={'ASSIGN'}

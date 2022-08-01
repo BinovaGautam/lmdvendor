@@ -239,7 +239,10 @@ export const InProgressTableHeader = [
   {
     title: 'Estimated Amount',
     key: 'estimated_amount',
-    type: 'amount',
+    level2: {
+      key: 'quotations',
+    },
+    type: 'amount-level2',
   },
   {
     title: 'Action',
@@ -278,7 +281,10 @@ export const CompletedTableHeader = [
   {
     title: 'Estimated Amount',
     key: 'estimated_amount',
-    type: 'amount',
+    level2: {
+      key: 'quotations',
+    },
+    type: 'amount-level2',
   },
   {
     title: 'Action',
@@ -316,7 +322,7 @@ export const PaidTableHeader = [
   },
   {
     title: 'Final Amount',
-    key: 'final_amount',
+    key: 'final_payment',
     type: 'amount',
   },
   {
@@ -335,7 +341,7 @@ export const DemoData = [
     notes: 'Lorem Ipsum is simply',
     status: 'Approved',
     estimated_amount: 200,
-    final_amount: 200,
+    final_payment: 200,
   },
   {
     dsp_name: 'Binova Gautam',
@@ -345,7 +351,7 @@ export const DemoData = [
     notes: 'Lorem Ipsum is simply',
     status: 'Pending',
     estimated_amount: 200,
-    final_amount: 200,
+    final_payment: 200,
   },
   {
     dsp_name: 'Binova Gautam',
@@ -355,7 +361,7 @@ export const DemoData = [
     notes: 'Lorem Ipsum is simply',
     status: 'Paid',
     estimated_amount: 200,
-    final_amount: 200,
+    final_payment: 200,
   },
   {
     dsp_name: 'Binova Gautam',
@@ -365,7 +371,7 @@ export const DemoData = [
     notes: 'Lorem Ipsum is simply',
     status: 'Approved',
     estimated_amount: 200,
-    final_amount: 200,
+    final_payment: 200,
   },
   {
     dsp_name: 'Binova Gautam',
@@ -375,7 +381,7 @@ export const DemoData = [
     notes: 'Lorem Ipsum is simply',
     status: 'Pending',
     estimated_amount: 200,
-    final_amount: 200,
+    final_payment: 200,
   },
   {
     dsp_name: 'Binova Gautam',
@@ -385,7 +391,7 @@ export const DemoData = [
     notes: 'Lorem Ipsum is simply',
     status: 'Technician Rejects',
     estimated_amount: 200,
-    final_amount: 200,
+    final_payment: 200,
   },
   {
     dsp_name: 'Binova Gautam',
@@ -395,7 +401,7 @@ export const DemoData = [
     notes: 'Lorem Ipsum is simply',
     status: 'Approved',
     estimated_amount: 200,
-    final_amount: 200,
+    final_payment: 200,
   },
   {
     dsp_name: 'Binova Gautam',
@@ -405,7 +411,7 @@ export const DemoData = [
     notes: 'Lorem Ipsum is simply',
     status: 'Approved',
     estimated_amount: 200,
-    final_amount: 200,
+    final_payment: 200,
   },
   {
     dsp_name: 'Binova Gautam',
@@ -415,7 +421,7 @@ export const DemoData = [
     notes: 'Lorem Ipsum is simply',
     status: 'Approved',
     estimated_amount: 200,
-    final_amount: 200,
+    final_payment: 200,
   },
   {
     dsp_name: 'Binova Gautam',
@@ -425,7 +431,7 @@ export const DemoData = [
     notes: 'Lorem Ipsum is simply',
     status: 'Technician Rejects',
     estimated_amount: 200,
-    final_amount: 200,
+    final_payment: 200,
   },
 ];
 
