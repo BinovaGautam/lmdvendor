@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import WhiteBoxWithShadow from '../../components/Wrappers/WhiteBoxWithShadow';
 import { handleImageOnError } from '../../utils/helpers';
 import { PlayIcon } from '@heroicons/react/solid';
@@ -6,10 +6,13 @@ import PrimaryButton from '../../components/PrimaryButton';
 import FinalAmountInvoiceForm from '../../components/FinalyAmountInvoiceForm';
 import { TabMenuModal } from '../../models/TabBarModel';
 import FinalAmountForm from '../../components/FinalAmountForm';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import RepairAPI from '../../api/repairApi';
 import { toast } from 'react-toastify';
 import { UpdateStatus } from '../../api/types';
+import QuotationAPI from '../../api/quotationApi';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../state/reducers';
 
 type Props = {
   row?: any;
@@ -20,12 +23,34 @@ type Props = {
 const tabs = ['Before', 'After'];
 
 export default function RepairDetails({ row, setRepairDetail, active }: Props) {
+  const { user } = useSelector((state: RootState) => state.userState);
   const queryClient = useQueryClient();
   let { appointments, technicians } = row || {};
   let technician = technicians ? technicians[0] : {};
   const [activeTab, setActiveTab] = useState<number>(0);
+  const [queries, setQueries] = useState<any[]>([]);
   const [showFinalAmountInvoiceForm, setShowFinalAmountInvoiceForm] = useState<boolean>(false);
   const [showFinalAmountForm, setShowFinalAmountForm] = useState<boolean>(false);
+
+  const fetchQueries = row && row.quotations;
+
+  const getQueriesList = useQuery(
+    ['getQueries', row?.id],
+    async () =>
+      await QuotationAPI.getQueries(row.id, row.quotations[0].id, user?.account_id as string),
+    {
+      onSuccess: (response: any) => {
+        if (response.data) {
+          setQueries(response.data.data);
+        }
+      },
+      onError: (error: Error) => {
+        console.log(error);
+        toast.error('Something went wrong please reload this page!');
+      },
+      enabled: !!fetchQueries,
+    }
+  );
 
   const MUpdateStatus = useMutation('updateStatus', RepairAPI.updateStatus, {
     onSuccess: (response: any) => {
@@ -118,11 +143,17 @@ export default function RepairDetails({ row, setRepairDetail, active }: Props) {
             </div>
             <div className='flex flex-col p-5 gap-y-2'>
               <h3 className='text-base font-semibold'>Queries</h3>
-              <div className='bg-[#DADDEB] p-3 rounded-xl'>
-                <p className='text-sm font-medium'>Que. Consectetur adipiscing elit ?</p>
-                <p className='text-sm font-medium'>
-                  Ans. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                </p>
+              <div className='bg-[#DADDEB] p-3 rounded-xl max-h-40 overflow-y-scroll flex flex-col gap-y-4'>
+                {queries.map((query: any) => (
+                  <Fragment>
+                    <p
+                      className={`text-sm font-medium bg-gray-200 shadow-md max-h-44 p-2 rounded-xl text-primary-2 w-max ${
+                        query.sender_type === 'Vendor' && 'self-end text-right'
+                      }`}>
+                      {query.query}
+                    </p>
+                  </Fragment>
+                ))}
               </div>
             </div>
           </div>
