@@ -6,6 +6,10 @@ import PrimaryButton from '../../components/PrimaryButton';
 import FinalAmountInvoiceForm from '../../components/FinalyAmountInvoiceForm';
 import { TabMenuModal } from '../../models/TabBarModel';
 import FinalAmountForm from '../../components/FinalAmountForm';
+import { useMutation, useQueryClient } from 'react-query';
+import RepairAPI from '../../api/repairApi';
+import { toast } from 'react-toastify';
+import { UpdateStatus } from '../../api/types';
 
 type Props = {
   row?: any;
@@ -16,16 +20,43 @@ type Props = {
 const tabs = ['Before', 'After'];
 
 export default function RepairDetails({ row, setRepairDetail, active }: Props) {
+  const queryClient = useQueryClient();
   let { appointments, technicians } = row || {};
   let technician = technicians ? technicians[0] : {};
   const [activeTab, setActiveTab] = useState<number>(0);
   const [showFinalAmountInvoiceForm, setShowFinalAmountInvoiceForm] = useState<boolean>(false);
   const [showFinalAmountForm, setShowFinalAmountForm] = useState<boolean>(false);
 
+  const MUpdateStatus = useMutation('updateStatus', RepairAPI.updateStatus, {
+    onSuccess: (response: any) => {
+      if (response.response) {
+        toast.error(response.response.data.message);
+        return;
+      }
+
+      toast.success('Update successfully!');
+      queryClient.invalidateQueries('allRpairRequest');
+    },
+    onError: (error: Error) => {
+      console.log(error);
+      toast.error('something went wrong!!');
+    },
+  });
+
   const finish = () => {
     setShowFinalAmountInvoiceForm(false);
     setShowFinalAmountForm(false);
     setRepairDetail(false);
+  };
+
+  const onComplete = () => {
+    const data: UpdateStatus = {
+      status_id: 9,
+      request_id: row?.id as number,
+    };
+
+    console.log(data);
+    MUpdateStatus.mutate(data);
   };
 
   return (
@@ -64,7 +95,7 @@ export default function RepairDetails({ row, setRepairDetail, active }: Props) {
         </div>
       </WhiteBoxWithShadow>
 
-      <pre className='w-[700px] overflow-scroll text-wrap'>{JSON.stringify(active)}</pre>
+      {/* <pre className='w-[700px] overflow-scroll text-wrap'>{JSON.stringify(active)}</pre> */}
 
       <div className='flex flex-col gap-y-2'>
         <h3 className=' font-semibold text-primary-2'>Quotes</h3>
@@ -273,7 +304,8 @@ export default function RepairDetails({ row, setRepairDetail, active }: Props) {
           <PrimaryButton
             title={'Send final amount'}
             classNames={'py-2 px-10 bg-primary-2 text-white font-semibold'}
-            onClick={() => setShowFinalAmountForm(true)}
+            onClick={onComplete}
+            loading={MUpdateStatus.isLoading}
           />
         )}
       </div>
@@ -284,12 +316,12 @@ export default function RepairDetails({ row, setRepairDetail, active }: Props) {
         setShow={setShowFinalAmountInvoiceForm}
         finish={() => finish()}
       />
-      <FinalAmountForm
+      {/* <FinalAmountForm
         row={row}
         show={showFinalAmountForm}
         setShow={setShowFinalAmountForm}
         finish={() => finish()}
-      />
+      /> */}
     </div>
   );
 }

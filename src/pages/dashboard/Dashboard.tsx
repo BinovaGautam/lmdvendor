@@ -130,6 +130,8 @@ export default function Dashboard() {
     },
   ];
 
+  console.log(allData.completed);
+
   return (
     <div className='h-full flex flex-col gap-y-5 pb-5'>
       {/* ----------------: Header :------------------- */}
@@ -152,8 +154,6 @@ export default function Dashboard() {
           />
         </div>
       </div>
-      {/* <pre className='w-[700px] overflow-scroll text-wrap'>{JSON.stringify(allData)}</pre> */}
-
       {currRow && showDetails ? (
         <RepairDetails active={active} setRepairDetail={setShowDetails} row={currRow} />
       ) : (

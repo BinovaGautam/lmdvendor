@@ -134,3 +134,8 @@ export interface SendPayment {
   payment_type: string;
   payment_notes: string;
 }
+
+export interface UpdateStatus {
+  request_id: number;
+  status_id: number;
+}

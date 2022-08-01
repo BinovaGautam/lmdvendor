@@ -11,7 +11,7 @@ import OverlayContainer from '../OverlayContainer';
 import PrimaryButton from '../PrimaryButton';
 import SingleFileUploader from '../SingleFIleUploader';
 
-const FinalAmountInvoiceForm = ({ show, setShow, row }: FinalAmountInvoiceFormModel) => {
+const FinalAmountInvoiceForm = ({ show, setShow, row, finish }: FinalAmountInvoiceFormModel) => {
   const { user } = useSelector((state: RootState) => state.userState);
   const [file, setFile] = useState<File | undefined>(undefined);
   const [finalAmount, setFinalAmount] = useState<string>('');
@@ -29,6 +29,7 @@ const FinalAmountInvoiceForm = ({ show, setShow, row }: FinalAmountInvoiceFormMo
       setFinalAmount('');
       setFile(undefined);
       setShow(false);
+      finish();
       queryClient.invalidateQueries(['allRpairRequest']);
     },
     onError: (error: Error) => {
