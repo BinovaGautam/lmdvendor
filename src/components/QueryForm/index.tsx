@@ -20,6 +20,8 @@ const QueryForm = ({ show, setShow, row }: QueryFormModel) => {
 
   const queryClient = useQueryClient();
 
+  const fetchQueries = row && row.quotations;
+
   const getQueriesList = useQuery(
     ['getQueries', row?.id],
     async () =>
@@ -34,7 +36,7 @@ const QueryForm = ({ show, setShow, row }: QueryFormModel) => {
         console.log(error);
         toast.error('Something went wrong please reload this page!');
       },
-      enabled: !!row,
+      enabled: !!fetchQueries,
     }
   );
 
@@ -105,14 +107,14 @@ const QueryForm = ({ show, setShow, row }: QueryFormModel) => {
         <div className='flex flex-col gap-y-6'>
           <div
             ref={chatContainer}
-            className='flex flex-col gap-y-2 max-h-72 overflow-y-scroll no-scrollbar pb-4'
+            className='flex flex-col text-sm text-primary-2 gap-y-2 max-h-72 overflow-y-scroll no-scrollbar pb-4'
             id='chatbox'>
             {getQueriesList.isLoading && <h3>Loading</h3>}
             {queries.map((query: any) => (
               <span
                 key={query.id}
-                className={`py-2 px-4 shadow-md rounded-full w-max ${
-                  query.sender_type === 'Vendor' && 'self-end'
+                className={`py-2 px-4 shadow-md rounded-xl w-max max-w-xs ${
+                  query.sender_type === 'Vendor' ? 'self-end text-right bg-gray-200' : 'bg-gray-300'
                 }`}>
                 {query.query}
               </span>

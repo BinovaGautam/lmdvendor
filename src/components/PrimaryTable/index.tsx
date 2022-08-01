@@ -12,23 +12,29 @@ const handleImageOnError = (e: any) => {
     'https://img.freepik.com/free-photo/handsome-confident-smiling-man-with-hands-crossed-chest_176420-18743.jpg?t=st=1658646296~exp=1658646896~hmac=616d9e8593ae4b32c50f53fb77ff8c576b264951c3611960cf6439becdd97152&w=740';
 };
 
-const statusColor = {
-  red: ['Technician Rejects'],
-  green: ['Approved', 'Paid'],
-  yellow: ['Pending'],
+const statusColor: { [key: string]: any } = {
+  red: ['reject_technician'],
+  green: [
+    'accepted',
+    'payment_done_by_dsp',
+    'payment_done_approved_by_vendor',
+    'payment_done_by_dsp',
+  ],
+  yellow: ['created', 'scheduled'],
 };
 
-const statusValue = {
-  1: { key: 'created', title: 'Created' },
-  2: { key: 'accepted', title: 'Accepted' },
-  3: { key: 'scheduled', title: 'Scheduled' },
-  4: { key: 'technician_assigned', title: 'Technician Assigned' },
-  5: { key: 'accept_technician', title: 'Accept by technician' },
-  6: { key: 'reject_technician', title: 'Rejected by technician' },
-  7: { key: 'completed_technician', title: 'Completed by technician' },
-  8: { key: 'reject_technician', title: 'Rejected by technician' },
-  9: { key: 'reject_technician', title: 'Rejected by technician' },
-};
+const statusValue = [
+  { key: 'created', title: 'Created' },
+  { key: 'accepted', title: 'Accepted' },
+  { key: 'scheduled', title: 'Scheduled' },
+  { key: 'technician_assigned', title: 'Technician Assigned' },
+  { key: 'accept_technician', title: 'Accept by technician' },
+  { key: 'reject_technician', title: 'Rejected by technician' },
+  { key: 'completed_technician', title: 'Completed by technician' },
+  { key: 'completed_by_submitted_vendor', title: 'Completed by vendor' },
+  { key: 'payment_done_by_dsp', title: 'Paid by dsp' },
+  { key: 'payment_done_approved_by_vendor', title: 'Paid by vendor' },
+];
 
 const PrimaryTable = ({
   header,
@@ -106,7 +112,12 @@ export const TableRow = ({
           tableRow = tableRow[head?.level2?.key];
         }
 
-        if (!tableRow) return <td key={index}></td>;
+        if (!tableRow)
+          return (
+            <td key={index} className='text-sm h-full px-4 text-primary-2 font-bold text-center'>
+              ------------
+            </td>
+          );
 
         if (head.type === 'image-string') {
           return (
@@ -127,15 +138,21 @@ export const TableRow = ({
         }
 
         if (head.type === 'status') {
+          let status_id = parseInt(tableRow[head.key]);
+
+          if (!status_id) return <td key={index}></td>;
+
           return (
             <td
               key={index}
               className={`text-sm h-full px-4 font-medium ${
-                statusColor.red.includes(tableRow[head.key]) && 'text-[#F90C0C]'
-              } ${statusColor.green.includes(tableRow[head.key]) && 'text-[#039E00]'} ${
-                statusColor.yellow.includes(tableRow[head.key]) && 'text-[#DC8400]'
+                statusColor.red.includes(statusValue[status_id - 1]?.key) && 'text-[#F90C0C]'
+              } ${
+                statusColor.green.includes(statusValue[status_id - 1]?.key) && 'text-[#039E00]'
+              } ${
+                statusColor.yellow.includes(statusValue[status_id - 1]?.key) && 'text-[#DC8400]'
               } `}>
-              {tableRow[head.key]}
+              {statusValue[status_id - 1]?.title}
             </td>
           );
         }

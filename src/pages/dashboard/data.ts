@@ -187,7 +187,7 @@ export const ScheduledTableHeader = [
   },
   {
     title: 'Status',
-    key: 'status',
+    key: 'status_id',
     type: 'status',
   },
   {
@@ -327,7 +327,7 @@ export const PaidTableHeader = [
   },
   {
     title: 'Status',
-    key: 'status',
+    key: 'status_id',
     type: 'status',
   },
 ];
