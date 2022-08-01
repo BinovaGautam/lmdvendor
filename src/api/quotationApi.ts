@@ -26,4 +26,11 @@ export default class QuotationAPI {
       data: data,
     });
   }
+
+  static getQueries(request_id: string, quotation_id: string, account_id: string) {
+    return request({
+      url: `quotations/v1/quotations/queries?repair_request_id=${request_id}&quotation_id=${quotation_id}&account_id=${account_id}`,
+      method: 'get',
+    });
+  }
 }

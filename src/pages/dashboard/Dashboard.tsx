@@ -130,7 +130,7 @@ export default function Dashboard() {
     },
   ];
 
-  console.log(allData.completed);
+  console.log(allData.pending);
 
   return (
     <div className='h-full flex flex-col gap-y-5 pb-5'>
