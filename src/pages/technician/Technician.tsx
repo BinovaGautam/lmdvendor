@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -13,9 +13,9 @@ import { TechniciansTableHeader } from './data';
 const Technician = () => {
   const { user } = useSelector((state: RootState) => state.userState);
   const [technicians, setTechnicians] = useState<any[]>();
-  const [showAddEditTech, seyShowAddEditTech] = useState<boolean>(false);
+  const [showAddEditTech, setShowAddEditTech] = useState<boolean>(false);
   const [showDeleteModel, setShowDeleteModel] = useState<boolean>(false);
-  const [currRow, setCurrRow] = useState<any>({});
+  const [currRow, setCurrRow] = useState<any>();
 
   const getTechniciansApi = useQuery(
     'getAlltechnician',
@@ -37,7 +37,7 @@ const Technician = () => {
     universal: {
       edit: (row: any) => {
         setCurrRow(row);
-        seyShowAddEditTech(true);
+        setShowAddEditTech(true);
       },
       delete: (row: any) => {
         setCurrRow(row);
@@ -45,6 +45,11 @@ const Technician = () => {
       },
     },
   };
+
+  useEffect(() => {
+    if(!showAddEditTech) setCurrRow(undefined);
+  }, [showAddEditTech]);
+
 
   return (
     <div className='h-full flex flex-col gap-y-5 pb-5'>
@@ -55,7 +60,7 @@ const Technician = () => {
           <PrimaryButton
             title={'+ Add Technicians'}
             classNames={'py-2 px-5 font-medium border-[1px] border-primary-2 text-primary-2'}
-            onClick={() => seyShowAddEditTech(true)}
+            onClick={() => setShowAddEditTech(true)}
           />
         </div>
       </div>
@@ -70,7 +75,7 @@ const Technician = () => {
           loading={getTechniciansApi.isLoading || false}
         />
 
-        <AddEditTechnicianForm data={currRow} show={showAddEditTech} setShow={seyShowAddEditTech} />
+        <AddEditTechnicianForm data={currRow} show={showAddEditTech} setShow={setShowAddEditTech} />
         <DeleteTechnician data={currRow} show={showDeleteModel} setShow={setShowDeleteModel} />
       </div>
     </div>

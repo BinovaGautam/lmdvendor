@@ -68,7 +68,7 @@ const AddEditTechnicianForm = ({ show, setShow, data }: AddEditTechnicianFormMod
     if (!formData.email) errors.push('email');
     if (!formData.phone) errors.push('phone');
     // if (!formData.phone.length !== 10) errors.push('phone_length');
-    if (!formData.technician_id) errors.push('technician_id');
+    // if (!formData.technician_id) errors.push('technician_id');
     if (!formData.password) errors.push('password');
     if (!formData.confirm_password) errors.push('confirm_password');
     if (!formData.name) errors.push('name');
@@ -150,9 +150,9 @@ const AddEditTechnicianForm = ({ show, setShow, data }: AddEditTechnicianFormMod
                 <span className='text-sm text-primary-2'>is required</span>
               )}
             </div>
-            <div className='flex flex-col gap-y-2 w-full'>
+            {/* <div className='flex flex-col gap-y-2 w-full'>
               <label className='font-medium text-primary-2' htmlFor='technical_id'>
-                Technicial ID
+                Technician ID
               </label>
               <input
                 id='technical_id'
@@ -165,7 +165,7 @@ const AddEditTechnicianForm = ({ show, setShow, data }: AddEditTechnicianFormMod
               {submitErrors.includes('technician_id') && (
                 <span className='text-sm text-primary-2'>is required</span>
               )}
-            </div>
+            </div> */}
           </div>
           <div className='flex items-center justify-between gap-x-4'>
             <div className='flex flex-col gap-y-2 w-full'>

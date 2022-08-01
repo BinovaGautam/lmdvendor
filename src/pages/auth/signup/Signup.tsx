@@ -17,6 +17,7 @@ import { actionCreators } from '../../../state';
 interface ISignupFormInputs {
   name: string;
   email: string;
+  phone : string;
   password: string;
   cPassword: string;
 }
@@ -71,7 +72,7 @@ export default function Signup() {
   const onSubmitHandler = (data: any) => {
     const requestData: SignWithEmail = {
       name: data.name,
-      phone: '9999999990',
+      phone: data.phone,
       email: data.email,
       password: data.password,
     };
@@ -85,8 +86,7 @@ export default function Signup() {
         <div className='hidden lg:block'>
           <h3 className='mb-3 text-3xl font-bold text-primary-dark-1'>Register</h3>
           <p className='mb-12 text-base font-medium text-primary-dark-1 opacity-70'>
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry lorem Ipsum
-            has been the industry's standard.
+            Register and begin your journey with Fleet Max.
           </p>
         </div>
         <div className='flex items-center justify-center mb-10 lg:hidden auth-bg-mobile'>
@@ -144,6 +144,30 @@ export default function Signup() {
               />
             </div>
             <p>{errors.email?.message}</p>
+          </div>
+
+          <div className='mb-5 form-group'>
+            <label htmlFor='email' className='label-v1'>
+              Phone Number
+            </label>
+            <div className='w-full p-input-icon-right'>
+              <i className='pi pi-phone' />
+              <Controller
+                control={control}
+                name='phone'
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <InputText
+                    id='phone'
+                    className='input-v1'
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    value={value}
+                    maxLength={10}
+                  />
+                )}
+              />
+            </div>
+            <p>{errors.phone?.message}</p>
           </div>
           <div className='mb-5 form-group'>
             <label htmlFor='password' className='label-v1'>
