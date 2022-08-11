@@ -65,3 +65,19 @@
 .auth-link {
   @apply w-fit mx-auto text-lg font-normal text-primary-dark-1 opacity-70;
 }
+
+/* ====================== Row Style ========================= */
+.row {
+  @apply flex items-center;
+}
+
+.row-between {
+  @apply flex justify-between items-center;
+}
+
+/* ======================== Page Headings ======================= */
+.h2-heading {
+  @apply text-2xl text-primary-2 font-semibold;
+}
+
+/* =========================== Prime React Component style =================== */

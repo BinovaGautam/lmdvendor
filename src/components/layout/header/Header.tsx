@@ -32,13 +32,7 @@ export default function Header() {
         <ChatIcon className='w-5 h-5 text-dark-primary' />
 
         <div className='flex flex-row items-center gap-3'>
-          <Avatar
-            label={`${user?.name?.split(' ')[0]?.slice(0, 1)}${user?.name
-              ?.split(' ')[1]
-              ?.slice(0, 1)}`}
-            className=''
-            size='large'
-          />
+          {user && <Avatar label={`TB`} className='' size='large' />}
           <div className='flex flex-col gap-0 text-sm text-dark-primary'>
             <p className='text-sm font-bold tracking-wider uppercase '>{user?.name}</p>
             <p className=''>{user?.email}</p>

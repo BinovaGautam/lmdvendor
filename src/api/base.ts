@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Env from '../constants/environment';
+import { UserModel } from '../models/UserModel';
 
 const baseURL = Env().baseUrl;
 
@@ -8,8 +9,14 @@ const client = axios.create({
 });
 
 export const request = async ({ ...options }) => {
-  client.defaults.headers.common['x-access-token'] = localStorage.getItem('x-access-token') || '';
-  client.defaults.headers.common['x-access-user'] = localStorage.getItem('x-access-user') || '';
+  let user: UserModel | null = null;
+
+  const getItem: string | null = localStorage.getItem('user');
+
+  if (getItem) user = JSON.parse(getItem);
+
+  client.defaults.headers.common['x-access-token'] = user?.token || '';
+  client.defaults.headers.common['x-access-user'] = user?.account_id || '';
 
   const onSuccess = (response: any) => response;
   const onError = (error: any) => {
