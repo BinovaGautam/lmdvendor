@@ -630,13 +630,13 @@ export const PrimitiveTabMenus = [
   },
   {
     id: 1,
-    title: 'Completed',
+    title: 'In Progress',
     key: 'completed',
     header: PrimitiveCompleteTableHeader,
   },
   {
     id: 2,
-    title: 'Paid',
+    title: 'Completed',
     key: 'paid',
     header: PrimitiveCompleteTableHeader,
   },
