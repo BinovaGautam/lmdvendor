@@ -11,7 +11,7 @@ import ForgotPassword from './pages/auth/forgot-password/ForgotPassword';
 import ResetPassword from './pages/auth/reset-password/ResetPassword';
 import Signin from './pages/auth/signin/Signin';
 import Signup from './pages/auth/signup/Signup';
-import CreateRepairRequest from './pages/create-repair-request/CreateRepairRequest';
+import CreateRepairRequest from './pages/create-repair-request-v1';
 import Dashboard from './pages/dashboard/Dashboard';
 import RepairRequests from './pages/repair-requests/RepairRequests';
 import RepairRequests2 from './pages/repair-requests2/RepairRequests2';

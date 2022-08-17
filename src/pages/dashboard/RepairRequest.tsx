@@ -84,7 +84,7 @@ const RepairRequest = ({ showDetails, setShowDetails }: Props) => {
     setActive(item);
   };
 
-  // ------------------------: UTITLITY DATA :-------------------------
+  // ------------------------: UTILITY DATA :-------------------------
   const actions = [
     {
       onClickButton: (row: any) => {

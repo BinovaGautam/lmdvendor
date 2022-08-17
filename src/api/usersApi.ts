@@ -41,4 +41,16 @@ export default class AuthAPI {
       data: data,
     });
   }
+
+  static getRepairShopOwners() {
+    return request({
+      url: 'companies/v1/companies',
+    });
+  }
+
+  static getVehicles(company_id: string, limit: string, offset: string) {
+    return request({
+      url: `vehicles/v1/vehicles/company?company_id=${company_id}&limit=${limit}&offset=${offset}`,
+    });
+  }
 }

@@ -56,22 +56,21 @@ export interface IVendor {
   account_id: string;
 }
 
-export interface CreateRepairRequest {
-  vehicle_id: number;
-  damage_id: string;
-  notes: string;
-  any_vendor: boolean;
-  vendors: IVendor[];
-}
+// export interface ICreateRepairRequest {
+//   vehicle_id: number;
+//   company: string;
+//   notes: string;
+//   date_time_slots: IdateTimeSlot[];
+// }
 
-export interface dateTimeSlot {
+export interface IdateTimeSlot {
   date: string;
   time: string;
 }
 
 export interface ScheduleAppoinment {
   vendor_account_id: string;
-  date_time_slots: dateTimeSlot[];
+  date_time_slots: IdateTimeSlot[];
   request_id: string;
 }
 
@@ -138,4 +137,11 @@ export interface SendPayment {
 export interface UpdateStatus {
   request_id: number;
   status_id: number;
+}
+
+export interface ICreateRepairRequest {
+  vehicle_id: number;
+  company: string;
+  notes: string;
+  date_time_slots: IdateTimeSlot[];
 }

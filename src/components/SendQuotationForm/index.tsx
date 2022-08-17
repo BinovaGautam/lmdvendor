@@ -62,7 +62,9 @@ const SendQuotationForm = ({ show, setShow, row, setShowCommentForm }: SendQuota
         request_id: row.id,
       };
 
-      createQuotationApi.mutate(data);
+      console.log(data);
+
+      // createQuotationApi.mutate(data);
       return;
     }
     setSubmitErrors(errors);
