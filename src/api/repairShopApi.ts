@@ -1,5 +1,5 @@
 import { request } from './base';
-import { CreateRepairRequest, ScheduleAppoinment } from './types';
+import { ICreateRepairRequest, ScheduleAppoinment } from './types';
 
 export default class RepairShopAPI {
   static getAllRepairRequests() {
@@ -16,7 +16,7 @@ export default class RepairShopAPI {
     });
   }
 
-  static createRepairRequest(data: CreateRepairRequest) {
+  static createRepairRequest(data: ICreateRepairRequest) {
     const formData = new FormData();
     // formData.append('vehicle_id', data.vehicle.id);
     // formData.append('repair_type_id', data.repairType.id);

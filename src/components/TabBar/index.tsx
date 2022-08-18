@@ -6,7 +6,6 @@ const TabBar = ({ menus, active, setActive }: TabBarModel) => {
     <div className='overflow-hidden rounded-2xl border-[1px] border-gray-300 bg-white w-fit flex items-center'>
       <div className='flex items-center h-full font-semibold text-primary-2'>
         {menus.map((item: TabMenuModal, index: number) => {
-          // if (item.id === 4 || item.id === 5 || item.id === 6) return null;
           return (
             <span
               onClick={() => setActive(item)}

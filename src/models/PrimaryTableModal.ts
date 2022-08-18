@@ -7,6 +7,7 @@ export interface PrimaryTableHeadModal {
   func?: string;
   level2?: { key: string };
   disableState?: { key: string; isDisable: (data: any) => boolean };
+  component?: (row: any) => JSX.Element;
 }
 
 export interface PrimaryTableModel {

@@ -1,5 +1,5 @@
 import { request } from './base';
-import { SendInvoice, SendPayment, UpdateStatus } from './types';
+import { SendInvoice, SendPayment, UpdateStatus, ICreateRepairRequest } from './types';
 
 export default class RepairAPI {
   static sendInvoice(data: SendInvoice) {
@@ -28,6 +28,14 @@ export default class RepairAPI {
       url: `repair_requests/v1/repair_requests/${data.request_id}`,
       method: 'put',
       data: { status_id: data.status_id },
+    });
+  }
+
+  static createRepairRequest(data: ICreateRepairRequest) {
+    return request({
+      url: `repair_requests/v1/repair_requests/vendor`,
+      method: 'post',
+      data: data,
     });
   }
 }

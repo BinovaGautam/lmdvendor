@@ -11,17 +11,13 @@ import DatePicker from '../DatePicker';
 import TimePicker from '../TimePicker';
 import { formateDates, formateTIme } from '../../utils/date';
 import RepairAPI from '../../api/repairShopApi';
-import { dateTimeSlot } from '../../api/types';
+import { IdateTimeSlot } from '../../api/types';
 import { XIcon } from '@heroicons/react/solid';
-
-interface IDateTimeSlot {
-  date: Date | undefined;
-  time: Date | undefined;
-}
+import { IDateTimeSlotFields } from '../type';
 
 const ScheduleAppointmentForm = ({ show, setShow, row }: ScheduleAppointmentFormModel) => {
   const { user } = useSelector((state: RootState) => state.userState);
-  const [dateTimeSlot, setDateTimeSlot] = useState<IDateTimeSlot[]>([
+  const [dateTimeSlot, setDateTimeSlot] = useState<IDateTimeSlotFields[]>([
     { date: undefined, time: undefined },
   ]);
   const [submitErrors, setSubmitErrors] = useState<{ [key: string]: string[] }>({});
@@ -31,7 +27,12 @@ const ScheduleAppointmentForm = ({ show, setShow, row }: ScheduleAppointmentForm
   const scheduleAppoinmentApi = useMutation('scheduleAppoinment', RepairAPI.scheduleAppoinment, {
     onSuccess: (response: any) => {
       if (response.response) {
-        toast.error(response.response.data.message);
+        const { data } = response.response || {};
+        if (data) {
+          toast.error(data.message);
+          return;
+        }
+        toast.error('something went wrong');
         return;
       }
       toast.success('Appoinment scheduled Successfully!');
@@ -65,23 +66,25 @@ const ScheduleAppointmentForm = ({ show, setShow, row }: ScheduleAppointmentForm
   const onSubmit = () => {
     let errors: { [key: string]: string[] } = {};
     let errorFlag = false;
-    const dtSlots: dateTimeSlot[] = dateTimeSlot.map((dtSlot: IDateTimeSlot, index: number) => {
-      if (!errors[`${index}`]) {
-        errors[`${index}`] = [];
+    const dtSlots: IdateTimeSlot[] = dateTimeSlot.map(
+      (dtSlot: IDateTimeSlotFields, index: number) => {
+        if (!errors[`${index}`]) {
+          errors[`${index}`] = [];
+        }
+
+        if (!dtSlot.date || !dtSlot.time) {
+          if (!dtSlot.date) errors[`${index}`].push('date');
+          if (!dtSlot.time) errors[`${index}`].push('time');
+          errorFlag = true;
+          return { date: '', time: '' };
+        }
+
+        const time = formateTIme(dtSlot.time as Date);
+        const date = formateDates(dtSlot.date as Date);
+
+        return { date, time };
       }
-
-      if (!dtSlot.date || !dtSlot.time) {
-        if (!dtSlot.date) errors[`${index}`].push('date');
-        if (!dtSlot.time) errors[`${index}`].push('time');
-        errorFlag = true;
-        return { date: '', time: '' };
-      }
-
-      const time = formateTIme(dtSlot.time as Date);
-      const date = formateDates(dtSlot.date as Date);
-
-      return { date, time };
-    });
+    );
 
     if (!errorFlag) {
       let date_time_slots = dtSlots;
@@ -98,7 +101,7 @@ const ScheduleAppointmentForm = ({ show, setShow, row }: ScheduleAppointmentForm
     <OverlayContainer show={show}>
       <ModalForm title={'Schedule Appointment'} onClose={() => setShow(false)}>
         <div className='flex flex-col gap-y-6'>
-          {dateTimeSlot.map((datetime: IDateTimeSlot, index: number) => {
+          {dateTimeSlot.map((datetime: IDateTimeSlotFields, index: number) => {
             return (
               <div className='flex items-center justify-between gap-x-6'>
                 <div>

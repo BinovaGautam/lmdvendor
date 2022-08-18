@@ -114,14 +114,18 @@ export const TableRow = ({
 
         if (!tableRow)
           return (
-            <td key={index} className='text-sm h-full px-4 text-primary-2 font-bold text-center'>
+            <td
+              key={index}
+              className='min-h-[150px] py-4 text-sm h-full px-4 text-primary-2 font-bold text-center'>
               ------------
             </td>
           );
 
         if (head.type === 'image-string') {
           return (
-            <td key={index} className='text-sm h-full px-4 text-primary-2 font-bold'>
+            <td
+              key={index}
+              className='min-h-[150px] py-4 text-sm h-full px-4 text-primary-2 font-bold'>
               <div className='flex items-center gap-x-3'>
                 <div className='flex items-center justify-center rounded-full overflow-hidden h-9 w-9'>
                   <img
@@ -140,12 +144,12 @@ export const TableRow = ({
         if (head.type === 'status') {
           let status_id = parseInt(tableRow[head.key]);
 
-          if (!status_id) return <td key={index}></td>;
+          if (!status_id) return <td className='min-h-[150px] py-4' key={index}></td>;
 
           return (
             <td
               key={index}
-              className={`text-sm h-full px-4 font-medium ${
+              className={`min-h-[150px] py-4 text-sm h-full px-4 font-medium ${
                 statusColor.red.includes(statusValue[status_id - 1]?.key) && 'text-[#F90C0C]'
               } ${
                 statusColor.green.includes(statusValue[status_id - 1]?.key) && 'text-[#039E00]'
@@ -161,6 +165,7 @@ export const TableRow = ({
           let isQuoted: any = false;
           let btnTitle = head.text || '';
           let btnClick = () => {
+            console.log(actions);
             if (head.func) {
               actions[head.func](row);
             }
@@ -180,9 +185,10 @@ export const TableRow = ({
             btnClick = () => {};
           }
 
-          // const btnTitle = ;
           return (
-            <td key={index} className='text-sm h-full px-4 text-primary-2 font-medium'>
+            <td
+              key={index}
+              className='min-h-[150px] py-4 text-sm h-full px-4 text-primary-2 font-medium'>
               <div>
                 <PrimaryButton
                   onClick={btnClick}
@@ -196,7 +202,9 @@ export const TableRow = ({
 
         if (head.type === 'universal-buttons') {
           return (
-            <td key={index} className='text-sm h-full px-4 text-primary-2 font-medium'>
+            <td
+              key={index}
+              className='min-h-[150px] py-4 text-sm h-full px-4 text-primary-2 font-medium'>
               <div className='w-full flex items-center justify-start gap-x-3'>
                 <PencilAltIcon
                   onClick={() => actions.universal.edit(tableRow)}
@@ -220,7 +228,9 @@ export const TableRow = ({
           }
 
           return (
-            <td key={index} className='text-sm h-full px-4 text-primary-2 font-medium'>
+            <td
+              key={index}
+              className='min-h-[150px] py-4 text-sm h-full px-4 text-primary-2 font-medium'>
               <DotsOption
                 options={head.options || []}
                 row={row}
@@ -237,7 +247,9 @@ export const TableRow = ({
           if (!tableRow) return <td key={index}></td>;
 
           return (
-            <td key={index} className='text-sm h-full px-4 text-primary-2 font-medium'>
+            <td
+              key={index}
+              className='min-h-[150px] py-4 text-sm h-full px-4 text-primary-2 font-medium'>
               $ {tableRow[head.key]}
             </td>
           );
@@ -245,14 +257,31 @@ export const TableRow = ({
 
         if (head.type === 'amount') {
           return (
-            <td key={index} className='text-sm h-full px-4 text-primary-2 font-medium'>
+            <td
+              key={index}
+              className='min-h-[150px] py-4 text-sm h-full px-4 text-primary-2 font-medium'>
               $ {tableRow[head.key]}
             </td>
           );
         }
 
+        if (head.type === 'component') {
+          let { component } = head || {};
+          if (component) {
+            return (
+              <td
+                key={index}
+                className='min-h-[150px] py-4 text-sm h-full px-4 text-primary-2 font-medium'>
+                {component(row)}
+              </td>
+            );
+          } else return null;
+        }
+
         return (
-          <td key={index} className='text-sm h-full px-4 text-primary-2 font-medium'>
+          <td
+            key={index}
+            className='min-h-[150px] py-4 max-w-[200] text-sm h-full px-4 text-primary-2 font-medium'>
             {tableRow[head.key]}
           </td>
         );
