@@ -85,47 +85,53 @@ const RepairRequest = ({ showDetails, setShowDetails }: Props) => {
   };
 
   // ------------------------: UTILITY DATA :-------------------------
-  const actions = [
-    {
-      onClickButton: (row: any) => {
-        setCurrRow(row);
-        setShowSendQuotationForm(true);
-      },
-      onQuery: (row: any) => {
-        setCurrRow(row);
-        setShowQueryForm(true);
-      },
-    },
-    {
-      onClickButton: (row: any) => {
-        setCurrRow(row);
-        setScheduleAppointmentForm(true);
-      },
-    },
-    {
-      onAssignTechnician: (row: any) => {
-        setCurrRow(row);
-        setShowCommentForm(true);
-      },
-    },
-    {
+  const actions: { [key: string]: any } = {
+    inProgress: {
       onClickButton: (row: any) => {
         setCurrRow(row);
         setShowDetails(true);
       },
     },
-    {
+    completed: {
       onClickButton: (row: any) => {
+        console.log("What's happening bro...");
         setCurrRow(row);
         setShowDetails(true);
       },
     },
-  ];
+  };
+  // const actions = [
+  //   {
+  //     onClickButton: (row: any) => {
+  //       setCurrRow(row);
+  //       setShowSendQuotationForm(true);
+  //     },
+  //     onQuery: (row: any) => {
+  //       setCurrRow(row);
+  //       setShowQueryForm(true);
+  //     },
+  //   },
+  //   {
+  //     onClickButton: (row: any) => {
+  //       setCurrRow(row);
+  //       setScheduleAppointmentForm(true);
+  //     },
+  //   },
+  //   {
+  //     onAssignTechnician: (row: any) => {
+  //       setCurrRow(row);
+  //       setShowCommentForm(true);
+  //     },
+  //   },
+
+  // ];
 
   // ---------------------: START RENDERING :-----------------------
   if (currRow && showDetails) {
     return <RepairDetails active={active} setRepairDetail={setShowDetails} row={currRow} />;
   }
+
+  console.log({ active, action: actions[active.id] });
 
   return (
     <Fragment>
@@ -142,7 +148,7 @@ const RepairRequest = ({ showDetails, setShowDetails }: Props) => {
           type={`${active?.id}`}
           classNames={''}
           level={0}
-          actions={actions[active.id]}
+          actions={actions[active.key]}
           loading={allRepairRequestApi.isLoading || false}
         />
 

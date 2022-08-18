@@ -165,6 +165,7 @@ export const TableRow = ({
           let isQuoted: any = false;
           let btnTitle = head.text || '';
           let btnClick = () => {
+            console.log(actions);
             if (head.func) {
               actions[head.func](row);
             }

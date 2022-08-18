@@ -27,7 +27,9 @@ const SendQuotationForm = ({ show, setShow, row, setShowCommentForm }: SendQuota
     {
       onSuccess: (response: any) => {
         if (response.response) {
-          toast.error(response.response.data.message);
+          let { data } = response.response || {};
+
+          if (data) toast.error(data.message);
           return;
         }
         toast.success('Sand Quotation Successfully!');
@@ -62,9 +64,7 @@ const SendQuotationForm = ({ show, setShow, row, setShowCommentForm }: SendQuota
         request_id: row.id,
       };
 
-      console.log(data);
-
-      // createQuotationApi.mutate(data);
+      createQuotationApi.mutate(data);
       return;
     }
     setSubmitErrors(errors);

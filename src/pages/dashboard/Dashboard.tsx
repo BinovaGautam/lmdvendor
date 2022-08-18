@@ -1,5 +1,6 @@
 import { Dropdown } from 'primereact/dropdown';
 import React, { useState } from 'react';
+import { PrimaryButton } from '../../components';
 import { dashboardFilterTwo, dashboardPages } from './data';
 import PremitiveMaintenance from './PremitiveMaintenance';
 import RepairRequest from './RepairRequest';
@@ -13,23 +14,31 @@ const Dashboard = () => {
     <div className='h-full grid grid-cols-1 gap-y-5 pb-5 place-content-start'>
       <div className='row-between'>
         <h2 className='h2-heading'>{pageContent.pageTitle}</h2>
-        <div className='row gap-x-4'>
-          <span className='font-bold text-primary-2 tracking-wide'>Filter: </span>
-          <Dropdown
-            value={pageContent}
-            options={dashboardPages}
-            onChange={(e: { value: any }) => setPageContent(e.value)}
-            optionLabel='name'
-            className='rounded-xl font-bold text-primary-2 [&>span]:text-primary-2'
+        {!showDetails ? (
+          <div className='row gap-x-4'>
+            <span className='font-bold text-primary-2 tracking-wide'>Filter: </span>
+            <Dropdown
+              value={pageContent}
+              options={dashboardPages}
+              onChange={(e: { value: any }) => setPageContent(e.value)}
+              optionLabel='name'
+              className='rounded-xl font-bold text-primary-2 [&>span]:text-primary-2'
+            />
+            <Dropdown
+              value={filterTwo}
+              options={dashboardFilterTwo}
+              onChange={(e: { value: any }) => setFilterTwo(e.value)}
+              optionLabel='name'
+              className='rounded-xl text-primary-2 [&>span]:text-primary-2 font-semibold'
+            />
+          </div>
+        ) : (
+          <PrimaryButton
+            title='Back'
+            classNames={'bg-primary-2 text-white py-3 px-8 rounded-xl'}
+            onClick={() => setShowDetails(false)}
           />
-          <Dropdown
-            value={filterTwo}
-            options={dashboardFilterTwo}
-            onChange={(e: { value: any }) => setFilterTwo(e.value)}
-            optionLabel='name'
-            className='rounded-xl text-primary-2 [&>span]:text-primary-2 font-semibold'
-          />
-        </div>
+        )}
       </div>
       {pageContent.code === 'RP' && (
         <RepairRequest showDetails={showDetails} setShowDetails={setShowDetails} />

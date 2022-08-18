@@ -61,6 +61,8 @@ export default function RepairDetails({ row, setRepairDetail, active }: Props) {
 
       toast.success('Update successfully!');
       queryClient.invalidateQueries('allRpairRequest');
+
+      setRepairDetail(false);
     },
     onError: (error: Error) => {
       console.log(error);

@@ -49,16 +49,16 @@ const ChooseTechnicians = ({ show, setShow, row }: ChooseTechniciansModel) => {
 
   const AssignTechnicianApi = useMutation('assignTechnician', TechnicianAPI.assignTechnician, {
     onSuccess: (response: any) => {
-      console.log('Response=> ', response);
-      // if (response.response) {
-      //   toast.error(response.response.message);
-      //   return;
-      // }
+      // console.log('Response=> ', response);
+      if (response.response) {
+        toast.error(response.response.message);
+        return;
+      }
 
-      // toast.success('Assigned successfully!');
-      // setSelectedIndex(0);
-      // setShow(false);
-      // queryClient.invalidateQueries('allRpairRequest');
+      toast.success('Assigned successfully!');
+      setSelectedIndex(0);
+      setShow(false);
+      queryClient.invalidateQueries('allRpairRequest');
     },
     onError: (error: Error) => {
       console.log(error);
