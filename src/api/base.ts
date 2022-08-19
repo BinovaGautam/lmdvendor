@@ -2,9 +2,9 @@ import axios from 'axios';
 import Env from '../constants/environment';
 import { UserModel } from '../models/UserModel';
 
-const baseURL = Env().baseUrl;
+export const baseURL = Env().baseUrl;
 
-const client = axios.create({
+export const client = axios.create({
   baseURL,
 });
 

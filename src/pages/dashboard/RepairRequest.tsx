@@ -105,8 +105,6 @@ const RepairRequest = ({ showDetails, setShowDetails }: Props) => {
     return <RepairDetails active={active} setRepairDetail={setShowDetails} row={currRow} />;
   }
 
-  console.log({ active, action: actions[active.id] });
-
   return (
     <Fragment>
       {/* ----------------: TabBar :------------------- */}

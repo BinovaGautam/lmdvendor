@@ -1,5 +1,9 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import PreventiveAPI from '../../api/preventiveApi';
+import AuthAPI from '../../api/usersApi';
 import AddCommentForm from '../../components/AddCommenForm';
 import PrimaryTable from '../../components/PrimaryTable';
 import ScheduleAppointmentForm from '../../components/ScheduleAppointmentForm';
@@ -27,6 +31,39 @@ const PremitiveMaintenance = ({ showDetails, setShowDetails }: Props) => {
   const [showSendQuotationForm, setShowSendQuotationForm] = useState<boolean>(false);
   const [showScheduleAppointmentForm, setScheduleAppointmentForm] = useState<boolean>(false);
   const [data, setData] = useState<any[]>([]);
+  const [companies, setCompanies] = useState<string[]>([]);
+
+  // ---------------------------: React Queries :-------------------------
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const _getDspListQuery = useQuery('getDspList', AuthAPI.getRepairShopOwners, {
+    onSuccess: (response: any) => {
+      // code
+      if (response.data) {
+        const { data } = response.data || {};
+        const companies = data.map((dsp: any) => dsp.id);
+        setCompanies(companies);
+      }
+    },
+    onError: (error: Error) => {
+      console.error(error.message);
+      toast.error('Something went wrong..');
+    },
+  });
+
+  // const _getPreventiveVehicleList = useQuery(
+  //   ['getPreventiveVehicleList', companies],
+  //   async () => await PreventiveAPI.getVehicleListStatic(),
+  //   {
+  //     enabled: !!companies.length,
+  //     onSuccess: (response: any) => {
+  //       console.log(response);
+  //     },
+  //     onError: (error: Error) => {
+  //       console.error(error.message);
+  //       toast.error('Something went wrong..');
+  //     },
+  //   }
+  // );
 
   // ------------------------: UTILITY FUNCTION :-----------------------
   const onTabChange = async (item: TabMenuModal) => {
@@ -58,6 +95,19 @@ const PremitiveMaintenance = ({ showDetails, setShowDetails }: Props) => {
       },
     },
   };
+
+  // ---------------------: USE EFFECTS :--------------------------
+  useEffect(() => {
+    if (companies) {
+      PreventiveAPI.getVehicleListStatic()
+        .then(function (response) {
+          console.log(JSON.stringify(response.data));
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+  }, [companies]);
 
   // ---------------------: START RENDERING :-----------------------
   if (currRow && showDetails) {
