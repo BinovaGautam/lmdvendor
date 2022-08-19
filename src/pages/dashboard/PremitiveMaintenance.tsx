@@ -35,41 +35,29 @@ const PremitiveMaintenance = ({ showDetails, setShowDetails }: Props) => {
   };
 
   // ------------------------: UTILITY DATA :-------------------------
-  const actions = [
-    {
+  const actions: { [key: string]: any } = {
+    pending: {
       onClickButton: (row: any) => {
         setCurrRow(row);
-        setShowSendQuotationForm(true);
+        setScheduleAppointmentForm(true);
       },
       onQuery: (row: any) => {
         setCurrRow(row);
       },
     },
-    {
-      onClickButton: (row: any) => {
-        setCurrRow(row);
-        setScheduleAppointmentForm(true);
-      },
-    },
-    {
-      onAssignTechnician: (row: any) => {
-        setCurrRow(row);
-        setShowCommentForm(true);
-      },
-    },
-    {
+    completed: {
       onClickButton: (row: any) => {
         setCurrRow(row);
         setShowDetails(true);
       },
     },
-    {
+    paid: {
       onClickButton: (row: any) => {
         setCurrRow(row);
         setShowDetails(true);
       },
     },
-  ];
+  };
 
   // ---------------------: START RENDERING :-----------------------
   if (currRow && showDetails) {
@@ -91,7 +79,7 @@ const PremitiveMaintenance = ({ showDetails, setShowDetails }: Props) => {
           type={`${active?.id}`}
           classNames={''}
           level={0}
-          actions={actions[active.id]}
+          actions={actions[active.key]}
           loading={false}
         />
 
