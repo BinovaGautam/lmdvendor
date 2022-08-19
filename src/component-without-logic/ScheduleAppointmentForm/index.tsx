@@ -39,7 +39,10 @@ const ScheduleAppointmentForm = ({
               <div>
                 <DatePicker
                   value={dateTimeSlot[index].date}
-                  setValue={(value) => onChange(index, 'date', value)}
+                  setValue={(value) => {
+                    console.log({ value });
+                    onChange(index, 'date', value);
+                  }}
                 />
                 {submitErrors[`${index}`]?.includes('date') && (
                   <span className='text-sm text-primary-2'>is required</span>
