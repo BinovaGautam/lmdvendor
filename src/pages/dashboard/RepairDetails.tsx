@@ -145,18 +145,20 @@ export default function RepairDetails({ row, setRepairDetail, active }: Props) {
             </div>
             <div className='flex flex-col p-5 gap-y-2'>
               <h3 className='text-base font-semibold'>Queries</h3>
-              <div className='bg-[#DADDEB] p-3 rounded-xl max-h-40 overflow-y-scroll flex flex-col gap-y-4'>
-                {queries.map((query: any) => (
-                  <Fragment>
-                    <p
-                      className={`text-sm font-medium bg-gray-200 shadow-md max-h-44 p-2 rounded-xl text-primary-2 w-max ${
-                        query.sender_type === 'Vendor' && 'self-end text-right'
-                      }`}>
-                      {query.query}
-                    </p>
-                  </Fragment>
-                ))}
-              </div>
+              {queries.length && (
+                <div className='bg-[#DADDEB] p-3 rounded-xl max-h-40 overflow-y-scroll flex flex-col gap-y-4'>
+                  {queries.map((query: any) => (
+                    <Fragment>
+                      <p
+                        className={`text-sm font-medium bg-gray-200 shadow-md max-h-44 p-2 rounded-xl text-primary-2 w-max ${
+                          query.sender_type === 'Vendor' && 'self-end text-right'
+                        }`}>
+                        {query.query}
+                      </p>
+                    </Fragment>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </WhiteBoxWithShadow>
@@ -316,10 +318,39 @@ export default function RepairDetails({ row, setRepairDetail, active }: Props) {
           <div className='p-5 flex flex-col gap-y-3'>
             <h3 className='font-semibold text-sm'>Status</h3>
             {active.key === 'inProgress' && (
-              <span className='text-yellow-600 text-base font-medium'>In Progress</span>
+              <div>
+                {row?.status_id === '6' ? (
+                  <span className='text-red-600 flex items-center gap-x-2 text-base font-medium'>
+                    <p>Rejected</p>
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      className='h-5 w-5'
+                      viewBox='0 0 20 20'
+                      fill='currentColor'>
+                      <path
+                        fillRule='evenodd'
+                        d='M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z'
+                        clipRule='evenodd'
+                      />
+                    </svg>
+                  </span>
+                ) : (
+                  <span className='text-yellow-600 flex items-center gap-x-2 text-base font-medium'>
+                    <p>
+                      {row?.status_id === '4' && 'Assigned'}
+
+                      {row?.status_id === '5' && 'Accepted'}
+                    </p>
+                  </span>
+                )}
+              </div>
             )}
             {active.key === 'completed' && (
-              <span className='text-green-600 text-base font-medium'>Completed</span>
+              <span className='text-green-600 text-base font-medium'>
+                {row?.status_id === '7' && 'Completed By Technician'}
+                {row?.status_id === '8' && 'Completed By Vendor'}
+                {row?.status_id === '9' && 'Payment done by DSP'}
+              </span>
             )}
           </div>
         </div>
