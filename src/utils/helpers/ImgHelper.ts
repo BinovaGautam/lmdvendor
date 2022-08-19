@@ -1,4 +1,3 @@
 export const handleImageOnError = (e: any) => {
-  e.target.src =
-    'https://img.freepik.com/free-photo/handsome-confident-smiling-man-with-hands-crossed-chest_176420-18743.jpg?t=st=1658646296~exp=1658646896~hmac=616d9e8593ae4b32c50f53fb77ff8c576b264951c3611960cf6439becdd97152&w=740';
-};
+  e.target.src = 'https://img.freepik.com/free-vector/city-skyline-concept-illustration_114360-8923.jpg?w=2000&t=st=1660910262~exp=1660910862~hmac=54937f31be109281376f996d5e7a7451b14ca2cbfe46eaee0e63df67545d1a62';
+    };
