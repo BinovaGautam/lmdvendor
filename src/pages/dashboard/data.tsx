@@ -218,6 +218,11 @@ export const InProgressTableHeader = [
     type: 'amount-level2',
   },
   {
+    title: 'Status',
+    key: 'status_id',
+    type: 'status',
+  },
+  {
     title: 'Action',
     key: 'action',
     type: 'button',

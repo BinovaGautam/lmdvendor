@@ -269,12 +269,14 @@ const CreateRepairRequest = () => {
                 value={esAmount}
               />
               {/* schedule button */}
-              <div className='w-full'>
+              <div className={`w-full`}>
                 <PrimaryButton
                   title={'Schedule'}
-                  classNames={
-                    'border-[1px] border-primary-2 py-[.75rem] px-10 text-primary-2 font-medium hover:bg-gray-50 self-end'
-                  }
+                  classNames={`border-[1px] border-primary-2 py-[.75rem] px-10 text-primary-2 font-medium hover:bg-opacity-80 self-end ${
+                    dateTimeSlot[0].date &&
+                    dateTimeSlot[0].time &&
+                    'bg-green-400 text-white border-green-400'
+                  }`}
                   onClick={() => setShow(true)}
                 />
               </div>

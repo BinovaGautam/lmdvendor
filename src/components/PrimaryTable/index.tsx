@@ -250,7 +250,7 @@ export const TableRow = ({
             <td
               key={index}
               className='min-h-[150px] py-4 text-sm h-full px-4 text-primary-2 font-medium'>
-              $ {tableRow[head.key]}
+              {tableRow[head.key] && '$' + tableRow[head.key]}
             </td>
           );
         }

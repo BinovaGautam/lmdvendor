@@ -145,7 +145,7 @@ export default function RepairDetails({ row, setRepairDetail, active }: Props) {
             </div>
             <div className='flex flex-col p-5 gap-y-2'>
               <h3 className='text-base font-semibold'>Queries</h3>
-              {queries.length && (
+              {queries.length ? (
                 <div className='bg-[#DADDEB] p-3 rounded-xl max-h-40 overflow-y-scroll flex flex-col gap-y-4'>
                   {queries.map((query: any) => (
                     <Fragment>
@@ -158,7 +158,7 @@ export default function RepairDetails({ row, setRepairDetail, active }: Props) {
                     </Fragment>
                   ))}
                 </div>
-              )}
+              ) : null}
             </div>
           </div>
         </WhiteBoxWithShadow>
