@@ -94,37 +94,11 @@ const RepairRequest = ({ showDetails, setShowDetails }: Props) => {
     },
     completed: {
       onClickButton: (row: any) => {
-        console.log("What's happening bro...");
         setCurrRow(row);
         setShowDetails(true);
       },
     },
   };
-  // const actions = [
-  //   {
-  //     onClickButton: (row: any) => {
-  //       setCurrRow(row);
-  //       setShowSendQuotationForm(true);
-  //     },
-  //     onQuery: (row: any) => {
-  //       setCurrRow(row);
-  //       setShowQueryForm(true);
-  //     },
-  //   },
-  //   {
-  //     onClickButton: (row: any) => {
-  //       setCurrRow(row);
-  //       setScheduleAppointmentForm(true);
-  //     },
-  //   },
-  //   {
-  //     onAssignTechnician: (row: any) => {
-  //       setCurrRow(row);
-  //       setShowCommentForm(true);
-  //     },
-  //   },
-
-  // ];
 
   // ---------------------: START RENDERING :-----------------------
   if (currRow && showDetails) {

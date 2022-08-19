@@ -13,6 +13,7 @@ import { IDateTimeSlotFields } from '../../components/type';
 import { formateDates, formateTIme } from '../../utils/date';
 import { IDsp, IVehicle } from './type';
 import equal from 'fast-deep-equal';
+import { format } from 'date-fns';
 
 const CreateRepairRequest = () => {
   // state hooks
@@ -125,8 +126,11 @@ const CreateRepairRequest = () => {
           return { date: '', time: '' };
         }
 
-        const time = formateTIme(dtSlot.time as Date);
-        const date = formateDates(dtSlot.date as Date);
+        // const time = formateTIme(dtSlot.time as Date);
+        // const date = formateDates(dtSlot.date as Date);
+
+        const time = format(dtSlot.time, 'HH:mm:ss');
+        const date = format(dtSlot.date, 'yyyy-MM-dd');
 
         return { date, time };
       }
@@ -134,6 +138,7 @@ const CreateRepairRequest = () => {
 
     if (!errorFlag) {
       setShow(false);
+      console.log({ dtSlots });
       setDtSlot(dtSlots);
       return;
     }
