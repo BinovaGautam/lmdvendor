@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -19,6 +19,8 @@ type Props = {
   setShowDetails: (value: boolean) => void;
 };
 
+const updateCompanyInfo = (data: any[]) => {};
+
 const PremitiveMaintenance = ({ showDetails, setShowDetails }: Props) => {
   // -----------------------: REDUX STATE :---------------------
   const { user } = useSelector((state: RootState) => state.userState);
@@ -31,7 +33,13 @@ const PremitiveMaintenance = ({ showDetails, setShowDetails }: Props) => {
   const [showSendQuotationForm, setShowSendQuotationForm] = useState<boolean>(false);
   const [showScheduleAppointmentForm, setScheduleAppointmentForm] = useState<boolean>(false);
   const [data, setData] = useState<any[]>([]);
-  const [companies, setCompanies] = useState<string[]>([]);
+  const [companyIds, setCompanyIds] = useState<string[]>([]);
+  const [companies, setCompanies] = useState<any[]>([]);
+  const [allData, setAllData] = useState<{ [key: string]: any[] }>({
+    inProgress: [],
+    complete: [],
+    pending: [],
+  });
 
   // ---------------------------: React Queries :-------------------------
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -40,8 +48,9 @@ const PremitiveMaintenance = ({ showDetails, setShowDetails }: Props) => {
       // code
       if (response.data) {
         const { data } = response.data || {};
-        const companies = data.map((dsp: any) => dsp.id);
-        setCompanies(companies);
+        setCompanies(data);
+        const companyIds = data.map((dsp: any) => dsp.id);
+        setCompanyIds(companyIds);
       }
     },
     onError: (error: Error) => {
@@ -50,20 +59,84 @@ const PremitiveMaintenance = ({ showDetails, setShowDetails }: Props) => {
     },
   });
 
-  // const _getPreventiveVehicleList = useQuery(
-  //   ['getPreventiveVehicleList', companies],
-  //   async () => await PreventiveAPI.getVehicleListStatic(),
-  //   {
-  //     enabled: !!companies.length,
-  //     onSuccess: (response: any) => {
-  //       console.log(response);
-  //     },
-  //     onError: (error: Error) => {
-  //       console.error(error.message);
-  //       toast.error('Something went wrong..');
-  //     },
-  //   }
-  // );
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const getPreventiveRequest = useQuery(
+    'getPreventiveRequest',
+    PreventiveAPI.getPreventiveRequestList,
+    {
+      onSuccess: (response: any) => {
+        if (response.data) {
+          const { data } = response.data || {};
+
+          console.log({ data });
+
+          let menus = tabMenus;
+          let inProgress = data?.filter(
+            (row: any) =>
+              row.status_id === '1' ||
+              row.status_id === '2' ||
+              row.status_id === '3' ||
+              row.status_id === '4'
+          );
+
+          let completed = data?.filter(
+            (row: any) => row.status_id === '5' || row.status_id === '6' || row.status_id === '7'
+          );
+
+          menus[1].title = `In Progress (${inProgress.length})`;
+          menus[2].title = `Completed (${completed.length})`;
+          setAllData({ ...allData, inProgress, completed });
+        }
+      },
+      onError: (error: Error) => {
+        console.error(error);
+        toast.error('Something went wrong!');
+      },
+    }
+  );
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const getPreventiveVehicleList = useQuery(
+    ['getPreventiveVehicleList', companyIds],
+    async () => await PreventiveAPI.getVehicleList(companyIds),
+    {
+      enabled: !!companyIds.length,
+      onSuccess: (response: any) => {
+        if (response.data) {
+          const { data } = response.data || {};
+
+          // extract keys
+          const keys = Object.keys(data);
+          let pending: any[] = [];
+
+          // normalize data
+          keys.forEach((key: string, index: number) => {
+            data[key].forEach((d: any) => {
+              pending.push(d);
+            });
+
+            if (index === keys.length - 1) {
+              pending = pending.map((d: any) => {
+                const company = companies.find((c: any) => c.id === d.company);
+                return {
+                  ...d,
+                  company_name: company.company_name,
+                };
+              });
+
+              let menus = tabMenus;
+              menus[0].title = `Pending (${pending.length})`;
+              setAllData({ ...allData, pending });
+            }
+          });
+        }
+      },
+      onError: (error: Error) => {
+        console.error(error.message);
+        toast.error('Something went wrong..');
+      },
+    }
+  );
 
   // ------------------------: UTILITY FUNCTION :-----------------------
   const onTabChange = async (item: TabMenuModal) => {
@@ -73,41 +146,20 @@ const PremitiveMaintenance = ({ showDetails, setShowDetails }: Props) => {
 
   // ------------------------: UTILITY DATA :-------------------------
   const actions: { [key: string]: any } = {
-    pending: {
-      onClickButton: (row: any) => {
-        setCurrRow(row);
-        setScheduleAppointmentForm(true);
-      },
-      onQuery: (row: any) => {
-        setCurrRow(row);
-      },
-    },
+    pending: {},
     completed: {
       onClickButton: (row: any) => {
         setCurrRow(row);
         setShowDetails(true);
       },
     },
-    paid: {
+    inProgress: {
       onClickButton: (row: any) => {
         setCurrRow(row);
-        setShowDetails(true);
+        setShowDetails(getPreventiveVehicleList.isLoading || getPreventiveRequest.isLoading);
       },
     },
   };
-
-  // ---------------------: USE EFFECTS :--------------------------
-  useEffect(() => {
-    if (companies) {
-      PreventiveAPI.getVehicleListStatic()
-        .then(function (response) {
-          console.log(JSON.stringify(response.data));
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    }
-  }, [companies]);
 
   // ---------------------: START RENDERING :-----------------------
   if (currRow && showDetails) {
@@ -125,7 +177,7 @@ const PremitiveMaintenance = ({ showDetails, setShowDetails }: Props) => {
         {/* ---------------------: DATA TABLE :-------------------- */}
         <PrimaryTable
           header={active.header || []}
-          data={DemoData}
+          data={allData[active.key] || []}
           type={`${active?.id}`}
           classNames={''}
           level={0}

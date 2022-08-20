@@ -6,7 +6,7 @@ import { useMutation, useQueries, useQuery, useQueryClient } from 'react-query';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import TechnicianAPI from '../../api/technicianApi';
-import { AssignTechnicians } from '../../api/types';
+import { AssignTechnicians, IAssignTechniciansPreventive } from '../../api/types';
 import { ChooseTechniciansModel } from '../../models/ChooseTechniciansModel';
 import { TechnicianModel } from '../../models/TechnicianModel';
 import { RootState } from '../../state/reducers';
@@ -16,17 +16,17 @@ import OverlayContainer from '../OverlayContainer';
 import PrimaryButton from '../PrimaryButton';
 import techniciansArr from './data';
 
-const ChooseTechnicians = ({ show, setShow, row }: ChooseTechniciansModel) => {
+const ChooseTechnicians = ({ show, setShow, row, type }: ChooseTechniciansModel) => {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const { user } = useSelector((state: RootState) => state.userState);
   const [technicians, setTechnicians] = useState<TechnicianModel[]>([]);
 
   const queryClient = useQueryClient();
 
-  const repairId = row?.id;
+  const id = row?.id;
 
   const getTechniciansApi = useQuery(
-    ['getTechnicians', repairId],
+    ['getTechnicians', id],
     async () =>
       await TechnicianAPI.getAllTechnicians({ vendor_account_id: user?.account_id as string }),
     {
@@ -43,32 +43,60 @@ const ChooseTechnicians = ({ show, setShow, row }: ChooseTechniciansModel) => {
         console.log(error);
         toast.error('Something went wrong please reload this page');
       },
-      enabled: !!repairId,
+      enabled: !!id,
     }
   );
 
-  const AssignTechnicianApi = useMutation('assignTechnician', TechnicianAPI.assignTechnician, {
-    onSuccess: (response: any) => {
-      // console.log('Response=> ', response);
-      if (response.response) {
-        toast.error(response.response.message);
-        return;
-      }
+  // --------------------------------: Mutations :-----------------------------------
+  const AssignTechnicianRepairRequestApi = useMutation(
+    'assignTechnicianRepairRequest',
+    TechnicianAPI.assignTechnicianRepairRequest,
+    {
+      onSuccess: (response: any) => {
+        // console.log('Response=> ', response);
+        if (response.response) {
+          toast.error(response.response.message);
+          return;
+        }
 
-      toast.success('Assigned successfully!');
-      setSelectedIndex(0);
-      setShow(false);
-      queryClient.invalidateQueries('allRpairRequest');
-    },
-    onError: (error: Error) => {
-      console.log(error);
-      toast.error('Something went wrong!');
-    },
-  });
+        toast.success('Assigned successfully!');
+        setSelectedIndex(0);
+        setShow(false);
+        queryClient.invalidateQueries('allRpairRequest');
+      },
+      onError: (error: Error) => {
+        console.log(error);
+        toast.error('Something went wrong!');
+      },
+    }
+  );
+
+  const AssignTechnicianPreventiveRequestApi = useMutation(
+    'assignTechnicianPreventiveRequest',
+    TechnicianAPI.assignTechnicianPreventiveRequest,
+    {
+      onSuccess: (response: any) => {
+        // console.log('Response=> ', response);
+        if (response.response) {
+          toast.error(response.response.message);
+          return;
+        }
+
+        toast.success('Assigned successfully!');
+        setSelectedIndex(0);
+        setShow(false);
+        queryClient.invalidateQueries('getPreventiveRequest');
+      },
+      onError: (error: Error) => {
+        console.log(error);
+        toast.error('Something went wrong!');
+      },
+    }
+  );
 
   const onAssignTechnician = (technician: TechnicianModel) => {
-    const data: AssignTechnicians = {
-      repair_request_id: repairId,
+    const data: { [key: string]: any } = {
+      // repair_request_id: id,
       vendor_account_id: user?.account_id as string,
       technicians: [
         {
@@ -77,7 +105,17 @@ const ChooseTechnicians = ({ show, setShow, row }: ChooseTechniciansModel) => {
       ],
     };
 
-    AssignTechnicianApi.mutate(data);
+    if (type === 'preventive') {
+      data['preventive_request_id'] = +id;
+      const updatedData = data as IAssignTechniciansPreventive;
+      AssignTechnicianPreventiveRequestApi.mutate(updatedData);
+    }
+
+    if (type === 'repair') {
+      data['repair_request_id'] = id;
+      const updatedData = data as AssignTechnicians;
+      AssignTechnicianRepairRequestApi.mutate(updatedData);
+    }
   };
 
   return (
@@ -133,7 +171,10 @@ const ChooseTechnicians = ({ show, setShow, row }: ChooseTechniciansModel) => {
             title={'ASSIGN'}
             classNames={'w-full bg-primary-2 text-white py-3 font-semibold hover:bg-[#1f1d66c7]'}
             onClick={() => onAssignTechnician(technicians[selectedIndex])}
-            loading={AssignTechnicianApi.isLoading}
+            loading={
+              AssignTechnicianRepairRequestApi.isLoading ||
+              AssignTechnicianPreventiveRequestApi.isLoading
+            }
           />
         </div>
       </ModalForm>

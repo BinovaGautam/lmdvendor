@@ -7,6 +7,7 @@ import {
   AcceptRepairRequest,
   DenyRepairRequest,
   ITechnicianId,
+  IAssignTechniciansPreventive,
 } from './types';
 
 export default class TechnicianAPI {
@@ -33,7 +34,7 @@ export default class TechnicianAPI {
     });
   }
 
-  static assignTechnician(data: AssignTechnicians) {
+  static assignTechnicianRepairRequest(data: AssignTechnicians) {
     return request({
       url: `technicians/v1/technicians/assign_technician`,
       method: 'post',
@@ -61,6 +62,14 @@ export default class TechnicianAPI {
     return request({
       url: `technicians/v1/technicians/repair_requests?technician_account_id=${data.technician_account_id}`,
       method: 'get',
+    });
+  }
+
+  static assignTechnicianPreventiveRequest(data: IAssignTechniciansPreventive) {
+    return request({
+      url: `pm-request/v1/preventive/assign_technician`,
+      method: 'post',
+      data: data,
     });
   }
 }

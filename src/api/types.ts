@@ -110,6 +110,12 @@ export interface AssignTechnicians {
   technicians: ITechnicianId[];
 }
 
+export interface IAssignTechniciansPreventive {
+  preventive_request_id: number;
+  vendor_account_id: string;
+  technicians: ITechnicianId[];
+}
+
 export interface AcceptRepairRequest {
   repair_request_id: number;
   vendor_account_id: string;
@@ -144,4 +150,12 @@ export interface ICreateRepairRequest {
   company: string;
   notes: string;
   date_time_slots: IdateTimeSlot[];
+}
+
+// ==================: Preventive Types :================
+export interface IPreventiveSendSchedule {
+  company: string;
+  created_by: string;
+  date_time_slots: IdateTimeSlot[];
+  vehicle: string;
 }

@@ -3,6 +3,8 @@ import {
   SendQuotationControl,
   SendScheduleControl,
   TechnicianControl,
+  PreventiveSendSchedule,
+  StatusControl,
 } from '../../table-controlers';
 
 export const PendingTableHeader = [
@@ -180,7 +182,7 @@ export const ScheduledTableHeader = [
     title: 'Action',
     key: 'action',
     type: 'component',
-    component: (row: any) => <TechnicianControl row={row} />,
+    component: (row: any) => <TechnicianControl row={row} type='repair' />,
   },
 ];
 
@@ -518,6 +520,40 @@ export const RepairTabMenus = [
 export const PrimitivePendingTableHeader = [
   {
     title: 'DSP Name',
+    key: 'company_name',
+    type: 'image-string',
+  },
+  {
+    title: 'Van Name',
+    key: 'name',
+    level2: {
+      key: 'vehicle',
+    },
+    type: 'string',
+  },
+  {
+    title: 'VAN Number',
+    key: 'plate',
+    level2: {
+      key: 'vehicle',
+    },
+    type: 'string',
+  },
+  // {
+  //   title: 'Van Type',
+  //   key: 'van-type',
+  //   type: 'string',
+  // },
+  {
+    title: 'Action',
+    key: 'action',
+    type: 'component',
+    component: (row: any) => <PreventiveSendSchedule row={row} />,
+  },
+];
+export const PreventiveInProgressTableHeader = [
+  {
+    title: 'DSP Name',
     key: 'name',
     level2: {
       key: 'dsp',
@@ -541,23 +577,31 @@ export const PrimitivePendingTableHeader = [
     type: 'string',
   },
   {
-    title: 'Van Type',
-    key: 'van-type',
+    title: 'Model',
+    key: 'model',
+    level2: {
+      key: 'vehicle',
+    },
     type: 'string',
+  },
+  {
+    title: 'Status',
+    key: 'status',
+    type: 'component',
+    component: (row: any) => <StatusControl row={row} type='preventive' />,
   },
   {
     title: 'Action',
     key: 'action',
     type: 'button',
-    text: 'Send Schedule',
+    text: 'view',
     func: 'onClickButton',
-    disableState: {
-      key: 'quotations',
-      isDisable: (data: any) =>
-        data.quotations.find(
-          (quotation: any, index: number) => quotation.vendor_account_id !== data.vender_id
-        ),
-    },
+  },
+  {
+    title: '',
+    key: '',
+    type: 'component',
+    component: (row: any) => <TechnicianControl row={row} type={'preventive'} />,
   },
 ];
 
@@ -609,16 +653,22 @@ export const PrimitiveTabMenus = [
   },
   {
     id: 1,
+    title: 'In Progress',
+    key: 'inProgress',
+    header: PreventiveInProgressTableHeader,
+  },
+  {
+    id: 2,
     title: 'Completed',
     key: 'completed',
     header: PrimitiveCompleteTableHeader,
   },
-  {
-    id: 2,
-    title: 'Paid',
-    key: 'paid',
-    header: PrimitiveCompleteTableHeader,
-  },
+  // {
+  //   id: 2,
+  //   title: 'Paid',
+  //   key: 'paid',
+  //   header: PrimitiveCompleteTableHeader,
+  // },
 ];
 
 export const dashboardPages = [

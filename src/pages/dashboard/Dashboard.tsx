@@ -6,7 +6,7 @@ import PremitiveMaintenance from './PremitiveMaintenance';
 import RepairRequest from './RepairRequest';
 
 const Dashboard = () => {
-  const [pageContent, setPageContent] = useState<any>(dashboardPages[0]);
+  const [pageContent, setPageContent] = useState<any>(dashboardPages[1]);
   const [filterTwo, setFilterTwo] = useState<any>(dashboardFilterTwo[0]);
   const [showDetails, setShowDetails] = useState<boolean>(false);
 

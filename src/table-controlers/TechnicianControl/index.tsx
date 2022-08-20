@@ -3,7 +3,7 @@ import { useState } from 'react';
 import DotsOption from '../../components/DotsOption';
 import { ChooseTechnicians } from '../../components';
 
-const TechnicianControl = ({ row }: ITechnicianControl) => {
+const TechnicianControl = ({ row, type }: ITechnicianControl) => {
   const [showDrop, setShowDrop] = useState<boolean>(true);
   const [showChooseTechnician, setShowChooseTechnician] = useState<boolean>(false);
 
@@ -31,7 +31,12 @@ const TechnicianControl = ({ row }: ITechnicianControl) => {
   return (
     <div>
       <DotsOption options={options} row={row} actions={actions} showDrop={showDrop} />
-      <ChooseTechnicians row={row} show={showChooseTechnician} setShow={setShowChooseTechnician} />
+      <ChooseTechnicians
+        row={row}
+        show={showChooseTechnician}
+        setShow={setShowChooseTechnician}
+        type={type}
+      />
     </div>
   );
 };
