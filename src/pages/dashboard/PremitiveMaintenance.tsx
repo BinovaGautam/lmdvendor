@@ -11,7 +11,13 @@ import SendQuotationForm from '../../components/SendQuotationForm';
 import TabBar from '../../components/TabBar';
 import { TabMenuModal } from '../../models/TabBarModel';
 import { RootState } from '../../state/reducers';
-import { DemoData, PrimitiveTabMenus } from './data';
+import {
+  DemoData,
+  PreventiveCompleteTableHeader,
+  PreventiveInProgressTableHeader,
+  PreventivePendingTableHeader,
+  PrimitiveTabMenus,
+} from './data';
 import RepairDetails from './RepairDetails';
 
 type Props = {
@@ -142,11 +148,23 @@ const PremitiveMaintenance = ({ showDetails, setShowDetails }: Props) => {
 
   // ------------------------: UTILITY FUNCTION :-----------------------
   const onTabChange = async (item: TabMenuModal) => {
-    setTableHeader([]);
+    // setTableHeader([]);
     setData([]);
 
-    console.log({ header: item.header });
-    setTableHeader(item.header);
+    // console.log({ header: item.header });
+    // setTableHeader(item.header);
+
+    // if (item.id === 1) {
+    //   item.header = PreventiveInProgressTableHeader;
+    // }
+
+    // if (item.id === 2) {
+    //   item.header = PreventiveCompleteTableHeader;
+    // }
+
+    // if (item.id === 0) {
+    //   item.header = PreventivePendingTableHeader;
+    // }
     setActive(item);
   };
 
@@ -182,7 +200,7 @@ const PremitiveMaintenance = ({ showDetails, setShowDetails }: Props) => {
       <div className='pb-5'>
         {/* ---------------------: DATA TABLE :-------------------- */}
         <PrimaryTable
-          header={tableHeader || []}
+          header={active.header || []}
           data={allData[active.key] || []}
           type={`${active?.id}`}
           classNames={''}

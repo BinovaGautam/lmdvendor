@@ -1,5 +1,5 @@
 import { PencilAltIcon, TrashIcon } from '@heroicons/react/outline';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { PrimaryTableHeadModal, PrimaryTableModel } from '../../models/PrimaryTableModal';
 import { RootState } from '../../state/reducers';
@@ -46,16 +46,18 @@ const PrimaryTable = ({
   actions,
 }: PrimaryTableModel) => {
   console.log({ header });
+
   return (
     <div
       className={`min-h-[550px] max-h-[550px] pb-5 overflow-y-scroll no-scrollbar rounded-xl bg-white border-[1px] border-gray-300 px-4`}>
+      <br />
       <table className='min-w-full'>
         {/* ----------------- Header --------------------- */}
         <thead className='bg-white'>
           <tr className=''>
-            {header.map((head: any) => (
+            {header.map((head: any, index: number) => (
               <th
-                key={head.key}
+                key={index}
                 scope='col'
                 className='pt-5 px-4 pb-3 font-semibold text-primary-2 text-sm text-left bg-white border-b-[1px] border-b-gray-300'>
                 {head.title}

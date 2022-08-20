@@ -600,7 +600,7 @@ export const PreventiveInProgressTableHeader = [
   },
 ];
 
-export const PrimitiveCompleteTableHeader = [
+export const PreventiveCompleteTableHeader = [
   {
     title: 'DSP Name',
     key: 'name',
@@ -656,7 +656,7 @@ export const PrimitiveTabMenus = [
     id: 2,
     title: 'Completed',
     key: 'completed',
-    header: PrimitiveCompleteTableHeader,
+    header: PreventiveCompleteTableHeader,
   },
 ];
 
