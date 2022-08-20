@@ -40,6 +40,7 @@ const PremitiveMaintenance = ({ showDetails, setShowDetails }: Props) => {
     complete: [],
     pending: [],
   });
+  const [tableHeader, setTableHeader] = useState<any[]>(active.header || []);
 
   // ---------------------------: React Queries :-------------------------
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -68,9 +69,7 @@ const PremitiveMaintenance = ({ showDetails, setShowDetails }: Props) => {
         if (response.data) {
           const { data } = response.data || {};
 
-          console.log({ data });
-
-          let menus = tabMenus;
+          let menus = [...tabMenus];
           let inProgress = data?.filter(
             (row: any) =>
               row.status_id === '1' ||
@@ -85,6 +84,8 @@ const PremitiveMaintenance = ({ showDetails, setShowDetails }: Props) => {
 
           menus[1].title = `In Progress (${inProgress.length})`;
           menus[2].title = `Completed (${completed.length})`;
+
+          setTabMenus(menus);
           setAllData({ ...allData, inProgress, completed });
         }
       },
@@ -124,9 +125,10 @@ const PremitiveMaintenance = ({ showDetails, setShowDetails }: Props) => {
                 };
               });
 
-              let menus = tabMenus;
+              let menus = [...tabMenus];
               menus[0].title = `Pending (${pending.length})`;
               setAllData({ ...allData, pending });
+              setTabMenus(menus);
             }
           });
         }
@@ -140,7 +142,11 @@ const PremitiveMaintenance = ({ showDetails, setShowDetails }: Props) => {
 
   // ------------------------: UTILITY FUNCTION :-----------------------
   const onTabChange = async (item: TabMenuModal) => {
+    setTableHeader([]);
     setData([]);
+
+    console.log({ header: item.header });
+    setTableHeader(item.header);
     setActive(item);
   };
 
@@ -156,7 +162,7 @@ const PremitiveMaintenance = ({ showDetails, setShowDetails }: Props) => {
     inProgress: {
       onClickButton: (row: any) => {
         setCurrRow(row);
-        setShowDetails(getPreventiveVehicleList.isLoading || getPreventiveRequest.isLoading);
+        setShowDetails(true);
       },
     },
   };
@@ -176,13 +182,13 @@ const PremitiveMaintenance = ({ showDetails, setShowDetails }: Props) => {
       <div className='pb-5'>
         {/* ---------------------: DATA TABLE :-------------------- */}
         <PrimaryTable
-          header={active.header || []}
+          header={tableHeader || []}
           data={allData[active.key] || []}
           type={`${active?.id}`}
           classNames={''}
           level={0}
           actions={actions[active.key]}
-          loading={false}
+          loading={getPreventiveVehicleList.isLoading || getPreventiveRequest.isLoading}
         />
 
         {/* -----------------------: MODAL FORMS :----------------------- */}

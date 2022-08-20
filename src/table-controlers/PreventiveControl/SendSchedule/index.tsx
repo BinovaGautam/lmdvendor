@@ -112,8 +112,6 @@ const PreventiveSendSchedule = ({ row }: ISendSchedule) => {
     setTimeout(() => setScheduleSubmitErrors({}), 3000);
   };
 
-  console.log({ row });
-
   return (
     <div>
       <PrimaryButton

@@ -517,7 +517,7 @@ export const RepairTabMenus = [
   },
 ];
 
-export const PrimitivePendingTableHeader = [
+export const PreventivePendingTableHeader = [
   {
     title: 'DSP Name',
     key: 'company_name',
@@ -539,11 +539,6 @@ export const PrimitivePendingTableHeader = [
     },
     type: 'string',
   },
-  // {
-  //   title: 'Van Type',
-  //   key: 'van-type',
-  //   type: 'string',
-  // },
   {
     title: 'Action',
     key: 'action',
@@ -649,7 +644,7 @@ export const PrimitiveTabMenus = [
     id: 0,
     title: 'Pending',
     key: 'pending',
-    header: PrimitivePendingTableHeader,
+    header: PreventivePendingTableHeader,
   },
   {
     id: 1,
@@ -663,12 +658,6 @@ export const PrimitiveTabMenus = [
     key: 'completed',
     header: PrimitiveCompleteTableHeader,
   },
-  // {
-  //   id: 2,
-  //   title: 'Paid',
-  //   key: 'paid',
-  //   header: PrimitiveCompleteTableHeader,
-  // },
 ];
 
 export const dashboardPages = [
@@ -679,7 +668,7 @@ export const dashboardPages = [
   },
   {
     name: 'Preventive Maintenance',
-    pageTitle: 'Preventive',
+    pageTitle: 'Preventive Requests',
     code: 'PM',
   },
 ];
