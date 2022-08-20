@@ -13,16 +13,33 @@ import { UpdateStatus } from '../../api/types';
 import QuotationAPI from '../../api/quotationApi';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../state/reducers';
+import { StatusControl } from '../../table-controlers';
+import { AssetsController } from '../../controllers';
+import { useGroupAssets } from '../../hooks';
+import { IAsset } from '../../type';
 
 type Props = {
   row?: any;
   setRepairDetail: (value: boolean) => void;
   active: TabMenuModal;
+  type: string;
+  onSubmit?: (row: any) => void;
+  submitLoader?: boolean;
 };
 
 const tabs = ['Before', 'After'];
 
-export default function RepairDetails({ row, setRepairDetail, active }: Props) {
+export default function RepairDetails({
+  row,
+  setRepairDetail,
+  active,
+  type,
+  onSubmit,
+  submitLoader,
+}: Props) {
+  // ----------------------: Hooks :------------------------
+  const { images, videos, text_notes, additional_items } = useGroupAssets(row.assets);
+
   const { user } = useSelector((state: RootState) => state.userState);
   const queryClient = useQueryClient();
   let { appointments, technicians } = row || {};
@@ -225,6 +242,7 @@ export default function RepairDetails({ row, setRepairDetail, active }: Props) {
         </WhiteBoxWithShadow>
       </div>
 
+      {/* ---------------------------: TABS :------------------------ */}
       <div>
         <div className='w-max'>
           <WhiteBoxWithShadow classNames=''>
@@ -244,80 +262,44 @@ export default function RepairDetails({ row, setRepairDetail, active }: Props) {
           </WhiteBoxWithShadow>
         </div>
       </div>
+
+      {/* ----------------------------: IMAGES :-------------------- */}
       <WhiteBoxWithShadow classNames=''>
         <div className='text-primary-2'>
           <div className='p-5 flex flex-col gap-y-3'>
             <h3 className='font-semibold text-sm'>Photos</h3>
             <div className='flex gap-5 flex-wrap'>
-              <div className='h-28 w-40 rounded-xl overflow-hidden'>
-                <img src='' alt='' className='w-full h-full' onError={handleImageOnError} />
-              </div>
-              <div className='h-28 w-40 rounded-xl overflow-hidden'>
-                <img src='' alt='' className='w-full h-full' onError={handleImageOnError} />
-              </div>
-              <div className='h-28 w-40 rounded-xl overflow-hidden'>
-                <img src='' alt='' className='w-full h-full' onError={handleImageOnError} />
-              </div>
-              <div className='h-28 w-40 rounded-xl overflow-hidden'>
-                <img src='' alt='' className='w-full h-full' onError={handleImageOnError} />
-              </div>
+              {/* ASSETS CONTROLLER */}
+              {images.map((image: IAsset, index: number) => (
+                <AssetsController {...image} key={index} />
+              ))}
             </div>
           </div>
           <div className='p-5 flex flex-col gap-y-3'>
             <h3 className='font-semibold text-sm'>Video</h3>
             <div className='flex gap-5 flex-wrap'>
-              <div className='h-28 w-40 relative rounded-xl overflow-hidden flex items-center justify-center'>
-                <img src='' alt='' className='w-full h-full' onError={handleImageOnError} />
-
-                <PlayIcon className='cursor-pointer absolute w-11 h-11 bg-white rounded-full text-primary-2' />
-              </div>
-              <div className='h-28 w-40 relative rounded-xl overflow-hidden flex items-center justify-center'>
-                <img src='' alt='' className='w-full h-full' onError={handleImageOnError} />
-
-                <PlayIcon className='cursor-pointer absolute w-11 h-11 bg-white rounded-full text-primary-2' />
-              </div>
-              <div className='h-28 w-40 relative rounded-xl overflow-hidden flex items-center justify-center'>
-                <img src='' alt='' className='w-full h-full' onError={handleImageOnError} />
-
-                <PlayIcon className='cursor-pointer absolute w-11 h-11 bg-white rounded-full text-primary-2' />
-              </div>
-              <div className='h-28 w-40 relative rounded-xl overflow-hidden flex items-center justify-center'>
-                <img src='' alt='' className='w-full h-full' onError={handleImageOnError} />
-
-                <PlayIcon className='cursor-pointer absolute w-11 h-11 bg-white rounded-full text-primary-2' />
-              </div>
+              {videos.map((video: IAsset, index: number) => (
+                <AssetsController {...video} key={index} />
+              ))}
             </div>
           </div>
           <div className='p-5 flex flex-col gap-y-3'>
             <h3 className='font-semibold text-sm'>Notes</h3>
-            <p className='text-sm'>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam neque
-              reprehenderit beatae
-            </p>
+            {text_notes.map((note: IAsset, index: number) => (
+              <AssetsController {...note} key={index} />
+            ))}
           </div>
           <div className='p-5 flex flex-col gap-y-3'>
             <h3 className='font-semibold text-sm'>Add Additional item </h3>
             <div className='flex gap-5 flex-wrap'>
-              <WhiteBoxWithShadow classNames=''>
-                <div className='py-3 px-6'>
-                  <p>Lorem Ipsum is simply</p>
-                </div>
-              </WhiteBoxWithShadow>
-              <WhiteBoxWithShadow classNames=''>
-                <div className='py-3 px-6'>
-                  <p>Lorem Ipsum is simply</p>
-                </div>
-              </WhiteBoxWithShadow>
-              <WhiteBoxWithShadow classNames=''>
-                <div className='py-3 px-6'>
-                  <p>Lorem Ipsum is simply</p>
-                </div>
-              </WhiteBoxWithShadow>
+              {additional_items.map((item: IAsset, index: number) => (
+                <AssetsController {...item} key={index} />
+              ))}
             </div>
           </div>
           <div className='p-5 flex flex-col gap-y-3'>
             <h3 className='font-semibold text-sm'>Status</h3>
-            {active.key === 'inProgress' && (
+            {/* {active.key === 'inProgress' && (
               <div>
                 {row?.status_id === '6' ? (
                   <span className='text-red-600 flex items-center gap-x-2 text-base font-medium'>
@@ -344,7 +326,9 @@ export default function RepairDetails({ row, setRepairDetail, active }: Props) {
                   </span>
                 )}
               </div>
-            )}
+            )} */}
+
+            <StatusControl row={row} type={type} />
             {active.key === 'completed' && (
               <span className='text-green-600 text-base font-medium'>
                 {row?.status_id === '7' && 'Completed By Technician'}
@@ -356,23 +340,40 @@ export default function RepairDetails({ row, setRepairDetail, active }: Props) {
         </div>
       </WhiteBoxWithShadow>
 
-      <div className='flex justify-end items-center'>
-        {active.key === 'inProgress' && (
-          <PrimaryButton
-            title={'Submit'}
-            classNames={'py-2 px-10 bg-primary-2 text-white font-semibold'}
-            onClick={() => setShowFinalAmountInvoiceForm(true)}
-          />
-        )}
-        {active.key === 'completed' && (
-          <PrimaryButton
-            title={'Send final amount'}
-            classNames={'py-2 px-10 bg-primary-2 text-white font-semibold'}
-            onClick={onComplete}
-            loading={MUpdateStatus.isLoading}
-          />
-        )}
-      </div>
+      {type === 'preventive' ? (
+        <div className='flex justify-end items-center'>
+          {parseInt(row.status_id) >= 4 && (
+            <PrimaryButton
+              title={'Submit'}
+              classNames={'py-2 px-10 bg-primary-2 text-white font-semibold'}
+              onClick={() => {
+                if (onSubmit) {
+                  onSubmit(row);
+                }
+              }}
+              loading={submitLoader}
+            />
+          )}
+        </div>
+      ) : (
+        <div className='flex justify-end items-center'>
+          {active.key === 'inProgress' && (
+            <PrimaryButton
+              title={'Submit'}
+              classNames={'py-2 px-10 bg-primary-2 text-white font-semibold'}
+              onClick={() => setShowFinalAmountInvoiceForm(true)}
+            />
+          )}
+          {active.key === 'completed' && (
+            <PrimaryButton
+              title={'Send final amount'}
+              classNames={'py-2 px-10 bg-primary-2 text-white font-semibold'}
+              onClick={onComplete}
+              loading={MUpdateStatus.isLoading}
+            />
+          )}
+        </div>
+      )}
 
       <FinalAmountInvoiceForm
         row={row}

@@ -102,7 +102,18 @@ const RepairRequest = ({ showDetails, setShowDetails }: Props) => {
 
   // ---------------------: START RENDERING :-----------------------
   if (currRow && showDetails) {
-    return <RepairDetails active={active} setRepairDetail={setShowDetails} row={currRow} />;
+    return (
+      <RepairDetails
+        active={active}
+        setRepairDetail={setShowDetails}
+        row={currRow}
+        type='repair'
+        onSubmit={function (): void {
+          throw new Error('Function not implemented.');
+        }}
+        submitLoader={false}
+      />
+    );
   }
 
   return (

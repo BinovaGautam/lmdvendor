@@ -1,5 +1,5 @@
 import { request } from './base';
-import { IPreventiveSendSchedule } from './types';
+import { IPreventiveSendSchedule, IPreventiveUpdateStatus } from './types';
 
 export default class PreventiveAPI {
   static getVehicleList(companies: string[]) {
@@ -22,6 +22,16 @@ export default class PreventiveAPI {
       url: `pm-request/v1/preventive/schedule`,
       method: 'post',
       data: data,
+    });
+  }
+
+  static updateStatus(data: IPreventiveUpdateStatus) {
+    return request({
+      url: `pm-request/v1/preventive/` + data.id,
+      method: 'put',
+      data: {
+        status_id: data.status,
+      },
     });
   }
 }

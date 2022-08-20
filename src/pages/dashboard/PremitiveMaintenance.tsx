@@ -1,5 +1,5 @@
 import { Fragment, useState } from 'react';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import PreventiveAPI from '../../api/preventiveApi';
@@ -28,13 +28,17 @@ type Props = {
 const updateCompanyInfo = (data: any[]) => {};
 
 const PremitiveMaintenance = ({ showDetails, setShowDetails }: Props) => {
+  // ------------------------: Query Client : ---------------------------
+
+  const queryClient = useQueryClient();
+
   // -----------------------: REDUX STATE :---------------------
   const { user } = useSelector((state: RootState) => state.userState);
 
   // ----------------------: MANAGE STATE :----------------------
   const [currRow, setCurrRow] = useState<any>(undefined);
   const [tabMenus, setTabMenus] = useState<TabMenuModal[]>(PrimitiveTabMenus);
-  const [active, setActive] = useState<TabMenuModal>(tabMenus[0]);
+  const [active, setActive] = useState<TabMenuModal>(tabMenus[1]);
   const [showCommentForm, setShowCommentForm] = useState<boolean>(false);
   const [showSendQuotationForm, setShowSendQuotationForm] = useState<boolean>(false);
   const [showScheduleAppointmentForm, setScheduleAppointmentForm] = useState<boolean>(false);
@@ -46,7 +50,6 @@ const PremitiveMaintenance = ({ showDetails, setShowDetails }: Props) => {
     complete: [],
     pending: [],
   });
-  const [tableHeader, setTableHeader] = useState<any[]>(active.header || []);
 
   // ---------------------------: React Queries :-------------------------
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -146,25 +149,27 @@ const PremitiveMaintenance = ({ showDetails, setShowDetails }: Props) => {
     }
   );
 
+  // mutations
+  const UpdateStatusApi = useMutation('updateStatus', PreventiveAPI.updateStatus, {
+    onSuccess: (response: any) => {
+      if (response.response) {
+        toast.error(response.response.data.message);
+        return;
+      }
+
+      toast.success('Update successfully!');
+      queryClient.invalidateQueries('getPreventiveRequest');
+      setShowDetails(false);
+    },
+    onError: (error: Error) => {
+      console.log(error);
+      toast.error('something went wrong!!');
+    },
+  });
+
   // ------------------------: UTILITY FUNCTION :-----------------------
   const onTabChange = async (item: TabMenuModal) => {
-    // setTableHeader([]);
     setData([]);
-
-    // console.log({ header: item.header });
-    // setTableHeader(item.header);
-
-    // if (item.id === 1) {
-    //   item.header = PreventiveInProgressTableHeader;
-    // }
-
-    // if (item.id === 2) {
-    //   item.header = PreventiveCompleteTableHeader;
-    // }
-
-    // if (item.id === 0) {
-    //   item.header = PreventivePendingTableHeader;
-    // }
     setActive(item);
   };
 
@@ -182,12 +187,29 @@ const PremitiveMaintenance = ({ showDetails, setShowDetails }: Props) => {
         setCurrRow(row);
         setShowDetails(true);
       },
+      onSubmit: async (row: any) => {
+        // update status
+        await UpdateStatusApi.mutateAsync({
+          id: +row.id,
+          status: 6,
+        });
+      },
+      apiHandler: UpdateStatusApi,
     },
   };
 
   // ---------------------: START RENDERING :-----------------------
   if (currRow && showDetails) {
-    return <RepairDetails active={active} setRepairDetail={setShowDetails} row={currRow} />;
+    return (
+      <RepairDetails
+        active={active}
+        setRepairDetail={setShowDetails}
+        row={currRow}
+        type='preventive'
+        onSubmit={actions[active.key]?.onSubmit}
+        submitLoader={actions[active.key]?.apiHandler?.isLoading}
+      />
+    );
   }
 
   return (

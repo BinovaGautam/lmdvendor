@@ -194,7 +194,16 @@ export default function Dashboard() {
         </div>
       </div>
       {currRow && showDetails ? (
-        <RepairDetails active={active} setRepairDetail={setShowDetails} row={currRow} />
+        <RepairDetails
+          active={active}
+          setRepairDetail={setShowDetails}
+          row={currRow}
+          type='repair'
+          onSubmit={function (): void {
+            throw new Error('Function not implemented.');
+          }}
+          submitLoader={false}
+        />
       ) : (
         <>
           {/* ----------------: TabBar :------------------- */}

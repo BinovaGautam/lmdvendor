@@ -635,7 +635,7 @@ export const PreventiveCompleteTableHeader = [
     key: 'action',
     type: 'button',
     text: 'View',
-    // func: 'onClickButton',
+    func: 'onClickButton',
   },
 ];
 

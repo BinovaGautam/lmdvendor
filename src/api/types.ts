@@ -159,3 +159,8 @@ export interface IPreventiveSendSchedule {
   date_time_slots: IdateTimeSlot[];
   vehicle: string;
 }
+
+export interface IPreventiveUpdateStatus {
+  id: number;
+  status: number;
+}

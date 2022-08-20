@@ -45,8 +45,6 @@ const PrimaryTable = ({
   type,
   actions,
 }: PrimaryTableModel) => {
-  console.log({ header });
-
   return (
     <div
       className={`min-h-[550px] max-h-[550px] pb-5 overflow-y-scroll no-scrollbar rounded-xl bg-white border-[1px] border-gray-300 px-4`}>
