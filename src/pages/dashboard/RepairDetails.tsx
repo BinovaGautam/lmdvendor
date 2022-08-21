@@ -286,23 +286,25 @@ export default function RepairDetails({
           <div className='p-5 flex flex-col gap-y-3'>
             <h3 className='font-semibold text-sm'>Video</h3>
             <div className='flex gap-5 flex-wrap'>
-              {videos.before.map((video: IAsset, index: number) => (
+              {videos[activeTab.key as keyof IAssetObj].map((video: IAsset, index: number) => (
                 <AssetsController {...video} key={index} />
               ))}
             </div>
           </div>
           <div className='p-5 flex flex-col gap-y-3'>
             <h3 className='font-semibold text-sm'>Notes</h3>
-            {text_notes.before.map((note: IAsset, index: number) => (
+            {text_notes[activeTab.key as keyof IAssetObj].map((note: IAsset, index: number) => (
               <AssetsController {...note} key={index} />
             ))}
           </div>
           <div className='p-5 flex flex-col gap-y-3'>
             <h3 className='font-semibold text-sm'>Add Additional item </h3>
             <div className='flex gap-5 flex-wrap'>
-              {additional_items.before.map((item: IAsset, index: number) => (
-                <AssetsController {...item} key={index} />
-              ))}
+              {additional_items[activeTab.key as keyof IAssetObj].map(
+                (item: IAsset, index: number) => (
+                  <AssetsController {...item} key={index} />
+                )
+              )}
             </div>
           </div>
           <div className='p-5 flex flex-col gap-y-3'>
