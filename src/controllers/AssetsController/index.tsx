@@ -1,10 +1,14 @@
 import { PlayIcon } from '@heroicons/react/solid';
-import React from 'react';
+import React, { useState } from 'react';
+import { VideoModal } from '../../components';
 import WhiteBoxWithShadow from '../../components/Wrappers/WhiteBoxWithShadow';
 import { IAsset } from '../../type';
-import { handleImageOnError } from '../../utils/helpers';
+import { handleImageOnError, handleVideoThumbnailOnError } from '../../utils/helpers';
 
 const AssetsController = ({ asset_type, asset_info, uploaded_by }: IAsset) => {
+  // ------------------: Video Settings :-------------------
+  const [show, setShow] = useState<boolean>(false);
+
   if (asset_type === '1') {
     return (
       <div className='h-28 w-40 rounded-xl overflow-hidden'>
@@ -16,9 +20,17 @@ const AssetsController = ({ asset_type, asset_info, uploaded_by }: IAsset) => {
   if (asset_type === '2') {
     return (
       <div className='h-28 w-40 relative rounded-xl overflow-hidden flex items-center justify-center'>
-        <img src={asset_info} alt='' className='w-full h-full' onError={handleImageOnError} />
-
-        <PlayIcon className='cursor-pointer absolute w-11 h-11 bg-white rounded-full text-primary-2' />
+        <img
+          src={asset_info}
+          alt=''
+          className='w-full h-full'
+          onError={handleVideoThumbnailOnError}
+        />
+        <VideoModal url={asset_info} show={show} setShow={setShow} />
+        <PlayIcon
+          onClick={() => setShow(true)}
+          className='cursor-pointer absolute w-11 h-11 bg-white rounded-full text-primary-2'
+        />
       </div>
     );
   }
