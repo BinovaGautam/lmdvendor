@@ -5,9 +5,14 @@ export interface IAsset {
   uploaded_by: string;
 }
 
+export interface IAssetObj {
+  before: IAsset[];
+  after: IAsset[];
+}
+
 export interface IGroupAsset {
-  images: IAsset[];
-  videos: IAsset[];
-  text_notes: IAsset[];
-  additional_items: IAsset[];
+  images: IAssetObj;
+  videos: IAssetObj;
+  text_notes: IAssetObj;
+  additional_items: IAssetObj;
 }

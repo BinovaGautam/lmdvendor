@@ -16,7 +16,7 @@ import { RootState } from '../../state/reducers';
 import { StatusControl } from '../../table-controlers';
 import { AssetsController } from '../../controllers';
 import { useGroupAssets } from '../../hooks';
-import { IAsset } from '../../type';
+import { IAsset, IAssetObj } from '../../type';
 
 type Props = {
   row?: any;
@@ -27,7 +27,15 @@ type Props = {
   submitLoader?: boolean;
 };
 
-const tabs = ['Before', 'After'];
+interface ITab {
+  title: string;
+  key: string;
+}
+
+const tabs: ITab[] = [
+  { title: 'Before', key: 'before' },
+  { title: 'After', key: 'after' },
+];
 
 export default function RepairDetails({
   row,
@@ -44,7 +52,7 @@ export default function RepairDetails({
   const queryClient = useQueryClient();
   let { appointments, technicians } = row || {};
   let technician = technicians ? technicians[0] : {};
-  const [activeTab, setActiveTab] = useState<number>(0);
+  const [activeTab, setActiveTab] = useState<ITab>(tabs[0]);
   const [queries, setQueries] = useState<any[]>([]);
   const [showFinalAmountInvoiceForm, setShowFinalAmountInvoiceForm] = useState<boolean>(false);
   const [showFinalAmountForm, setShowFinalAmountForm] = useState<boolean>(false);
@@ -248,13 +256,13 @@ export default function RepairDetails({
           <WhiteBoxWithShadow classNames=''>
             <div className=''>
               <div className='flex gap-x-6 px-8 py-[2px]'>
-                {tabs.map((tab: string, index: number) => (
+                {tabs.map((tab: ITab, index: number) => (
                   <div
-                    onClick={() => setActiveTab(index)}
+                    onClick={() => setActiveTab(tab)}
                     className={`px-4 text-base transition-all duration-300 delay-200 font-semibold text-primary-2 py-3 cursor-pointer relative after:content-[''] after:absolute after:rounded-full after:top-full after:transition-all after:duration-300 after:delay-200 after:left-0 after:h-[2px] after:w-full after:bg-[#3880ff] ${
-                      activeTab !== index ? 'after:opacity-0 text-opacity-50' : ''
+                      activeTab.key !== tab.key ? 'after:opacity-0 text-opacity-50' : ''
                     }`}>
-                    {tab}
+                    {tab.title}
                   </div>
                 ))}
               </div>
@@ -270,7 +278,7 @@ export default function RepairDetails({
             <h3 className='font-semibold text-sm'>Photos</h3>
             <div className='flex gap-5 flex-wrap'>
               {/* ASSETS CONTROLLER */}
-              {images.map((image: IAsset, index: number) => (
+              {images[activeTab.key as keyof IAssetObj].map((image: IAsset, index: number) => (
                 <AssetsController {...image} key={index} />
               ))}
             </div>
@@ -278,21 +286,21 @@ export default function RepairDetails({
           <div className='p-5 flex flex-col gap-y-3'>
             <h3 className='font-semibold text-sm'>Video</h3>
             <div className='flex gap-5 flex-wrap'>
-              {videos.map((video: IAsset, index: number) => (
+              {videos.before.map((video: IAsset, index: number) => (
                 <AssetsController {...video} key={index} />
               ))}
             </div>
           </div>
           <div className='p-5 flex flex-col gap-y-3'>
             <h3 className='font-semibold text-sm'>Notes</h3>
-            {text_notes.map((note: IAsset, index: number) => (
+            {text_notes.before.map((note: IAsset, index: number) => (
               <AssetsController {...note} key={index} />
             ))}
           </div>
           <div className='p-5 flex flex-col gap-y-3'>
             <h3 className='font-semibold text-sm'>Add Additional item </h3>
             <div className='flex gap-5 flex-wrap'>
-              {additional_items.map((item: IAsset, index: number) => (
+              {additional_items.before.map((item: IAsset, index: number) => (
                 <AssetsController {...item} key={index} />
               ))}
             </div>
