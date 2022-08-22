@@ -84,11 +84,12 @@ const PremitiveMaintenance = ({ showDetails, setShowDetails }: Props) => {
               row.status_id === '1' ||
               row.status_id === '2' ||
               row.status_id === '3' ||
-              row.status_id === '4'
+              row.status_id === '4' ||
+              row.status_id === '5'
           );
 
           let completed = data?.filter(
-            (row: any) => row.status_id === '5' || row.status_id === '6' || row.status_id === '7'
+            (row: any) => row.status_id === '6' || row.status_id === '7'
           );
 
           menus[1].title = `In Progress (${inProgress.length})`;

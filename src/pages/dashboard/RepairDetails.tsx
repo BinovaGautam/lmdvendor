@@ -242,7 +242,7 @@ export default function RepairDetails({
               </div>
               <div className='flex flex-col'>
                 <p className='text-sm'>Technician ID</p>
-                <h3 className='text-base font-semibold'>{technician?.id}</h3>
+                <h3 className='text-base font-semibold'>{technician?.technician_account_id}</h3>
               </div>
             </div>
             <div></div>
@@ -339,13 +339,13 @@ export default function RepairDetails({
             )} */}
 
             <StatusControl row={row} type={type} />
-            {active.key === 'completed' && (
+            {/* {active.key === 'completed' && (
               <span className='text-green-600 text-base font-medium'>
                 {row?.status_id === '7' && 'Completed By Technician'}
                 {row?.status_id === '8' && 'Completed By Vendor'}
                 {row?.status_id === '9' && 'Payment done by DSP'}
               </span>
-            )}
+            )} */}
           </div>
         </div>
       </WhiteBoxWithShadow>

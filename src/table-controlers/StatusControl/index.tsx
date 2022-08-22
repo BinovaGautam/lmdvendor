@@ -8,7 +8,7 @@ const repairRequestStatus = [
   { key: 'technician_assigned', title: 'Technician Assigned' },
   { key: 'accept_technician', title: 'Accepted' },
   { key: 'reject_technician', title: 'Denied' },
-  { key: 'completed_technician', title: 'Completed By Tech.' },
+  { key: 'completed_technician', title: 'Completed' },
   { key: 'completed_by_submitted_vendor', title: 'Completed by vendor' },
   { key: 'payment_done_by_dsp', title: 'Paid by dsp' },
   { key: 'payment_done_approved_by_vendor', title: 'Paid by vendor' },
@@ -20,25 +20,42 @@ const preventiveRequestStatus = [
   { key: 'accepted_by_technician', title: 'Accepted' },
   { key: 'rejected_by_technician', title: 'Rejected' },
   { key: 'completed_by_technician', title: 'Completed' },
-  { key: 'submitted_by_vendor', title: 'Submitted' },
+  { key: 'submitted_by_vendor', title: 'Submitted by Vendor' },
   { key: 'accepted_by_dsp', title: 'Accepted' },
 ];
 
 const statusColor: { [key: string]: any } = {
-  red: ['reject_technician', 'rejected_by_technician'],
+  red: [
+    // repair request
+    'reject_technician',
+    // preventive request
+    'rejected_by_technician',
+  ],
   green: [
+    // repair request
     'accepted',
-    'payment_done_by_dsp',
-    'payment_done_approved_by_vendor',
-    'payment_done_by_dsp',
-    'accepted_by_technician',
     'accept_technician',
     'completed_technician',
     'completed_by_submitted_vendor',
-    'accepted_by_dsp',
+    'payment_done_by_dsp',
+    'payment_done_approved_by_vendor',
+    // preventive request
+    'accepted_by_technician',
+    'completed_by_technician',
     'submitted_by_vendor',
+    'accepted_by_dsp',
   ],
-  yellow: ['created', 'scheduled', 'scheduled_by_vendor', 'technician_assigned'],
+  yellow: [
+    // repair request
+    'created',
+    'scheduled',
+    'scheduled_by_vendor',
+    'technician_assigned',
+    // preventive request
+    'scheduled_by_vendor',
+    'technician_assigned',
+    '',
+  ],
   blue: ['not_found'],
 };
 

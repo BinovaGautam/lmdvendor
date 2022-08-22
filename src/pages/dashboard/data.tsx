@@ -221,8 +221,9 @@ export const InProgressTableHeader = [
   },
   {
     title: 'Status',
-    key: 'status_id',
-    type: 'status',
+    key: 'status',
+    type: 'component',
+    component: (row: any) => <StatusControl row={row} type='repair' />,
   },
   {
     title: 'Action',
@@ -265,6 +266,12 @@ export const CompletedTableHeader = [
       key: 'quotations',
     },
     type: 'amount-level2',
+  },
+  {
+    title: 'Status',
+    key: 'status',
+    type: 'component',
+    component: (row: any) => <StatusControl row={row} type='repair' />,
   },
   {
     title: 'Action',
@@ -629,6 +636,12 @@ export const PreventiveCompleteTableHeader = [
     title: 'Van Type',
     key: 'van-type',
     type: 'string',
+  },
+  {
+    title: 'Status',
+    key: 'status',
+    type: 'component',
+    component: (row: any) => <StatusControl row={row} type='preventive' />,
   },
   {
     title: 'Action',
