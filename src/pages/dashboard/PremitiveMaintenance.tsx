@@ -172,6 +172,7 @@ const PremitiveMaintenance = ({ showDetails, setShowDetails }: Props) => {
   const onTabChange = async (item: TabMenuModal) => {
     setData([]);
     setActive(item);
+    queryClient.invalidateQueries(['getPreventiveRequest']);
   };
 
   // ------------------------: UTILITY DATA :-------------------------

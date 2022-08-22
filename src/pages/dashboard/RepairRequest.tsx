@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { useSelector } from 'react-redux';
 import RepairAPI from '../../api/repairShopApi';
 import { ChooseTechnicians } from '../../components';
@@ -20,6 +20,9 @@ type Props = {
 };
 
 const RepairRequest = ({ showDetails, setShowDetails }: Props) => {
+  // -----------------------: REACT QUERY HOOK :------------------
+  const queryClient = useQueryClient();
+
   // -----------------------: REDUX STATE :---------------------
   const { user } = useSelector((state: RootState) => state.userState);
 
@@ -82,6 +85,7 @@ const RepairRequest = ({ showDetails, setShowDetails }: Props) => {
   const onTabChange = async (item: TabMenuModal) => {
     setData([]);
     setActive(item);
+    queryClient.invalidateQueries(['allRpairRequest']);
   };
 
   // ------------------------: UTILITY DATA :-------------------------

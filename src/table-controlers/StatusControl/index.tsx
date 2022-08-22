@@ -20,7 +20,7 @@ const preventiveRequestStatus = [
   { key: 'accepted_by_technician', title: 'Accepted' },
   { key: 'rejected_by_technician', title: 'Rejected' },
   { key: 'completed_by_technician', title: 'Completed' },
-  { key: 'submitted_by_vendor', title: 'Submitted by Vendor' },
+  { key: 'submitted_by_vendor', title: 'Submitted to DSP' },
   { key: 'accepted_by_dsp', title: 'Accepted' },
 ];
 
