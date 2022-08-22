@@ -5,7 +5,7 @@ const repairRequestStatus = [
   { key: 'created', title: 'Created' },
   { key: 'accepted', title: 'Accepted' },
   { key: 'scheduled', title: 'Scheduled' },
-  { key: 'technician_assigned', title: 'Technician Assigned' },
+  { key: 'technician_assigned', title: 'Assigned' },
   { key: 'accept_technician', title: 'Accepted' },
   { key: 'reject_technician', title: 'Denied' },
   { key: 'completed_technician', title: 'Completed' },
