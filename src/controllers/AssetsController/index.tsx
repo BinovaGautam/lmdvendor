@@ -19,13 +19,13 @@ const AssetsController = ({ asset_type, asset_info, uploaded_by }: IAsset) => {
 
   if (asset_type === '2') {
     return (
-      <div className='h-28 w-40 relative rounded-xl overflow-hidden flex items-center justify-center'>
-        <img
+      <div className='h-28 w-40 relative rounded-xl overflow-hidden flex items-center justify-center bg-slate-400'>
+        {/* <img
           src={asset_info}
           alt=''
           className='w-full h-full'
           onError={handleVideoThumbnailOnError}
-        />
+        /> */}
         <VideoModal url={asset_info} show={show} setShow={setShow} />
         <PlayIcon
           onClick={() => setShow(true)}
