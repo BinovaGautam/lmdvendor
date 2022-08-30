@@ -18,4 +18,5 @@ export interface PrimaryTableModel {
   level: number;
   actions?: any;
   loading: boolean;
+  displayMsg?: string;
 }

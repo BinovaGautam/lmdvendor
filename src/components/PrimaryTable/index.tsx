@@ -44,6 +44,7 @@ const PrimaryTable = ({
   loading,
   type,
   actions,
+  displayMsg,
 }: PrimaryTableModel) => {
   return (
     <div
@@ -80,7 +81,7 @@ const PrimaryTable = ({
             ) : (
               <tr className='h-48'>
                 <td colSpan={10} className='text-center text-6xl font-semibold text-gray-400'>
-                  No Data
+                  {displayMsg ? displayMsg : 'No Data'}
                 </td>
               </tr>
             ))

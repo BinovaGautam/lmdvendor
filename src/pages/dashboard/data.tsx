@@ -17,6 +17,14 @@ export const PendingTableHeader = [
     type: 'image-string',
   },
   {
+    title: 'VIN',
+    key: 'vin',
+    level2: {
+      key: 'vehicle',
+    },
+    type: 'string',
+  },
+  {
     title: 'Van Name',
     key: 'name',
     level2: {
@@ -59,6 +67,14 @@ export const WaitingApprovalTableHeader = [
       key: 'dsp',
     },
     type: 'image-string',
+  },
+  {
+    title: 'VIN',
+    key: 'vin',
+    level2: {
+      key: 'vehicle',
+    },
+    type: 'string',
   },
   {
     title: 'Van Name',
@@ -105,6 +121,14 @@ export const ApprovedTableHeader = [
     type: 'image-string',
   },
   {
+    title: 'VIN',
+    key: 'vin',
+    level2: {
+      key: 'vehicle',
+    },
+    type: 'string',
+  },
+  {
     title: 'Van Name',
     key: 'name',
     level2: {
@@ -146,6 +170,14 @@ export const ScheduledTableHeader = [
       key: 'dsp',
     },
     type: 'image-string',
+  },
+  {
+    title: 'VIN',
+    key: 'vin',
+    level2: {
+      key: 'vehicle',
+    },
+    type: 'string',
   },
   {
     title: 'Van Name',
@@ -196,6 +228,14 @@ export const InProgressTableHeader = [
     type: 'image-string',
   },
   {
+    title: 'VIN',
+    key: 'vin',
+    level2: {
+      key: 'vehicle',
+    },
+    type: 'string',
+  },
+  {
     title: 'Van Name',
     key: 'name',
     level2: {
@@ -242,6 +282,14 @@ export const CompletedTableHeader = [
       key: 'dsp',
     },
     type: 'image-string',
+  },
+  {
+    title: 'VIN',
+    key: 'vin',
+    level2: {
+      key: 'vehicle',
+    },
+    type: 'string',
   },
   {
     title: 'Van Name',
@@ -292,6 +340,14 @@ export const PaidTableHeader = [
     type: 'image-string',
   },
   {
+    title: 'VIN',
+    key: 'vin',
+    level2: {
+      key: 'vehicle',
+    },
+    type: 'string',
+  },
+  {
     title: 'Van Name',
     key: 'name',
     level2: {
@@ -327,6 +383,14 @@ export const demoDataHeader = [
       key: 'dsp',
     },
     type: 'image-string',
+  },
+  {
+    title: 'VIN',
+    key: 'vin',
+    level2: {
+      key: 'vehicle',
+    },
+    type: 'string',
   },
   {
     title: 'Van Name',
@@ -531,6 +595,14 @@ export const PreventivePendingTableHeader = [
     type: 'image-string',
   },
   {
+    title: 'VIN',
+    key: 'vin',
+    level2: {
+      key: 'vehicle',
+    },
+    type: 'string',
+  },
+  {
     title: 'Van Name',
     key: 'name',
     level2: {
@@ -561,6 +633,14 @@ export const PreventiveInProgressTableHeader = [
       key: 'dsp',
     },
     type: 'image-string',
+  },
+  {
+    title: 'VIN',
+    key: 'vin',
+    level2: {
+      key: 'vehicle',
+    },
+    type: 'string',
   },
   {
     title: 'Van Name',
@@ -615,6 +695,14 @@ export const PreventiveCompleteTableHeader = [
       key: 'dsp',
     },
     type: 'image-string',
+  },
+  {
+    title: 'VIN',
+    key: 'vin',
+    level2: {
+      key: 'vehicle',
+    },
+    type: 'string',
   },
   {
     title: 'Van Name',
