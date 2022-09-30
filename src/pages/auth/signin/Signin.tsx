@@ -69,8 +69,7 @@ export default function Signin(props: any) {
         <div className='hidden lg:block'>
           <h3 className='mb-3 text-3xl font-bold text-primary-dark-1'>Login</h3>
           <p className='mb-12 text-base font-medium text-primary-dark-1 opacity-70'>
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry lorem Ipsum
-            has been the industry's standard.
+           
           </p>
         </div>
         <div className='flex items-center justify-center mb-10 lg:hidden auth-bg-mobile'>

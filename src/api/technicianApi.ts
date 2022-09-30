@@ -72,4 +72,11 @@ export default class TechnicianAPI {
       data: data,
     });
   }
+
+  static deleteTechnician(data: ITechnicianId) {
+    return request({
+      url: `users/v1/delete/${data.technician_account_id}`,
+      method: 'delete',
+    });
+  }
 }

@@ -9,13 +9,19 @@ import {
   ChevronDoubleLeftIcon,
   ChevronDoubleRightIcon,
   ViewGridIcon,
+  LogoutIcon,
 } from '@heroicons/react/solid';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
+import { actionCreators } from '../../../state';
 import './Sidenav.css';
 
 export default function Sidenav() {
   const [sidenavExpanded, setSidenavExpanded] = useState(true);
+  const dispatch = useDispatch();
+  const { deleteUsers } = bindActionCreators(actionCreators, dispatch);
   const [menuItems] = useState([
     {
       label: 'Dashboard',
@@ -32,16 +38,16 @@ export default function Sidenav() {
       link: '/app/create-repair-request',
       icon: <ClockIcon className='w-6 h-6' />,
     },
-    {
-      label: 'Profile',
-      link: '/app/profile',
-      icon: <UserIcon className='w-6 h-6' />,
-    },
-    {
-      label: 'Setting',
-      link: '/app/setting',
-      icon: <CogIcon className='w-6 h-6' />,
-    },
+    // {
+    //   label: 'Profile',
+    //   link: '/app/profile',
+    //   icon: <UserIcon className='w-6 h-6' />,
+    // },
+    // {
+    //   label: 'Setting',
+    //   link: '/app/setting',
+    //   icon: <CogIcon className='w-6 h-6' />,
+    // },
   ]);
 
   const toggleSidenav = () => {
@@ -56,7 +62,7 @@ export default function Sidenav() {
       {/* ---------------------------- App Logo : Start ---------------------------- */}
       <div className='flex flex-row items-center justify-center mt-8'>
         {/* <AcademicCapIcon className='p-2 text-center rounded-full h-14 w-14 bg-primary' /> */}
-        <img src='../images/logo.svg' className='object-contain w-14 h-14' alt='logo' />
+        <img className='w-20 h-20' src='../images/vendorlogo.png' alt='fleet logo' />
       </div>
       {/* ----------------------------- App Logo : End ----------------------------- */}
 
@@ -70,6 +76,13 @@ export default function Sidenav() {
             {sidenavExpanded ? <span className='text-base font-semibold'>{item.label}</span> : null}
           </NavLink>
         ))}
+
+        <div onClick={deleteUsers}  className='flex flex-row items-center gap-2 navlink cursor-pointer '>
+          <div className='flex-shrink-0'>
+            <LogoutIcon className='w-6 h-6' />
+          </div>
+          {sidenavExpanded ? <span className='text-base font-semibold'>Logout</span> : null}
+        </div>
       </nav>
 
       {/* ---------------------- Toogle Sidenav Button : Start --------------------- */}

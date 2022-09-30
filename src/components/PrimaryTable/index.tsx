@@ -1,15 +1,17 @@
 import { PencilAltIcon, TrashIcon } from '@heroicons/react/outline';
+import { Avatar } from 'primereact/avatar';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { PrimaryTableHeadModal, PrimaryTableModel } from '../../models/PrimaryTableModal';
 import { RootState } from '../../state/reducers';
+import { getInitials } from '../../utils/helpers';
 import DotsOption from '../DotsOption';
 import Loader from '../Loader';
 import PrimaryButton from '../PrimaryButton';
 
 const handleImageOnError = (e: any) => {
-  e.target.src =
-    'https://img.freepik.com/free-vector/city-skyline-concept-illustration_114360-8923.jpg?w=2000&t=st=1660910262~exp=1660910862~hmac=54937f31be109281376f996d5e7a7451b14ca2cbfe46eaee0e63df67545d1a62';
+  e.target.src = 'https://via.placeholder.com/150';
+    // 'https://img.freepik.com/free-vector/city-skyline-concept-illustration_114360-8923.jpg?w=2000&t=st=1660910262~exp=1660910862~hmac=54937f31be109281376f996d5e7a7451b14ca2cbfe46eaee0e63df67545d1a62';
 };
 
 const statusColor: { [key: string]: any } = {
@@ -129,13 +131,14 @@ export const TableRow = ({
               key={index}
               className='min-h-[150px] py-4 text-sm h-full px-4 text-primary-2 font-bold'>
               <div className='flex items-center gap-x-3'>
-                <div className='flex items-center justify-center rounded-full overflow-hidden h-9 w-9'>
-                  <img
+                <div className='flex items-center justify-center rounded-full overflow-hidden h-9 w-9 bg-slate-300 '>
+                  {/* <img
                     src=''
                     alt=''
                     className='w-20 h-full rounded-full'
                     onError={handleImageOnError}
-                  />
+                  /> */}
+                  <Avatar  label={tableRow?.[head?.key] ? getInitials(tableRow?.[head?.key] || '') : "FM"} className='' size='normal' />
                 </div>
                 <span>{tableRow?.[head?.key]}</span>
               </div>

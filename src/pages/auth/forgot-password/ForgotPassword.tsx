@@ -9,7 +9,7 @@ export default function ForgotPassword() {
         <div className='lg:block hidden'>
           <h3 className='text-3xl font-bold text-primary-dark-1 mb-3'>Forgot Password</h3>
           <p className='text-base font-medium text-primary-dark-1 opacity-70 mb-12'>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Enter Registered Email Address
           </p>
         </div>
         <div className='lg:hidden auth-bg-mobile flex items-center justify-center mb-10'>

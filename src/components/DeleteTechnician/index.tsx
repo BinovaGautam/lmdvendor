@@ -4,7 +4,7 @@ import ModalForm from '../ModalForm';
 import OverlayContainer from '../OverlayContainer';
 import PrimaryButton from '../PrimaryButton';
 
-const DeleteTechnician = ({ show, setShow }: DeleteTechnicianModel) => {
+const DeleteTechnician = ({ show, setShow,onPress }: DeleteTechnicianModel) => {
   return (
     <OverlayContainer show={show}>
       <div className='h-full w-full flex items-center justify-center'>
@@ -30,7 +30,7 @@ const DeleteTechnician = ({ show, setShow }: DeleteTechnicianModel) => {
                   classNames={
                     'w-full font-semibold bg-primary-2 text-white py-3 hover:bg-[#1f1d66c7]'
                   }
-                  onClick={() => setShow(false)}
+                  onClick={onPress}
                 />
               </div>
             </div>

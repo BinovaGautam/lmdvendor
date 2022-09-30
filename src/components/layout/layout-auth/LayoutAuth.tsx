@@ -8,7 +8,7 @@ export default function LayoutAuth() {
       <div className='w-1/2 h-full lg:block hidden relative'>
         <img src='../images/auth-bg-v1.svg' alt='auth bg' className='w-full object-fill h-screen' />
         <div className='absolute top-0 bottom-0 grid place-content-center w-full h-full text-center'>
-          <img src='../images/auth-logo.svg' alt='fleet logo' />
+          <img className="w-24 h-24" src='../images/vendorlogo.png' alt='fleet logo' />
           <span className='text-white inline-block mt-4'>Fleet Max</span>
         </div>
       </div>

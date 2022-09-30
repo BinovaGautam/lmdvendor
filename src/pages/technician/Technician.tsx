@@ -46,6 +46,23 @@ const Technician = () => {
     },
   };
 
+  const deleteTechnician = async () => {
+    console.log('CURRENT ROW GOES HERE',currRow)
+    try {
+      const response = await TechnicianAPI.deleteTechnician({
+        technician_account_id: currRow.technician_id, //TODO: Pass technician User ID here
+      });
+      if (response.data.data) {
+        toast.success('Technician deleted successfully');
+        setShowDeleteModel(false);
+        getTechniciansApi.refetch();
+      }
+      // setShowDeleteModel(false);
+    } catch (error) {
+      toast.error('Something went wrong please reload this page...');
+    }
+  };
+
   useEffect(() => {
     if(!showAddEditTech) setCurrRow(undefined);
   }, [showAddEditTech]);
@@ -76,7 +93,12 @@ const Technician = () => {
         />
 
         <AddEditTechnicianForm data={currRow} show={showAddEditTech} setShow={setShowAddEditTech} />
-        <DeleteTechnician data={currRow} show={showDeleteModel} setShow={setShowDeleteModel} />
+        <DeleteTechnician
+          onPress={deleteTechnician}
+          data={currRow}
+          show={showDeleteModel}
+          setShow={setShowDeleteModel}
+        />
       </div>
     </div>
   );
