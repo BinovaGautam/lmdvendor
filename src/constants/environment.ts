@@ -4,12 +4,12 @@ export const RELEASE_VERSION = '1.0.0';
 export const _Environments: { [key: string]: any } = {
   production: {
     env: 'production',
-    baseUrl: 'https://production-api.fleet.lmdmax.com/fleetmax/v1/',
+    baseUrl: 'https://production-api.fleet.lmdmax.com/',
     release: RELEASE_VERSION,
   },
   development: {
     env: 'development',
-    baseUrl: 'https://development-api.fleet.lmdmax.com/fleetmax/v1/',
+    baseUrl: 'https://development-api.fleet.lmdmax.com/',
     release: RELEASE_VERSION,
     logs: true,
   },
