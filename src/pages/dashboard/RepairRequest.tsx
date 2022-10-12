@@ -148,6 +148,7 @@ const RepairRequest = ({ showDetails, setShowDetails }: Props) => {
           show={!showCommentForm && showSendQuotationForm}
           setShow={setShowSendQuotationForm}
           setShowCommentForm={setShowCommentForm}
+          setShowScheduleForm={(value: boolean) => {}}
         />
         <ScheduleAppointmentForm
           show={showScheduleAppointmentForm}

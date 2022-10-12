@@ -5,9 +5,13 @@ export default class QuotationAPI {
   static createQuotation(data: CreateQuotation) {
     const formData = new FormData();
 
-    formData.append('estimated_amount', data.estimate_amount);
-    formData.append('work_hour', data.work_hour);
+    formData.append('estimations', JSON.stringify(data.estimations));
     formData.append('vendor_account_id', data.vendor_account_id || '');
+
+    if (data.work_hour) {
+      formData.append('work_hour', data.work_hour);
+    }
+
     if (data.quotation) {
       formData.append('quotation', data.quotation);
     }

@@ -12,12 +12,20 @@ import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../state/reducers';
 
-const SendQuotationForm = ({ show, setShow, row, setShowCommentForm }: SendQuotationFormModel) => {
+const SendQuotationForm = ({
+  show,
+  setShow,
+  row,
+  setShowCommentForm,
+  setShowScheduleForm,
+  getData,
+}: SendQuotationFormModel) => {
   const { user } = useSelector((state: RootState) => state.userState);
   const [file, setFile] = useState<File | undefined>(undefined);
   const [workHours, setWorkHours] = useState<string>('');
   const [estimateAmount, setEstimateAmount] = useState<string>('');
   const [submitErrors, setSubmitErrors] = useState<string[]>([]);
+  const [description, setDescription] = useState<string>('');
 
   const queryClient = useQueryClient();
 
@@ -49,22 +57,41 @@ const SendQuotationForm = ({ show, setShow, row, setShowCommentForm }: SendQuota
   const onSubmit = () => {
     let errors: string[] = [];
     // =========================== validate data =======================
-    if (!file) errors.push('file');
+    // if (!file) errors.push('file');
 
     if (!estimateAmount) errors.push('estimateAmount');
 
-    if (!workHours) errors.push('workHours');
+    // if (!workHours) errors.push('workHours');
 
     if (!errors.length) {
+      // const data = {
+      //   estimate_amount: estimateAmount,
+      //   work_hour: workHours,
+      //   vendor_account_id: user?.account_id,
+      //   quotation: file,
+      //   request_id: row.id,
+      // };
+
+      const estimations = [
+        {
+          amount: estimateAmount,
+        },
+      ];
+
       const data = {
-        estimate_amount: estimateAmount,
-        work_hour: workHours,
-        vendor_account_id: user?.account_id,
+        estimations,
+        work_hours: workHours,
         quotation: file,
+        vendor_account_id: user?.account_id as string,
         request_id: row.id,
       };
 
-      createQuotationApi.mutate(data);
+      if (getData) {
+        getData(data, createQuotationApi.mutateAsync);
+        setShowScheduleForm(true);
+      } else {
+        createQuotationApi.mutate(data);
+      }
       return;
     }
     setSubmitErrors(errors);
@@ -94,7 +121,7 @@ const SendQuotationForm = ({ show, setShow, row, setShowCommentForm }: SendQuota
             </div>
             <div className='flex flex-col gap-y-2'>
               <label className='font-semibold text-primary-2' htmlFor='work-hour'>
-                Work Hour
+                Work Hour (optional)
               </label>
               <input
                 id='work-hour'
@@ -109,6 +136,7 @@ const SendQuotationForm = ({ show, setShow, row, setShowCommentForm }: SendQuota
               )}
             </div>
           </div>
+
           <div className='flex flex-col gap-y-[3px]'>
             <label className='font-semibold text-primary-2' htmlFor='file'>
               Quotation
@@ -126,8 +154,24 @@ const SendQuotationForm = ({ show, setShow, row, setShowCommentForm }: SendQuota
               <span className='text-sm text-primary-2'>is required</span>
             )}
           </div>
-          <div className='flex items-center justify-center py-3'>
+          <div className='flex items-center justify-center'>
             <h3 className='text-base font-semibold text-primary-2'>Upload Estimated Details</h3>
+          </div>
+
+          <div className='flex flex-col gap-y-2'>
+            <label className='font-semibold text-primary-2' htmlFor='work-hour'>
+              Discription (optional)
+            </label>
+            <textarea
+              id='work-hour'
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className='p-3 w-full border-[2px] border-[#DADDEB] rounded-xl outline-none focus:border-primary-2 text-base text-primary-2 transition-all duration-300'
+            />
+
+            {submitErrors.includes('description') && (
+              <span className='text-sm text-primary-2'>is required</span>
+            )}
           </div>
           <div className='flex justify-between items-center gap-x-6'>
             <PrimaryButton
@@ -138,7 +182,7 @@ const SendQuotationForm = ({ show, setShow, row, setShowCommentForm }: SendQuota
               onClick={() => setShowCommentForm(true)}
             />
             <PrimaryButton
-              title={'Send'}
+              title={'Next'}
               classNames={
                 'border-[1px] border-primary-2 bg-primary-2 text-white py-3 w-full font-semibold hover:bg-[#1f1d66c7]'
               }

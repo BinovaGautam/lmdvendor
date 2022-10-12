@@ -16,6 +16,6 @@ export const _Environments: { [key: string]: any } = {
 };
 
 export default () => {
-  const env = process.env.ENV || 'production';
+  const env = process.env.ENV || 'development';
   return _Environments[env];
 };

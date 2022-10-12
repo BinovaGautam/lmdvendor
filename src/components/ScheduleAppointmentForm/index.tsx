@@ -15,7 +15,7 @@ import { IdateTimeSlot } from '../../api/types';
 import { XIcon } from '@heroicons/react/solid';
 import { IDateTimeSlotFields } from '../type';
 
-const ScheduleAppointmentForm = ({ show, setShow, row }: ScheduleAppointmentFormModel) => {
+const ScheduleAppointmentForm = ({ show, setShow, row, getData }: ScheduleAppointmentFormModel) => {
   const { user } = useSelector((state: RootState) => state.userState);
   const [dateTimeSlot, setDateTimeSlot] = useState<IDateTimeSlotFields[]>([
     { date: undefined, time: undefined },
@@ -63,7 +63,7 @@ const ScheduleAppointmentForm = ({ show, setShow, row }: ScheduleAppointmentForm
     setDateTimeSlot(slots);
   };
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     let errors: { [key: string]: string[] } = {};
     let errorFlag = false;
     const dtSlots: IdateTimeSlot[] = dateTimeSlot.map(
@@ -90,7 +90,15 @@ const ScheduleAppointmentForm = ({ show, setShow, row }: ScheduleAppointmentForm
       let date_time_slots = dtSlots;
       let vendor_account_id: string = user?.account_id as string;
       let request_id = row.id;
-      scheduleAppoinmentApi.mutate({ request_id, vendor_account_id, date_time_slots });
+
+      const data = { request_id, vendor_account_id, date_time_slots };
+
+      if (getData) {
+        getData(data, scheduleAppoinmentApi.mutateAsync);
+        return;
+      }
+
+      scheduleAppoinmentApi.mutate(data);
     }
 
     setSubmitErrors(errors);

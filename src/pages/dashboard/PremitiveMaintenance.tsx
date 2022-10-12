@@ -241,6 +241,7 @@ const PremitiveMaintenance = ({ showDetails, setShowDetails }: Props) => {
           show={!showCommentForm && showSendQuotationForm}
           setShow={setShowSendQuotationForm}
           setShowCommentForm={setShowCommentForm}
+          setShowScheduleForm={(value: boolean) => {}}
         />
         <ScheduleAppointmentForm
           show={showScheduleAppointmentForm}
@@ -253,3 +254,4 @@ const PremitiveMaintenance = ({ showDetails, setShowDetails }: Props) => {
 };
 
 export default PremitiveMaintenance;
+

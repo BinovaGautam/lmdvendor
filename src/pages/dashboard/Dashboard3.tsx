@@ -229,6 +229,7 @@ export default function Dashboard() {
               show={!showCommentForm && showSendQuotationForm}
               setShow={setShowSendQuotationForm}
               setShowCommentForm={setShowCommentForm}
+              setShowScheduleForm={(value: boolean) => {}}
             />
             <ScheduleAppointmentForm
               show={showScheduleAppointmentForm}
@@ -241,3 +242,4 @@ export default function Dashboard() {
     </div>
   );
 }
+

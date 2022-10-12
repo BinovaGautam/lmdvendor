@@ -76,12 +76,20 @@ export interface ScheduleAppoinment {
 
 // Quotation API
 
+interface IEstimations {
+  amount: string;
+  creator_message?: string;
+  message?: string;
+  approved_by?: string;
+  approver_message?: string;
+}
+
 export interface CreateQuotation {
-  request_id: string;
-  estimate_amount: string;
-  work_hour: string;
+  estimations: IEstimations[];
+  work_hour?: string;
   quotation?: File;
-  vendor_account_id?: string;
+  vendor_account_id: string;
+  request_id: string;
 }
 
 export interface SendQuery {
@@ -164,3 +172,4 @@ export interface IPreventiveUpdateStatus {
   id: number;
   status: number;
 }
+
