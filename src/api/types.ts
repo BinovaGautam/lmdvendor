@@ -99,6 +99,11 @@ export interface SendQuery {
   sender_type: string;
 }
 
+export interface UpdateQuotation {
+  data: Pick<CreateQuotation, 'estimations' | 'quotation'>;
+  quotation_id: string;
+}
+
 // TechniciansAPI
 export interface SignUpTechnician extends SignWithEmail {
   vendor_account_id: string;
@@ -172,4 +177,3 @@ export interface IPreventiveUpdateStatus {
   id: number;
   status: number;
 }
-

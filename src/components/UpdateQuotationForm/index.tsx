@@ -1,6 +1,9 @@
 import { TrashIcon } from '@heroicons/react/solid';
 import React, { useState } from 'react';
+import { useMutation, useQueryClient } from 'react-query';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import QuotationAPI from '../../api/quotationApi';
 import { UpdateQuotationFormModel } from '../../models/UpdateQuotationFormModel';
 import { RootState } from '../../state/reducers';
 import ModalForm from '../ModalForm';
@@ -9,16 +12,68 @@ import PrimaryButton from '../PrimaryButton';
 import SingleFileUploader from '../SingleFIleUploader';
 
 const UpdateQuotationForm = ({ row, show, setShow, getData }: UpdateQuotationFormModel) => {
+  const queryClient = useQueryClient();
+
   const { user } = useSelector((state: RootState) => state.userState);
   const [file, setFile] = useState<File | undefined>(undefined);
-  const [workHours, setWorkHours] = useState<string>('');
   const [estimateAmount, setEstimateAmount] = useState<string>('');
   const [submitErrors, setSubmitErrors] = useState<string[]>([]);
-  const [description, setDescription] = useState<string>('');
+
+  // mutations
+  const updateQuotationAPI = useMutation('update-quote', QuotationAPI.updateQuotation, {
+    onSuccess: (response: any) => {
+      if (response.response) {
+        let { data } = response.response || {};
+
+        if (data) toast.error(data.message);
+        return;
+      }
+      toast.success('Update Quotation Successfully!');
+      setShow(false);
+      setFile(undefined);
+      setEstimateAmount('');
+      queryClient.invalidateQueries('allRpairRequest');
+    },
+    onError: (error: any) => {
+      console.log({ error });
+      toast.error('Something went wrong!');
+    },
+  });
+
+  const onSubmit = () => {
+    let errors: string[] = [];
+
+    if (!estimateAmount) errors.push('estimateAmount');
+
+    if (!errors.length) {
+      const estimations = [
+        {
+          amount: estimateAmount,
+        },
+      ];
+
+      const quotation = row.quotations[0].id;
+
+      const data = {
+        data: {
+          estimations,
+          quotation: file,
+        },
+        quotation_id: row.quotations[0].id,
+      };
+
+      updateQuotationAPI.mutateAsync(data);
+      return;
+    }
+    setSubmitErrors(errors);
+    setTimeout(() => setSubmitErrors([]), 3000);
+  };
+
+  console.log({ row });
 
   return (
     <OverlayContainer show={show}>
-      <ModalForm title={'Send Quote'} onClose={() => setShow(false)}>
+      <ModalForm title={'Update Quote'} onClose={() => setShow(false)}>
         <div className='flex flex-col gap-y-6'>
           <div className='flex flex-col gap-y-2'>
             <label className='font-semibold text-primary-2' htmlFor='est-amount'>
@@ -64,8 +119,8 @@ const UpdateQuotationForm = ({ row, show, setShow, getData }: UpdateQuotationFor
               classNames={
                 'border-[1px] border-primary-2 bg-primary-2 text-white py-3 w-full font-semibold hover:bg-[#1f1d66c7]'
               }
-              onClick={() => {}}
-              loading={false}
+              onClick={() => onSubmit()}
+              loading={updateQuotationAPI.isLoading}
             />
           </div>
         </div>

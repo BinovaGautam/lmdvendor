@@ -170,6 +170,16 @@ export default function RepairDetails({
                 <h3 className='text-base font-semibold'>{row?.damage_id}</h3>
               </div>
               <div className='flex flex-col'>
+                <p className='text-sm'>Estimation Amount</p>
+                <h3 className='text-base font-semibold'>
+                  $
+                  {
+                    row?.quotations[0]?.estimations[row?.quotations[0]?.estimations.length - 1]
+                      .amount
+                  }
+                </h3>
+              </div>
+              <div className='flex flex-col'>
                 <UpdateQuotationController row={row} />
               </div>
             </div>
