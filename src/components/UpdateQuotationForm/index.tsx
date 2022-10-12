@@ -46,17 +46,9 @@ const UpdateQuotationForm = ({ row, show, setShow, getData }: UpdateQuotationFor
     if (!estimateAmount) errors.push('estimateAmount');
 
     if (!errors.length) {
-      const estimations = [
-        {
-          amount: estimateAmount,
-        },
-      ];
-
-      const quotation = row.quotations[0].id;
-
       const data = {
         data: {
-          estimations,
+          estimated_amount: estimateAmount,
           quotation: file,
         },
         quotation_id: row.quotations[0].id,

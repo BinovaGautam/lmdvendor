@@ -100,7 +100,10 @@ export interface SendQuery {
 }
 
 export interface UpdateQuotation {
-  data: Pick<CreateQuotation, 'estimations' | 'quotation'>;
+  data: {
+    quotation?: File;
+    estimated_amount: string;
+  };
   quotation_id: string;
 }
 
