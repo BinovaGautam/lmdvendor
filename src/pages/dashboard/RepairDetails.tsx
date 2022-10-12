@@ -18,6 +18,7 @@ import { AssetsController } from '../../controllers';
 import { useGroupAssets } from '../../hooks';
 import { IAsset, IAssetObj } from '../../type';
 import { format } from 'date-fns';
+import UpdateQuotationController from '../../controllers/UpdateQuotationController';
 
 type Props = {
   row?: any;
@@ -167,6 +168,9 @@ export default function RepairDetails({
               <div className='flex flex-col'>
                 <p className='text-sm'>Address</p>
                 <h3 className='text-base font-semibold'>{row?.damage_id}</h3>
+              </div>
+              <div className='flex flex-col'>
+                <UpdateQuotationController row={row} />
               </div>
             </div>
             <div className='flex flex-col p-5 gap-y-2'>
