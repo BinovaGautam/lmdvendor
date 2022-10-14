@@ -78,10 +78,8 @@ export interface ScheduleAppoinment {
 
 interface IEstimations {
   amount: string;
+  repair_request_id?: string;
   creator_message?: string;
-  message?: string;
-  approved_by?: string;
-  approver_message?: string;
 }
 
 export interface CreateQuotation {
@@ -101,8 +99,8 @@ export interface SendQuery {
 
 export interface UpdateQuotation {
   data: {
+    estimations: IEstimations[];
     quotation?: File;
-    estimated_amount: string;
   };
   quotation_id: string;
 }

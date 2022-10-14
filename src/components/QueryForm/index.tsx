@@ -63,8 +63,6 @@ const QueryForm = ({ show, setShow, row }: QueryFormModel) => {
 
     if (!query) errors.push('query');
 
-    console.log('no problem');
-
     const quotation = row.quotations.find(
       (quotation: any) => quotation.vendor_account_id === user?.account_id
     );
@@ -96,7 +94,6 @@ const QueryForm = ({ show, setShow, row }: QueryFormModel) => {
       // const scroll = chatContainer.current.scrollHeight - chatContainer.current.clientHeight;
       // chatContainer.current.scrollTo(0, scroll);
       // console.log(chatContainer.current);
-      console.log('kuch chang hua');
       chatContainer.current.scrollTo(0, chatContainer.current.scrollHeight);
     }
   }, [queries]);

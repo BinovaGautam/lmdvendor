@@ -32,7 +32,7 @@ const UpdateQuotationForm = ({ row, show, setShow, getData }: UpdateQuotationFor
       setShow(false);
       setFile(undefined);
       setEstimateAmount('');
-      queryClient.invalidateQueries('allRpairRequest');
+      queryClient.invalidateQueries([]);
     },
     onError: (error: any) => {
       console.log({ error });
@@ -46,9 +46,16 @@ const UpdateQuotationForm = ({ row, show, setShow, getData }: UpdateQuotationFor
     if (!estimateAmount) errors.push('estimateAmount');
 
     if (!errors.length) {
+      const estimations = [
+        {
+          amount: estimateAmount,
+          repair_request_id: row.id,
+        },
+      ];
+
       const data = {
         data: {
-          estimated_amount: estimateAmount,
+          estimations,
           quotation: file,
         },
         quotation_id: row.quotations[0].id,
@@ -60,8 +67,6 @@ const UpdateQuotationForm = ({ row, show, setShow, getData }: UpdateQuotationFor
     setSubmitErrors(errors);
     setTimeout(() => setSubmitErrors([]), 3000);
   };
-
-  console.log({ row });
 
   return (
     <OverlayContainer show={show}>

@@ -77,6 +77,11 @@ const RepairRequest = ({ showDetails, setShowDetails }: Props) => {
           completed,
           paid,
         });
+
+        if (currRow) {
+          const getCurrent = response.data.data.find((row: any) => row.id === currRow.id);
+          setCurrRow(getCurrent);
+        }
       }
     },
   });

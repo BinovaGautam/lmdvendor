@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import WhiteBoxWithShadow from '../../components/Wrappers/WhiteBoxWithShadow';
 import { handleImageOnError } from '../../utils/helpers';
 import { PlayIcon } from '@heroicons/react/solid';
@@ -58,6 +58,7 @@ export default function RepairDetails({
   const [queries, setQueries] = useState<any[]>([]);
   const [showFinalAmountInvoiceForm, setShowFinalAmountInvoiceForm] = useState<boolean>(false);
   const [showFinalAmountForm, setShowFinalAmountForm] = useState<boolean>(false);
+  const [quotations, setQuotations] = useState<any[]>([]);
 
   const fetchQueries = row && row.quotations;
 
@@ -112,6 +113,10 @@ export default function RepairDetails({
     console.log(data);
     MUpdateStatus.mutate(data);
   };
+
+  useEffect(() => {
+    setQuotations(row.quotations);
+  }, [row]);
 
   return (
     <div className='flex flex-col gap-y-5 pb-8'>
@@ -174,13 +179,14 @@ export default function RepairDetails({
                 <h3 className='text-base font-semibold'>
                   $
                   {
-                    row?.quotations[0]?.estimations[row?.quotations[0]?.estimations.length - 1]
-                      .amount
+                    quotations[quotations?.length - 1]?.estimations[
+                      quotations[0]?.estimations.length - 1
+                    ].amount
                   }
                 </h3>
               </div>
               <div className='flex flex-col'>
-                <UpdateQuotationController row={row} />
+                {row.status_id !== '9' && <UpdateQuotationController row={row} />}
               </div>
             </div>
             <div className='flex flex-col p-5 gap-y-2'>

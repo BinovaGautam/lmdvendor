@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 import { IAsset, IGroupAsset } from '../type';
 
 const useGroupAssets = (assets: IAsset[] | undefined) => {
-  console.log('Catch Assets', assets);
-
   const [groupAssets, setGroupAssets] = useState<IGroupAsset>({
     images: {
       before: [],

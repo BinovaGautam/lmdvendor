@@ -42,8 +42,7 @@ export default class QuotationAPI {
     const { quotation_id, data } = payload;
     const formData = new FormData();
 
-    formData.append('estimated_amount', data.estimated_amount);
-
+    formData.append('estimations', JSON.stringify(data.estimations));
     if (data.quotation) {
       formData.append('quotation_invoice', data.quotation);
     }
