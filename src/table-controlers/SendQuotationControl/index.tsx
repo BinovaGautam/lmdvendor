@@ -97,7 +97,7 @@ const SendQuotationControl = ({ row }: ISendQuotationControl) => {
           row={row}
           getData={async (data: IScheduleObj['data'], mutate: IScheduleObj['mutate']) => {
             if (!quotationsObj) {
-              toast.error('something went wrong press f5 for referesh this page');
+              toast.error('something went wrong press f5 for refresh this page');
             }
 
             await quotationsObj?.mutate(quotationsObj.data);

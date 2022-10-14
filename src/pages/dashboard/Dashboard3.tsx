@@ -59,7 +59,7 @@ export default function Dashboard() {
   const [selectedOption, setSelectedOption] = useState<any>(dropDownData[0]);
   const [selectedOption2, setSelectedOption2] = useState<any>(dropDownData2[0]);
 
-  const allRepairRequestApi = useQuery('allRpairRequest', RepairAPI.getAllRepairRequests, {
+  const allRepairRequestApi = useQuery('allRepairRequest', RepairAPI.getAllRepairRequests, {
     onSuccess: (response: any) => {
       if (response.data) {
         let menus = tabMenus;

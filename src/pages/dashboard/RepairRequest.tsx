@@ -45,7 +45,7 @@ const RepairRequest = ({ showDetails, setShowDetails }: Props) => {
   });
 
   // ---------------------------: REACT QUERY :----------------------------
-  const allRepairRequestApi = useQuery('allRpairRequest', RepairAPI.getAllRepairRequests, {
+  const allRepairRequestApi = useQuery('allRepairRequest', RepairAPI.getAllRepairRequests, {
     onSuccess: (response: any) => {
       if (response.data) {
         let menus = tabMenus;

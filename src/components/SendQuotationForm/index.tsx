@@ -64,14 +64,6 @@ const SendQuotationForm = ({
     // if (!workHours) errors.push('workHours');
 
     if (!errors.length) {
-      // const data = {
-      //   estimate_amount: estimateAmount,
-      //   work_hour: workHours,
-      //   vendor_account_id: user?.account_id,
-      //   quotation: file,
-      //   request_id: row.id,
-      // };
-
       const estimations = [
         {
           amount: estimateAmount,
@@ -160,7 +152,7 @@ const SendQuotationForm = ({
 
           <div className='flex flex-col gap-y-2'>
             <label className='font-semibold text-primary-2' htmlFor='work-hour'>
-              Discription (optional)
+              Description (optional)
             </label>
             <textarea
               id='work-hour'
