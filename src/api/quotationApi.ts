@@ -7,6 +7,7 @@ export default class QuotationAPI {
 
     formData.append('estimations', JSON.stringify(data.estimations));
     formData.append('vendor_account_id', data.vendor_account_id || '');
+    
 
     if (data.work_hour) {
       formData.append('work_hour', data.work_hour);

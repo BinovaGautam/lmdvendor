@@ -63,11 +63,11 @@ const RepairRequest = ({ showDetails, setShowDetails }: Props) => {
         let paid = response.data.data.filter((row: any) => row.status_id === '9');
 
         menus[0].title = `Pending (${pending.length})`;
-        menus[1].title = `Approved (${approved.length})`;
-        menus[2].title = `Scheduled (${scheduled.length})`;
-        menus[3].title = `In Progress (${inProgress.length})`;
-        menus[4].title = `Completed (${completed.length})`;
-        menus[5].title = `Paid (${paid.length})`;
+        // menus[1].title = `Approved (${approved.length})`;
+        menus[1].title = `Scheduled (${scheduled.length})`;
+        menus[2].title = `In Progress (${inProgress.length})`;
+        menus[3].title = `Completed (${completed.length})`;
+        menus[4].title = `Paid (${paid.length})`;
 
         setAllData({
           pending,
@@ -96,6 +96,12 @@ const RepairRequest = ({ showDetails, setShowDetails }: Props) => {
   // ------------------------: UTILITY DATA :-------------------------
   const actions: { [key: string]: any } = {
     inProgress: {
+      onClickButton: (row: any) => {
+        setCurrRow(row);
+        setShowDetails(true);
+      },
+    },
+    scheduled: {
       onClickButton: (row: any) => {
         setCurrRow(row);
         setShowDetails(true);

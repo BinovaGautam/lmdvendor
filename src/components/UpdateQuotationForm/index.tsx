@@ -50,6 +50,7 @@ const UpdateQuotationForm = ({ row, show, setShow, getData }: UpdateQuotationFor
         {
           amount: estimateAmount,
           repair_request_id: row.id,
+          approved_by : ""
         },
       ];
 
@@ -57,6 +58,7 @@ const UpdateQuotationForm = ({ row, show, setShow, getData }: UpdateQuotationFor
         data: {
           estimations,
           quotation: file,
+          
         },
         quotation_id: row.quotations[0].id,
       };

@@ -67,6 +67,7 @@ const SendQuotationForm = ({
       const estimations = [
         {
           amount: estimateAmount,
+          approved_by : ""
         },
       ];
 
