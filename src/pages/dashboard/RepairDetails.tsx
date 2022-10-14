@@ -178,7 +178,7 @@ export default function RepairDetails({
                 <p className='text-sm'>Estimation Amount</p>
                 <h3 className='text-base font-semibold'>
                   $
-                  {
+                  {quotations?.length > 0 &&
                     quotations[quotations?.length - 1]?.estimations[
                       quotations[0]?.estimations.length - 1
                     ].amount
