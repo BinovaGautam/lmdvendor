@@ -80,6 +80,7 @@ interface IEstimations {
   amount: string;
   repair_request_id?: string;
   creator_message?: string;
+  approved_by?: string;
 }
 
 export interface CreateQuotation {
