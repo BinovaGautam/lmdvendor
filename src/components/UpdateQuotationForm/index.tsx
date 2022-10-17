@@ -32,7 +32,7 @@ const UpdateQuotationForm = ({ row, show, setShow, getData }: UpdateQuotationFor
       setShow(false);
       setFile(undefined);
       setEstimateAmount('');
-      queryClient.invalidateQueries([]);
+      queryClient.invalidateQueries(['getQuotations']);
     },
     onError: (error: any) => {
       console.log({ error });
@@ -50,7 +50,7 @@ const UpdateQuotationForm = ({ row, show, setShow, getData }: UpdateQuotationFor
         {
           amount: estimateAmount,
           repair_request_id: row.id,
-          approved_by : ""
+          approved_by: '',
         },
       ];
 
@@ -58,7 +58,6 @@ const UpdateQuotationForm = ({ row, show, setShow, getData }: UpdateQuotationFor
         data: {
           estimations,
           quotation: file,
-          
         },
         quotation_id: row.quotations[0].id,
       };

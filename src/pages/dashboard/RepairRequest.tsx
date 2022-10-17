@@ -151,9 +151,13 @@ const RepairRequest = ({ showDetails, setShowDetails }: Props) => {
         />
 
         {/* -----------------------: MODAL FORMS :----------------------- */}
-        <QueryForm row={currRow} show={showQueryForm} setShow={setShowQueryForm} />
+        {showQueryForm && (
+          <QueryForm row={currRow} show={showQueryForm} setShow={setShowQueryForm} />
+        )}
         <AddCommentForm show={showCommentForm} setShow={setShowCommentForm} />
-        <ChooseTechnicians row={currRow} show={showCommentForm} setShow={setShowCommentForm} />
+        {showCommentForm && (
+          <ChooseTechnicians row={currRow} show={showCommentForm} setShow={setShowCommentForm} />
+        )}
         <SendQuotationForm
           row={currRow}
           show={!showCommentForm && showSendQuotationForm}

@@ -7,7 +7,6 @@ export default class QuotationAPI {
 
     formData.append('estimations', JSON.stringify(data.estimations));
     formData.append('vendor_account_id', data.vendor_account_id || '');
-    
 
     if (data.work_hour) {
       formData.append('work_hour', data.work_hour);
@@ -52,6 +51,12 @@ export default class QuotationAPI {
       url: `quotations/v1/quotations/${quotation_id}`,
       method: 'patch',
       data: formData,
+    });
+  }
+
+  static getQuotationByRequestID(request_id: string) {
+    return request({
+      url: `quotations/v1/quotations?repair_request_id=${request_id}&limit=10&offset=0`,
     });
   }
 }

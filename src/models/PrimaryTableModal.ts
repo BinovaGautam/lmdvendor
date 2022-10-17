@@ -19,4 +19,6 @@ export interface PrimaryTableModel {
   actions?: any;
   loading: boolean;
   displayMsg?: string;
+  height?: string;
+  style?: any;
 }

@@ -34,7 +34,7 @@ const QueryControl = ({ row }: IQueryControl) => {
   return (
     <div>
       <DotsOption options={options} row={row} actions={actions} showDrop={showDrop} />
-      <QueryForm row={row} show={showQueryForm} setShow={setShowQueryForm} />
+      {showQueryForm && <QueryForm row={row} show={showQueryForm} setShow={setShowQueryForm} />}
     </div>
   );
 };

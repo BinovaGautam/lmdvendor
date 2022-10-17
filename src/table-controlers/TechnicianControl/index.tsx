@@ -31,14 +31,17 @@ const TechnicianControl = ({ row, type }: ITechnicianControl) => {
   return (
     <div>
       <DotsOption options={options} row={row} actions={actions} showDrop={showDrop} />
-      <ChooseTechnicians
-        row={row}
-        show={showChooseTechnician}
-        setShow={setShowChooseTechnician}
-        type={type}
-      />
+      {showChooseTechnician && (
+        <ChooseTechnicians
+          row={row}
+          show={showChooseTechnician}
+          setShow={setShowChooseTechnician}
+          type={type}
+        />
+      )}
     </div>
   );
 };
 
 export default TechnicianControl;
+

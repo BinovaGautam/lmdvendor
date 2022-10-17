@@ -82,6 +82,23 @@ export default function RepairDetails({
     }
   );
 
+  const getQuotations = useQuery(
+    ['getQuotations', row?.id],
+    async () => await QuotationAPI.getQuotationByRequestID(row.id),
+    {
+      onSuccess: (response: any) => {
+        if (response.data) {
+          setQuotations(response.data.data);
+        }
+      },
+      onError: (error: Error) => {
+        console.log(error);
+        toast.error('Something went wrong please reload this page!');
+      },
+      enabled: !!fetchQueries,
+    }
+  );
+
   const MUpdateStatus = useMutation('updateStatus', RepairAPI.updateStatus, {
     onSuccess: (response: any) => {
       if (response.response) {
@@ -115,10 +132,6 @@ export default function RepairDetails({
     console.log(data);
     MUpdateStatus.mutate(data);
   };
-
-  useEffect(() => {
-    setQuotations(row.quotations);
-  }, [row]);
 
   return (
     <div className='flex flex-col gap-y-5 pb-8'>
@@ -159,11 +172,61 @@ export default function RepairDetails({
       {/* <pre className='w-[700px] overflow-scroll text-wrap'>{JSON.stringify(active)}</pre> */}
 
       <div className='flex flex-col gap-y-2'>
-        <h3 className=' font-semibold text-primary-2'>Quotes</h3>
+        <div className='flex justify-between items-center mb-3'>
+          <h3 className=' font-semibold text-primary-2'>Quotes</h3>
+          {row.status_id !== '9' && <UpdateQuotationController row={row} />}
+        </div>
+        <PrimaryTable
+          header={[
+            {
+              title: 'Serial No',
+              key: 'sno',
+              type: 'sno',
+            },
+            {
+              title: 'Created At',
+              key: 'created_at',
+              type: 'date',
+            },
+            {
+              title: 'Estimation',
+              key: 'amount',
+              type: 'string',
+            },
+            {
+              title: 'Status',
+              key: 'approved_by',
+              type: 'component',
+              component: (row: any) => (
+                <td
+                  className={`${
+                    row?.approved_by ? 'text-green-400' : 'text-orange-400'
+                  } font-bold`}>
+                  {row.approved_by !== '' ? 'Approved' : 'Pending'}
+                </td>
+              ),
+            },
+            {
+              title: 'Action By',
+              key: 'action_by',
+              type: 'component',
+              component: (row: any) => <td>{row.approved_by || 'N/A'}</td>,
+            },
+          ]}
+          data={quotations[0]?.estimations || []}
+          type={''}
+          classNames={''}
+          level={0}
+          loading={false}
+          height='150'
+          style={{
+            marginBottom: '10px',
+          }}
+        />
 
         <WhiteBoxWithShadow classNames=''>
           <div className='flex flex-col text-primary-2'>
-            <table className='m-5 table-auto  '>
+            {/* <table className='m-5 table-auto  '>
               <thead>
                 <tr>
                   <th>Serial No.</th>
@@ -175,8 +238,8 @@ export default function RepairDetails({
               </thead>
               <tbody>
                 {quotations[0]?.estimations.map((estimate: any, index: number) => (
-                  <tr className='text-center mt-2'  key={index}>
-                    <td>{index+1}</td>
+                  <tr className='text-center mt-2' key={index}>
+                    <td>{index + 1}</td>
                     <td>{moment(estimate.created_at).format('hh:mm a DD/MM/YY')}</td>
                     <td>{estimate.amount}</td>
                     <td>{estimate.approved_by != '' ? 'Approved' : 'pending'}</td>
@@ -184,17 +247,8 @@ export default function RepairDetails({
                   </tr>
                 ))}
               </tbody>
-            </table>
-            <div className='flex gap-x-28 items-center border-b-[1px] border-b-table-border-normal p-5'>
-              <div className='flex flex-col'>
-                <p className='text-sm'>Shop Name</p>
-                {/* <h3 className='text-base font-semibold'>{JSON.stringify(quotations[0])}</h3> */}
-              </div>
-              <div className='flex flex-col'>
-                <p className='text-sm'>Quotation</p>
-                <h3 className='text-base font-semibold'>{row?.vehicle?.plate}</h3>
-              </div>
-
+            </table> */}
+            {/* <div className='flex gap-x-28 items-center border-b-[1px] border-b-table-border-normal p-5'>
               <div className='flex flex-col'>
                 <p className='text-sm'>Estimation Amount</p>
                 <h3 className='text-base font-semibold'>
@@ -213,10 +267,7 @@ export default function RepairDetails({
                     : 'approved'}
                 </h3>
               </div>
-              <div className='flex flex-col'>
-                {row.status_id !== '9' && <UpdateQuotationController row={row} />}
-              </div>
-            </div>
+            </div> */}
             <div className='flex flex-col p-5 gap-y-2'>
               <h3 className='text-base font-semibold'>Queries</h3>
               {queries.length ? (

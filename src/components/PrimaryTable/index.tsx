@@ -1,4 +1,5 @@
 import { PencilAltIcon, TrashIcon } from '@heroicons/react/outline';
+import moment from 'moment';
 import { Avatar } from 'primereact/avatar';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -47,10 +48,15 @@ const PrimaryTable = ({
   type,
   actions,
   displayMsg,
+  height,
+  style,
 }: PrimaryTableModel) => {
   return (
     <div
-      className={`min-h-[550px] max-h-[550px] pb-5 overflow-y-scroll no-scrollbar rounded-xl bg-white border-[1px] border-gray-300 px-4`}>
+      className={`${
+        height ? `min-h-[${height}px] max-h-[${height}px]` : 'min-h-[550px] max-h-[550px]'
+      } pb-5 overflow-y-scroll no-scrollbar rounded-xl bg-white border-[1px] border-gray-300 px-4`}
+      style={style}>
       <br />
       <table className='min-w-full'>
         {/* ----------------- Header --------------------- */}
@@ -77,7 +83,14 @@ const PrimaryTable = ({
             data &&
             (data.length ? (
               data.map((row: any, index: number) => (
-                <TableRow key={index} row={row} header={header} actions={actions} type={type} />
+                <TableRow
+                  key={index}
+                  rowIndex={index}
+                  row={row}
+                  header={header}
+                  actions={actions}
+                  type={type}
+                />
                 //  <p>hello</p>
               ))
             ) : (
@@ -101,11 +114,13 @@ export const TableRow = ({
   header,
   actions,
   type,
+  rowIndex,
 }: {
   row: any;
   header: PrimaryTableHeadModal[];
   actions: any;
   type: string;
+  rowIndex: number;
 }) => {
   const { user } = useSelector((state: RootState) => state.userState);
   return (
@@ -125,11 +140,27 @@ export const TableRow = ({
             </td>
           );
 
-        if (head.type === 'image-string') {
+        if (head.type === 'sno')
           return (
             <td
               key={index}
               className='min-h-[150px] py-4 text-sm h-full px-4 text-primary-2 font-bold'>
+              {rowIndex + 1}
+            </td>
+          );
+
+        if (head.type === 'date')
+          return (
+            <td key={index} className='min-h-[150px] py-4 text-sm h-full px-4 text-primary-2'>
+              {moment(tableRow[head.key]).format('hh:mm a DD/MM/YY')}
+            </td>
+          );
+
+        if (head.type === 'image-string') {
+          return (
+            <td
+              key={index}
+              className='min-h-[150px] min-w-[150px] py-4 text-sm h-full px-4 text-primary-2 font-bold'>
               <div className='flex items-center gap-x-3'>
                 <div className='flex items-center justify-center rounded-full overflow-hidden h-9 w-9 bg-slate-300 '>
                   {/* <img
