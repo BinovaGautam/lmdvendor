@@ -19,6 +19,8 @@ import { useGroupAssets } from '../../hooks';
 import { IAsset, IAssetObj } from '../../type';
 import { format } from 'date-fns';
 import UpdateQuotationController from '../../controllers/UpdateQuotationController';
+import PrimaryTable from '../../components/PrimaryTable';
+import moment from 'moment';
 
 type Props = {
   row?: any;
@@ -161,19 +163,38 @@ export default function RepairDetails({
 
         <WhiteBoxWithShadow classNames=''>
           <div className='flex flex-col text-primary-2'>
+            <table className='m-5 table-auto  '>
+              <thead>
+                <tr>
+                  <th>Serial No.</th>
+                  <th>Created</th>
+                  <th>Estimation ($)</th>
+                  <th>Status</th>
+                  <th>Action By</th>
+                </tr>
+              </thead>
+              <tbody>
+                {quotations[0]?.estimations.map((estimate: any, index: number) => (
+                  <tr className='text-center mt-2'  key={index}>
+                    <td>{index+1}</td>
+                    <td>{moment(estimate.created_at).format('hh:mm a DD/MM/YY')}</td>
+                    <td>{estimate.amount}</td>
+                    <td>{estimate.approved_by != '' ? 'Approved' : 'pending'}</td>
+                    <td>{estimate.approved_by || 'N/A'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
             <div className='flex gap-x-28 items-center border-b-[1px] border-b-table-border-normal p-5'>
               <div className='flex flex-col'>
                 <p className='text-sm'>Shop Name</p>
-                <h3 className='text-base font-semibold'>{row?.vehicle?.name}</h3>
+                {/* <h3 className='text-base font-semibold'>{JSON.stringify(quotations[0])}</h3> */}
               </div>
               <div className='flex flex-col'>
                 <p className='text-sm'>Quotation</p>
                 <h3 className='text-base font-semibold'>{row?.vehicle?.plate}</h3>
               </div>
-              <div className='flex flex-col'>
-                <p className='text-sm'>Address</p>
-                <h3 className='text-base font-semibold'>{row?.damage_id}</h3>
-              </div>
+
               <div className='flex flex-col'>
                 <p className='text-sm'>Estimation Amount</p>
                 <h3 className='text-base font-semibold'>
