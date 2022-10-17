@@ -160,7 +160,7 @@ export const TableRow = ({
           return (
             <td
               key={index}
-              className='min-h-[150px] min-w-[150px] py-4 text-sm h-full px-4 text-primary-2 font-bold'>
+              className='min-h-[150px] py-4 text-sm h-full px-4 text-primary-2 font-bold'>
               <div className='flex items-center gap-x-3'>
                 <div className='flex items-center justify-center rounded-full overflow-hidden h-9 w-9 bg-slate-300 '>
                   {/* <img
