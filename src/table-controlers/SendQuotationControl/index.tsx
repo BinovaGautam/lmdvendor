@@ -30,6 +30,7 @@ const SendQuotationControl = ({ row }: ISendQuotationControl) => {
   const [showCommentForm, setShowCommentForm] = useState<boolean>(false);
   const [allowQuotation, setAllowQuotation] = useState<boolean>(row?.quotations ? false : true);
   const [quotationsObj, setQuotationObject] = useState<ISendQuotationObj | undefined>(undefined);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // Row chang listener
   useEffect(() => {
@@ -78,6 +79,7 @@ const SendQuotationControl = ({ row }: ISendQuotationControl) => {
             setFormType('quotation');
           }
         }}
+        setIsLoading={setIsLoading}
       />
 
       <AddCommentForm
@@ -89,6 +91,7 @@ const SendQuotationControl = ({ row }: ISendQuotationControl) => {
 
       {formType === 'schedule' && (
         <ScheduleAppointmentForm
+          loading={isLoading}
           show={formType === 'schedule'}
           setShow={(value: boolean) => {
             if (value) setShow(false);

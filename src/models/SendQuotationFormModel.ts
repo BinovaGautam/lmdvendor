@@ -2,6 +2,7 @@ import { MutateOptions } from 'react-query';
 import { CreateQuotation } from '../api/types';
 
 export interface SendQuotationFormModel {
+  setIsLoading?: (value: boolean) => void;
   show: boolean;
   setShow: (value: boolean) => void;
   row: any;

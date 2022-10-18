@@ -15,7 +15,13 @@ import { IdateTimeSlot } from '../../api/types';
 import { XIcon } from '@heroicons/react/solid';
 import { IDateTimeSlotFields } from '../type';
 
-const ScheduleAppointmentForm = ({ show, setShow, row, getData }: ScheduleAppointmentFormModel) => {
+const ScheduleAppointmentForm = ({
+  show,
+  setShow,
+  row,
+  getData,
+  loading,
+}: ScheduleAppointmentFormModel) => {
   const { user } = useSelector((state: RootState) => state.userState);
   const [dateTimeSlot, setDateTimeSlot] = useState<IDateTimeSlotFields[]>([
     { date: undefined, time: undefined },
@@ -38,7 +44,7 @@ const ScheduleAppointmentForm = ({ show, setShow, row, getData }: ScheduleAppoin
       toast.success('Appoinment scheduled Successfully!');
       setDateTimeSlot([{ date: undefined, time: undefined }]);
       setShow(false);
-      queryClient.invalidateQueries('allRpairRequest');
+      queryClient.invalidateQueries(['allRepairRequest']);
     },
     onError: (error: any) => {
       console.log({ error });
@@ -152,7 +158,7 @@ const ScheduleAppointmentForm = ({ show, setShow, row, getData }: ScheduleAppoin
               'border-[1px] border-primary-2 bg-primary-2 text-white py-3 w-full font-semibold hover:bg-[#1f1d66c7]'
             }
             onClick={onSubmit}
-            loading={scheduleAppoinmentApi.isLoading}
+            loading={loading || scheduleAppoinmentApi.isLoading}
           />
         </div>
       </ModalForm>

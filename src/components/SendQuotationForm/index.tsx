@@ -19,6 +19,7 @@ const SendQuotationForm = ({
   setShowCommentForm,
   setShowScheduleForm,
   getData,
+  setIsLoading,
 }: SendQuotationFormModel) => {
   const { user } = useSelector((state: RootState) => state.userState);
   const [file, setFile] = useState<File | undefined>(undefined);
@@ -54,6 +55,8 @@ const SendQuotationForm = ({
     }
   );
 
+  if (setIsLoading) setIsLoading(createQuotationApi.isLoading);
+
   const onSubmit = () => {
     let errors: string[] = [];
     // =========================== validate data =======================
@@ -67,7 +70,7 @@ const SendQuotationForm = ({
       const estimations = [
         {
           amount: estimateAmount,
-          approved_by : ""
+          approved_by: '',
         },
       ];
 

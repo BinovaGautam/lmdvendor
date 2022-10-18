@@ -12,4 +12,5 @@ export interface ScheduleAppointmentFormModel {
       options?: MutateOptions<any, any, ScheduleAppoinment, unknown> | undefined
     ) => Promise<void>
   ) => void;
+  loading?: boolean;
 }

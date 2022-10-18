@@ -5,7 +5,12 @@ const PrimaryButton = ({ title, classNames, onClick, type, loading }: PrimaryBut
   return (
     <button
       type={type}
-      onClick={onClick}
+      onClick={() => {
+        if (!loading) {
+          console.log('clicked');
+          onClick();
+        }
+      }}
       className={`rounded-xl flex items-center justify-center ${
         classNames ? classNames : 'border-none outline-none bg-primary-2 text-white'
       }`}>
